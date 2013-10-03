@@ -47,3 +47,7 @@ I've been testing with this APIs in Python:
 [link] [https://github.com/ozgur/python-linkedin]
 
 Problems getting the off network data..
+
+
+## The problem now is the amount of data i can have..
+
