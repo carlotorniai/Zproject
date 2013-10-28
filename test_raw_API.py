@@ -7,6 +7,11 @@ import time, os, json
 from bs4 import BeautifulSoup
 import json
 import pickle
+from time import sleep
+
+# TO DO:
+# refactor all this
+# Problem with the trho
 
 # Ok I want an object which is a linkedin_profile
 # The object has a set of attributes which are the one of Linkedin
@@ -22,24 +27,29 @@ import pickle
 # 		self.profile_data = profile_data
 	
 
-
+# SOme globals.
 query_format = "&format=json"
 api_version_string  ="http://api.linkedin.com/v1/"
 
 # API specific vars
-api_key = 'qpf6vb1wyseq'
-api_secret = 'jacN5zyZQUiNT38I'
-user_token = '225bcd53-48b7-4732-94da-d43b5048b710'
-user_secret = '19585103-9899-4ce4-af6c-9e3f3c854976' 
-consumer_key =  'qpf6vb1wyseq'
-consumer_secret = 'jacN5zyZQUiNT38I'
+# Move this to a json file.
+
+credentials = json.loads(open('credentials.json', 'r').read())
+
+
+api_key = credentials['api_key']
+api_secret = credentials['api_secret']
+user_token = credentials['user_token']
+user_secret = credentials['user_secret']
+consumer_key =  credentials['consumer_key']
+consumer_secret = credentials['consumer_secret']
 
 # TO DO:
 # below has to be a funciton
 # Use your API key and secret to instantiate consumer object
 consumer = oauth.Consumer(consumer_key, consumer_secret)
  
-# Use your developer token and secret to instantiate access token object
+# Use developer token and secret to instantiate access token object
 access_token = oauth.Token(
             key=user_token,
             secret=user_secret)
@@ -48,9 +58,9 @@ client = oauth.Client(consumer, access_token)
 
 # Test
 # Make call to LinkedIn to retrieve your own profile
-#resp,content = client.request("http://api.linkedin.com/v1/people/~?format=json", "GET", "")
+resp,content = client.request("http://api.linkedin.com/v1/people/~?format=json", "GET", "")
  
-#print content
+print content
 
 
 
@@ -134,10 +144,7 @@ def serach_for_people(keywords, start=0, count=None):
 
 def scrapeskills(profile_url):
 	''' Scraping skills from a public profile page'''
-	# get the public profiel page
-	# Trying with urlib first i may not need full js and stuff...
-	# the following commands saves a funky page
-	# f = urlretrieve(profile_url,'profile.html')
+	# I can just scrape the 	
 	opener = build_opener()
 	url_opener = opener.open(profile_url)
 	page = url_opener.read()
@@ -158,7 +165,7 @@ def scrapeskills(profile_url):
 	# How to embed all the info we need.. but not skills
 
 def main():
-	profile_list=[]
+	#profile_list=[]
 	results = serach_for_people('Data Scientist')
 	# print results
 	total_people_count = int(results['people']['_total'])
@@ -174,8 +181,12 @@ def main():
 	start_index=0
 	#Change it later into range(calls)
 	for i in range(calls):
+		# Here I want to wait time
+		sleep(0.5)
+		profile_list=[]
 		count = people_pagination
 		people_results = serach_for_people('Data Scientist', start_index, count)
+		# In order to avoid throtthle I will just need to  save 
 		people_list = parse_people(people_results)
 		for person in people_list:
 			#Start a new dict
@@ -206,17 +217,19 @@ def main():
 					person_details['date-of-birth'] = person_details_dict['date-of-birth']
 				if 'courses' in person_details_dict.keys():
 					person_details['courses'] = person_details_dict['courses'] 
-			profile_list.append(person_details)
+				profile_list.append(person_details)
 		# person_details_dict['industry']
 		# It is already a list of dict so i can jsu treturn it.
+		# Here I'm saving a 
 		start_index+=people_pagination
+		outfile = open("pofiles_14"+str(start_index)+".ld", "wb")
+		pickle.dump(profile_list, outfile)
+		outfile.close()
+
+		# CHeck at each pass of 10 the file i've saved
+		infile = open("pofiles_14"+str(start_index)+".ld", "rb")
+		pickle.load(infile)
 		
-	# Done parsing I want to save the file with pickle
-	outfile = open("pofiles.ld", "wb")
-	pickle.dump(profile_list, outfile)
-	outfile.close()
-	infile = open("pofiles.ld", "rb")
-	pickle.load(infile)
 
 
 

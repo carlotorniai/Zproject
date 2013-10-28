@@ -9,7 +9,7 @@ The personal project for Zipfian
 Title: "Wil I become a data scientist?"
 
 I want to do a 
-Cluster analysis of data scientist profiles (in my network) first of all and have a look and 
+Cluster analysis of data scientist profiles (in my network or the most I can find...) first of all and have a look and 
 visualize distributions of sets of features 
 - Year of experience before getting the data scientist title
 - Background
@@ -50,4 +50,18 @@ Problems getting the off network data..
 
 
 ## The problem now is the amount of data i can have..
+
+look at this :
+http://www.emc.com/microsites/bigdata/infographic.htm
+
+Remember is there any new insight that wasn't that...
+
+
+October 13th 
+Let's start form scratch using and following the example here:
+https://github.com/ozgur/python-linkedin
+
+
+Another very good resource is :
+http://nbviewer.ipython.org/urls/raw.github.com/ptwobrussell/Mining-the-Social-Web-2nd-Edition/master/ipynb/Chapter%203%20-%20Mining%20LinkedIn.ipynb
 
