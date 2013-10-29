@@ -22,6 +22,7 @@ def authenticate():
 	application.get_profile()
 	return application 
 
+
 def parse_search_results(results):
 	''' Parses the content of a search results and returns a list 
 	of dict with firstName, LastName and person_id information
@@ -39,6 +40,7 @@ def parse_search_results(results):
 def get_person_details(last_name, first_name, person_id=None):
 	''' It returns all the personal details for a person search '''
 	person_details_dict=dict()
+	
 	field_selector='people::(id='+person_id+'):(headline,summary,industry,specialties,educations,skills,positions,public-profile-url,date-of-birth,courses)?format=json'
 	person_details_query_string = api_version_string+field_selector
 	resp, content = client.request(person_details_query_string)
@@ -47,14 +49,14 @@ def get_person_details(last_name, first_name, person_id=None):
 	# Returns the person_details
 	return person_details['values'][0]
 
+
 def main():
-	log = False
-	verbose = False
+	log = True
 	application  = authenticate()
 	search_results = application.search_profile(selectors=[{'people': ['first-name', 'last-name']}], params={'keywords': '"Data Scientist"', 'start':0, 'count':25})
 	# Saves the results in a json file
 	if log:
-		outfile = open("search_results.json", "wb")
+		outfile = open("./data/10_29/search_results_10_29.json", "wb")
 		json.dump(search_results, outfile)
 		outfile.close()
 	total_people_count = int(search_results['people']['_total'])
@@ -68,35 +70,42 @@ def main():
 	else:
 		calls = total_people_count/pagination+1
 	print calls
-	profile_details_list=[]
 	for i in range(calls):
-			# Slow down the requests
+			# Here I want to wait just in case
 			sleep(0.5)
 			profile_list=[]
 			count = pagination
 			results = application.search_profile(selectors=[{'people': ['first-name', 'last-name', 'id']}], params={'keywords': '"Data Scientist"', 'start':start, 'count':count})
 			profile_list = parse_search_results(results)
+			profile_details_list=[]
 			for profile in profile_list:
 				profile_id = profile['id']
 				if profile_id != 'private':
-					if verbose:
-						print profile_id 
+					print profile_id 
+					# Here I need to have the search people to work its magic.
+					# I Need to change the one below with another 
+					# applicaiton.search_profile
+					#profile_details = application.get_profile({'member_id' : id}, selectors=['id', 'first-name', 'last-name', 'headline', 'summary', 'location', 'distance', 'num-connections', 'skills','public-profile-url', 'date-of-birth', 'courses', 'specialties', 'educations', 'positions'])
 					profile_details = application.get_profile(member_id = profile_id, \
 						selectors=['id', 'first-name', 'last-name', 'headline', 'summary', \
 						'location', 'distance', 'num-connections', 'skills',\
 						'public-profile-url', 'date-of-birth', 'courses', 'specialties',\
-						'educations', 'positions'])
-					if verbose:
-						print profile_details
+						 'educations', 'positions'])
+					print profile_details
 					profile_details_list.append(profile_details)
-				if log:
-					outfile = open("./data/pofiles_"+str(start)+".json", "wb")
-					json.dump(profile_details_list, outfile)
-					outfile.close()
+					# Here I want to dave the json files for each step
+				outfile = open("./data/10_29/pofiles_"+str(start)+".json", "wb")
+				json.dump(profile_details_list, outfile)
+				outfile.close()
 			start+=pagination
-			# Saves full profiles
-			outfile = open("./data/pofiles_full.json", "wb")
-			json.dump(profile_details_list, outfile)
-			outfile.close()
 if __name__ == "__main__":
 	main()
+	# application  = authenticate()
+	# id_profile = 'ajnjmz9uI6'
+	# profile_details = application.get_profile(member_id = id_profile, selectors=['id', 'first-name', 'last-name', 'headline', 'summary', 'location', 'distance', 'num-connections', 'skills','public-profile-url', 'date-of-birth', 'courses', 'specialties', 'educations', 'positions'])
+
+	# profile_details = application.search_profile(params= {'member_id' : id_profile},\
+	#  selectors=['id', 'first-name', 'last-name', 'headline', 'summary', 'location', \
+	#  'distance', 'num-connections', 'skills','public-profile-url', \
+	#  'date-of-birth', 'courses', 'specialties', 'educations', 'positions'])
+	# print profile_details
