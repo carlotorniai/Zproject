@@ -2,6 +2,7 @@ from linkedin import linkedin
 import json
 from time import sleep
 
+user_name="paul"
 def authenticate():
 	''' Parses the credentials, authenticates on Linkedin and return the
 	LinkedinApplication object '''
@@ -70,6 +71,7 @@ def main():
 	else:
 		calls = total_people_count/pagination+1
 	print calls
+	full_results=[]
 	for i in range(calls):
 			# Here I want to wait just in case
 			sleep(0.5)
@@ -93,11 +95,16 @@ def main():
 						 'educations', 'positions'])
 					print profile_details
 					profile_details_list.append(profile_details)
+					full_results.append(profile_details)
 					# Here I want to dave the json files for each step
-				outfile = open("./data/10_29/pofiles_"+str(start)+".json", "wb")
+				outfile = open("./data/10_30/pofiles_"+str(start)+".json", "wb")
 				json.dump(profile_details_list, outfile)
 				outfile.close()
 			start+=pagination
+	# Save the full file
+	outfile = open("./data/10_30/full/pofiles_full.json", "wb")
+	json.dump(profile_details_list, outfile)
+	outfile.close()
 if __name__ == "__main__":
 	main()
 	# application  = authenticate()
