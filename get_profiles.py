@@ -2,9 +2,15 @@ from linkedin import linkedin
 import json
 import pickle
 from time import sleep
+import datetime
+#user_name="rob"
+# date="11_01"
 
-user_name="me"
-date="11_01"
+
+now = datetime.datetime.now()
+day=str(now.day)
+month=str(now.month)
+year=str(now.year)
 log=True
 
 def readpickle(filename):
@@ -31,13 +37,13 @@ def authenticate(credential_filename):
 	CONSUMER_KEY =  credentials['api_key']
 	CONSUMER_SECRET = credentials['api_secret']
 	RETURN_URL = 'http://localhost:8000'
-
+	name = credentials['name']
 	authentication = linkedin.LinkedInDeveloperAuthentication(CONSUMER_KEY, CONSUMER_SECRET, 
 	                                                          USER_TOKEN, USER_SECRET, 
 	                                                          RETURN_URL, linkedin.PERMISSIONS.enums.values())
 	application = linkedin.LinkedInApplication(authentication)
 	print application.get_profile()
-	return application 
+	return application , name
 
 
 def parse_search_results(results):
@@ -57,20 +63,19 @@ def parse_search_results(results):
 def get_person_details(last_name, first_name, person_id=None):
 	''' It returns all the personal details for a person search '''
 	person_details_dict=dict()
-	
 	field_selector='people::(id='+person_id+'):(headline,summary,industry,specialties,educations,skills,positions,public-profile-url,date-of-birth,courses)?format=json'
 	person_details_query_string = api_version_string+field_selector
 	resp, content = client.request(person_details_query_string)
 	person_details = json.loads(content)
 	return person_details['values'][0]
 
-def search(application):
+def search(application, name, keywords):
 	log = True
-	search_results = application.search_profile(selectors=[{'people': ['first-name', 'last-name', 'id']}], params={'keywords': '"Data Scientist"', 'start':0, 'count':25})
+	search_results = application.search_profile(selectors=[{'people': ['first-name', 'last-name', 'id']}], params={'keywords': keywords, 'start':0, 'count':25})
 	
 	# Saves the results in pickle file
 	if log:
-		outfile = "./data/"+date+"/search_results_"+user_name+".pkl"
+		outfile = "./data/search_results_"+name+"_"+month+day+year+".pkl"
 		savepickle(search_results, outfile)
 	total_people_count = int(search_results['people']['_total'])
 	pagination =  int(search_results['people']['_count'])
@@ -97,7 +102,6 @@ def search(application):
 				profile_id = profile['id']
 				if profile_id != 'private':
 					print profile_id 
-					
 					# TO DO: add all the possible fields
 					profile_details = application.get_profile(member_id = profile_id, \
 						selectors=['id', 'first-name', 'last-name', 'headline', 'summary', \
@@ -107,19 +111,19 @@ def search(application):
 					print profile_details
 					profile_details_list.append(profile_details)
 					full_results.append(profile_details)
-				outfile = "./data/"+date+"/"+user_name+"_profiles_"+str(start)+".pkl"
+				outfile = "./data/"+name+"_profiles_"+str(start)+"_"+month+day+year+".pkl"
 				savepickle(profile_details_list, outfile)
 			
 			# Increase the start point 
 			start+=pagination
 	
 	# Save the full_list of results
-	outfile = "./data/"+date+"/full/"+user_name+"_full_profile_list.pkl"
+	outfile = "./data/"+name+"_full_profile_list"+month+day+year+".pkl"
 	savepickle(full_results, outfile)
 
-def retrieve_connections(applicaiton):
+def retrieve_connections(applicaiton, name):
 	data_scienctist_connections = []
-	outfile = "./data/"+date+"/full/"+user_name+"_connections_list.pkl"
+	outfile = "./data/"+name+"_connections_list.pkl"
 	connections = applicaiton.get_connections(selectors=['id', 'first-name', 'last-name', 'headline', 'summary', \
 						'location', 'distance', 'num-connections', 'skills',\
 						'public-profile-url', 'date-of-birth', 'courses', 'specialties',\
@@ -151,14 +155,14 @@ def retrieve_connections(applicaiton):
 		if found:
 			data_scienctist_connections.append(connection)
 	# Save the data scientist connections
-	outfile_conn = "./data/"+date+"/full/"+user_name+"_data_science_connections.pkl"
+	outfile_conn = "./data/"+name+"_data_science_connections"+month+day+year+".pkl"
 	savepickle(data_scienctist_connections, outfile_conn)
 
 def main():
 	credential_filename = 'credentials_mine.json'
-	application  = authenticate(credential_filename)
-	# search(application)
-	retrieve_connections(application)
+	application, name  = authenticate(credential_filename)
+	search(application, name, 'Data Scientist')
+	retrieve_connections(application, name)
 
 if __name__ == "__main__":
 	main()
