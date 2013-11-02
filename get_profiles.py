@@ -4,7 +4,7 @@ import pickle
 from time import sleep
 
 user_name="me"
-date="10_30"
+date="11_01"
 log=True
 
 def readpickle(filename):
@@ -20,10 +20,10 @@ def savepickle(content, filename):
 	pickle.dump(content, outfile)
 	outfile.close()
 
-def authenticate():
+def authenticate(credential_filename):
 	''' Parses the credentials, authenticates on Linkedin and return the
 	LinkedinApplication object '''
-	credentials = json.loads(open('credentials.json', 'r').read())
+	credentials = json.loads(open(credential_filename, 'r').read())
 	API_KEY = credentials['api_key']
 	API_SECRET = credentials['api_secret']
 	USER_TOKEN = credentials['user_token']
@@ -36,7 +36,7 @@ def authenticate():
 	                                                          USER_TOKEN, USER_SECRET, 
 	                                                          RETURN_URL, linkedin.PERMISSIONS.enums.values())
 	application = linkedin.LinkedInApplication(authentication)
-	application.get_profile()
+	print application.get_profile()
 	return application 
 
 
@@ -64,15 +64,13 @@ def get_person_details(last_name, first_name, person_id=None):
 	person_details = json.loads(content)
 	return person_details['values'][0]
 
-
-def main():
+def search(application):
 	log = True
-	application  = authenticate()
-	search_results = application.search_profile(selectors=[{'people': ['first-name', 'last-name']}], params={'keywords': '"Data Scientist"', 'start':0, 'count':25})
+	search_results = application.search_profile(selectors=[{'people': ['first-name', 'last-name', 'id']}], params={'keywords': '"Data Scientist"', 'start':0, 'count':25})
 	
 	# Saves the results in pickle file
 	if log:
-		outfile = "./data/"+date+"/search_results"+user_name+".pkl"
+		outfile = "./data/"+date+"/search_results_"+user_name+".pkl"
 		savepickle(search_results, outfile)
 	total_people_count = int(search_results['people']['_total'])
 	pagination =  int(search_results['people']['_count'])
@@ -109,7 +107,7 @@ def main():
 					print profile_details
 					profile_details_list.append(profile_details)
 					full_results.append(profile_details)
-				outfile = "./data/"+date+"/"+user_name+"_pofiles_"+str(start)+".pkl"
+				outfile = "./data/"+date+"/"+user_name+"_profiles_"+str(start)+".pkl"
 				savepickle(profile_details_list, outfile)
 			
 			# Increase the start point 
@@ -118,6 +116,49 @@ def main():
 	# Save the full_list of results
 	outfile = "./data/"+date+"/full/"+user_name+"_full_profile_list.pkl"
 	savepickle(full_results, outfile)
+
+def retrieve_connections(applicaiton):
+	data_scienctist_connections = []
+	outfile = "./data/"+date+"/full/"+user_name+"_connections_list.pkl"
+	connections = applicaiton.get_connections(selectors=['id', 'first-name', 'last-name', 'headline', 'summary', \
+						'location', 'distance', 'num-connections', 'skills',\
+						'public-profile-url', 'date-of-birth', 'courses', 'specialties',\
+						 'educations', 'positions'])
+	print connections.keys()
+	
+	# Save the file first and in case do the processing later
+	savepickle(connections, outfile)
+
+	connections = readpickle(outfile)
+	for connection in connections['values']:
+		found = False
+		# Here I have the single value in the connection
+		# Now I want just to return the connection if it has "data scient"
+		if 'headline' in connection:
+			if 'data scientist' in connection['headline'].lower():
+					found = True
+					print connection['firstName'] , connection['lastName']
+					print "Data Scientist in Headline"
+		if 'positions' in connection:
+			# print connection['positions']
+			positions_num = connection['positions']['_total']
+			for i in range(int (positions_num)):
+				position = connection['positions']['values'][i]
+				if 'data scientist' in position['title'].lower():
+					found = True
+					print connection['firstName'] , connection['lastName']
+					print "Data Scientist in a position"
+		if found:
+			data_scienctist_connections.append(connection)
+	# Save the data scientist connections
+	outfile_conn = "./data/"+date+"/full/"+user_name+"_data_science_connections.pkl"
+	savepickle(data_scienctist_connections, outfile_conn)
+
+def main():
+	credential_filename = 'credentials_mine.json'
+	application  = authenticate(credential_filename)
+	# search(application)
+	retrieve_connections(application)
 
 if __name__ == "__main__":
 	main()
