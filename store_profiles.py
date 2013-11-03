@@ -9,6 +9,7 @@ import pymongo
 import utils
 import subprocess
 from time import sleep
+import datetime
 import json
 
 # For now le'ts try to entich the json / dict I have and store it in new files
@@ -16,6 +17,10 @@ import json
 # Idea: collect the general stats while I go through here.
 # Have a set with the ID
 
+now = datetime.datetime.now()
+day=str(now.day)
+month=str(now.month)
+year=str(now.year)
 
 def get_raw_profiles_stats(profile_file):
 	''' Return basic statistics for a list of Linkedin profiles information '''
@@ -27,7 +32,7 @@ def get_raw_profiles_stats(profile_file):
 	'has_ds_specialties':0, 'has_skills':0, 'has_public_profile':0, 'has_courses':0, 
 	'has_ds_head':0, 'has_specialties':0, 'has_ds_summary':0, 'has_ds_skills':0}
 	for profile in full_list_profiles:
-		print profile
+		# print profile
 		# Get the id 
 		user_id = profile['id']
 		# print user_id
@@ -92,36 +97,114 @@ def download_public_profile_info(user_id, public_profile_url):
 	print "Saved public profile for %s" %(user_id)
 	# print saved_file
 
-def enrich_profiles(profile_file):
-	''' Retrieve education and skill information from pulic profile URLS 
-	and store the enhanced profi'''
-	enhanced_profile_list=[]
+def enhance_profiles(profile_file):
+	''' Add the infromation missingin the profile retrieved form the API
+	and stores the new profiles in a new list'''
+
+	enhanced_profiles=[]
+	profile_list = utils.readpickle(profile_file)
+	for profile in profile_list:
+		processed = False
+		user_id = profile['id']
+		pub_profile_file = './data/full_profiles/'+user_id+"_profile.json"
+		# Check if file exists
+		try:
+			with open(pub_profile_file):
+				pub_profile = json.load(open(pub_profile_file))
+				if  'educations' not in profile:
+					print "Missing education"
+					# Open the json file and look for education
+					if 'education' in pub_profile:
+						print "Found education in pub profile file"
+						# Add education
+						profile['educations'] = pub_profile['education']
+						profile['added_education'] = True
+					else:
+						print "Education not found in public profile"
+				
+				if  'skills' not in profile:
+					print "Missing skills"
+					# Open the json file and look for education
+					if 'skills' in pub_profile:
+						print "Found skills in pub profile file"
+						# Add education
+						profile['skills'] = pub_profile['skills']
+						profile['added_skills'] = True
+					else:
+						print "Skills not found in public profile"
+
+				if  'specialties' not in profile:
+					print "Missing specialties"
+					# Open the json file and look for education
+					if 'specialties' in pub_profile:
+						print "Found specialties in pub profile file"
+						# Add education
+						profile['specialties'] = pub_profile['specialties']
+						profile['added_specialties'] = True
+					else:
+						print "Specialties not found in public profile"
+				
+				print profile
+		except:
+			print("Publice proifle file not found")
+
+
+		# Add the profile to the new profilesle
+		enhanced_profiles.append(profile)
+	# Save the pickle with new profile
+	out_file_enh_profiles = './data/enhanced_profiles/enchanced_total_unique_profiles_'+day+month+year+'.pkl'
+	utils.savepickle(enhanced_profiles, out_file_enh_profiles)
+
+def download_public_profiles(profile_file):
+	''' Save scraped public URL pages for the profiles missing
+	education or skills and save them in json files'''
+
+	# TO DO: This should download a public profile regardless
+	# and save it with fist_name_last_name_healine[0]
+	# if the file doens't exists already
+
 	full_list_profiles = utils.readpickle(profile_file)
 	for profile in full_list_profiles:
 		user_id = profile['id']
+		
 		if 'publicProfileUrl' in profile:
+			print "Downloading data for user ", user_id
 			public_profile_url = profile['publicProfileUrl']
-			print public_profile_url
-			print "Profile:"
-			print profile
-			retreived=False
-			if not 'educations' in profile:
-				print 'missing Education for %s' %(user_id)
-				# Retrieve the full profile  
-				# Add he sleep time required not ot get rejection from the server
-				sleep(11)
-				download_public_profile_info(user_id, public_profile_url)
-				retrieved= True
-			
-			if (not 'skills' in profile) and not retrieved:
-				print 'missing Skills for %s' %(user_id)
-				download_public_profile_info(user_id, public_profile_url)
+			download_public_profile_info(user_id, public_profile_url)
+
+		# if 'publicProfileUrl' in profile:
+		# 	public_profile_url = profile['publicProfileUrl']
+		# 	print public_profile_url
+		# 	print "Profile:"
+		# 	# print profile
+		# 	retreived=False
+		# 	if not 'educations' in profile:
+		# 		print 'Missing Education for %s' %(user_id)
+		# 		# Retrieve the full profile  
+		# 		# Add  the delay required not ot get rejection from the server
+
+		# 		sleep(10)
+		# 		download_public_profile_info(user_id, public_profile_url)
+				
+		# 		retrieved= True
+		# 	if (not 'skills' in profile) and not retrieved:
+		# 		print 'Missing Skills for %s' %(user_id)
+				
+		# 		sleep(10)
+		# 		download_public_profile_info(user_id, public_profile_url)
+				
 
 def main():
-	# metrics  = get_raw_profiles_stats('./data/carlo_full_profile_list1122013.pkl')
-	# for k, v in metrics.items():
-	# 	print k,v
-	enrich_profiles('./data/carlo_full_profile_list1122013.pkl')
-
+	# download_public_profiles('data/total_unique_profile_list.pkl')
+	enhance_profiles('data/total_unique_profile_list.pkl')
+	metrics  = get_raw_profiles_stats('data/total_unique_profile_list.pkl')
+	print "============"
+	print "Total profiles:" , len 
+	for k, v in metrics.items():
+		print k,v
+	metrics_enhanced = get_raw_profiles_stats('data/enhanced_profiles/enchanced_total_unique_profiles_2112013.pkl')
+	print "=====Enhanced===="
+	for k, v in metrics_enhanced.items():
+		print k,v
 if __name__ == "__main__":
 	main()

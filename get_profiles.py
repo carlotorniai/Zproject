@@ -1,11 +1,8 @@
 from linkedin import linkedin
 import json
-import pickle
 from time import sleep
+import utils
 import datetime
-#user_name="rob"
-# date="11_01"
-
 
 now = datetime.datetime.now()
 day=str(now.day)
@@ -13,18 +10,7 @@ month=str(now.month)
 year=str(now.year)
 log=True
 
-def readpickle(filename):
-	''' reads a pickle file and return its content'''
-	infile = open(filename, "rb")
-	content = pickle.load(infile)
-	infile.close()
-	return content
 
-def savepickle(content, filename):
-	''' reads a pickle file and return its content'''
-	outfile = open(filename, "wb")
-	pickle.dump(content, outfile)
-	outfile.close()
 
 def authenticate(credential_filename):
 	''' Parses the credentials, authenticates on Linkedin and return the
@@ -43,7 +29,7 @@ def authenticate(credential_filename):
 	                                                          RETURN_URL, linkedin.PERMISSIONS.enums.values())
 	application = linkedin.LinkedInApplication(authentication)
 	print application.get_profile()
-	return application , name
+	return application
 
 
 def parse_search_results(results):
@@ -76,7 +62,7 @@ def search(application, name, keywords):
 	# Saves the results in pickle file
 	if log:
 		outfile = "./data/search_results_"+name+"_"+month+day+year+".pkl"
-		savepickle(search_results, outfile)
+		utils.savepickle(search_results, outfile)
 	total_people_count = int(search_results['people']['_total'])
 	pagination =  int(search_results['people']['_count'])
 	start = int(search_results['people']['_start'])
@@ -112,14 +98,15 @@ def search(application, name, keywords):
 					profile_details_list.append(profile_details)
 					full_results.append(profile_details)
 				outfile = "./data/"+name+"_profiles_"+str(start)+"_"+month+day+year+".pkl"
-				savepickle(profile_details_list, outfile)
+				utils.savepickle(profile_details_list, outfile)
 			
 			# Increase the start point 
 			start+=pagination
 	
 	# Save the full_list of results
 	outfile = "./data/"+name+"_full_profile_list"+month+day+year+".pkl"
-	savepickle(full_results, outfile)
+	utils.savepickle(full_results, outfile)
+	return full_results
 
 def retrieve_connections(applicaiton, name):
 	data_scienctist_connections = []
@@ -129,11 +116,10 @@ def retrieve_connections(applicaiton, name):
 						'public-profile-url', 'date-of-birth', 'courses', 'specialties',\
 						 'educations', 'positions'])
 	print connections.keys()
-	
 	# Save the file first and in case do the processing later
-	savepickle(connections, outfile)
+	utils.savepickle(connections, outfile)
 
-	connections = readpickle(outfile)
+	connections = utils.readpickle(outfile)
 	for connection in connections['values']:
 		found = False
 		# Here I have the single value in the connection
@@ -156,13 +142,31 @@ def retrieve_connections(applicaiton, name):
 			data_scienctist_connections.append(connection)
 	# Save the data scientist connections
 	outfile_conn = "./data/"+name+"_data_science_connections"+month+day+year+".pkl"
-	savepickle(data_scienctist_connections, outfile_conn)
+	utils.savepickle(data_scienctist_connections, outfile_conn)
+	return data_scienctist_connections
 
 def main():
-	credential_filename = 'credentials_mine.json'
-	application, name  = authenticate(credential_filename)
-	search(application, name, 'Data Scientist')
-	retrieve_connections(application, name)
+	cred = [ 'amanuel', 'motoki', 'henry', 'rob', 'paul']
+	connections_dict = dict()
+	total_profiles_list =[]
+	for name in cred:
+		credential_filename = "credentials_"+name+".json"
+		application= authenticate(credential_filename)
+		profile_results = search(application, name, 'Data Scientist')
+		# Append the results to the total_profiles
+		total_profiles_list.append(profile_results)
+		# Get the connection
+		ds_connections = retrieve_connections(application, name)
+		# Add to the dictionary
+		connections_dict[name] = ds_connections
+
+	# Save both the total profiles 
+	total_out_file = "./data/total_profiles"+month+day+year+".pkl"
+	utils.savepickle(total_profiles_list, total_out_file)
+
+	# Save the conenctions dict
+	total_conn_file = "./data/total_conn"+month+day+year+".pkl"
+	utils.savepickle(connections_dict, total_conn_file)
 
 if __name__ == "__main__":
 	main()
