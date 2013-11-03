@@ -4,7 +4,10 @@
 # Flag , for which profiles i retrieve what form teh public profile
 # Flag Zipfian Students
 
-# Loads data into MongoDB from a pickle contaiing json files
+# TO DO: downlaod_public_profile should take just profile file
+# And user Id and return the content of the 
+# Public profile
+
 import pymongo
 import utils
 import subprocess
@@ -14,8 +17,7 @@ import json
 
 # For now le'ts try to entich the json / dict I have and store it in new files
 # Then I will deal with Mongo for the storage
-# Idea: collect the general stats while I go through here.
-# Have a set with the ID
+
 
 now = datetime.datetime.now()
 day=str(now.day)
@@ -27,13 +29,13 @@ def get_raw_profiles_stats(profile_file):
 
 	full_list_profiles = utils.readpickle(profile_file)
 	user_id_list = set()
+	
 	dict_metrics = {'num_profiles': 0, 'has_headline':0, 'has_ds_head':0, 'has_summary':0, 
 	'has_location':0, 'has_positions':0, 'has_educations':0, 'has_industry':0, 
 	'has_ds_specialties':0, 'has_skills':0, 'has_public_profile':0, 'has_courses':0, 
 	'has_ds_head':0, 'has_specialties':0, 'has_ds_summary':0, 'has_ds_skills':0}
+	
 	for profile in full_list_profiles:
-		# print profile
-		# Get the id 
 		user_id = profile['id']
 		# print user_id
 		if not user_id in user_id_list:
@@ -61,8 +63,6 @@ def get_raw_profiles_stats(profile_file):
 
 			if 'educations' in profile:
 				dict_metrics['has_educations']+=1
-				# Let's print the profile that doesn't have the education
-				# Get the education part from the scraper
 
 			if 'industry' in profile:
 				dict_metrics['has_industry']+=1
@@ -82,11 +82,11 @@ def get_raw_profiles_stats(profile_file):
 
 			if 'courses' in profile:
 				dict_metrics['has_courses']+=1
-		# Add the total number of unique profiles
+		
 	dict_metrics['num_profiles'] = len(user_id_list)
 	return dict_metrics
 
-def download_public_profile_info(user_id, public_profile_url):
+def save_public_profile_info(user_id, public_profile_url):
 	p = subprocess.Popen(["./linkedin-scraper",  public_profile_url], stdout=subprocess.PIPE)
 	out, err = p.communicate()
 	json_profile =  json.loads(out)
@@ -159,10 +159,6 @@ def download_public_profiles(profile_file):
 	''' Save scraped public URL pages for the profiles missing
 	education or skills and save them in json files'''
 
-	# TO DO: This should download a public profile regardless
-	# and save it with fist_name_last_name_healine[0]
-	# if the file doens't exists already
-
 	full_list_profiles = utils.readpickle(profile_file)
 	for profile in full_list_profiles:
 		user_id = profile['id']
@@ -170,7 +166,7 @@ def download_public_profiles(profile_file):
 		if 'publicProfileUrl' in profile:
 			print "Downloading data for user ", user_id
 			public_profile_url = profile['publicProfileUrl']
-			download_public_profile_info(user_id, public_profile_url)
+			save_public_profile_info(user_id, public_profile_url)
 
 		# if 'publicProfileUrl' in profile:
 		# 	public_profile_url = profile['publicProfileUrl']
