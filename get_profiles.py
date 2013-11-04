@@ -56,6 +56,7 @@ def get_person_details(last_name, first_name, person_id=None):
 	return person_details['values'][0]
 
 def search(application, name, keywords):
+	''' Retrieves the profiles cotnaing keywords using the credetial of a user '''
 	log = True
 	search_results = application.search_profile(selectors=[{'people': ['first-name', 'last-name', 'id']}], params={'keywords': keywords, 'start':0, 'count':25})
 	
@@ -146,6 +147,8 @@ def retrieve_connections(applicaiton, name):
 	return data_scienctist_connections
 
 def main():
+	''' Here I'm looping through the verious credential files and 
+	retrieve results for each credentail '''
 	cred = [ 'amanuel', 'motoki', 'henry', 'rob', 'paul']
 	connections_dict = dict()
 	total_profiles_list =[]
@@ -160,11 +163,11 @@ def main():
 		# Add to the dictionary
 		connections_dict[name] = ds_connections
 
-	# Save both the total profiles 
+	# Save all the profiels retrieved
 	total_out_file = "./data/total_profiles"+month+day+year+".pkl"
 	utils.savepickle(total_profiles_list, total_out_file)
 
-	# Save the conenctions dict
+	# Save all the connections for each user retrieved.
 	total_conn_file = "./data/total_conn"+month+day+year+".pkl"
 	utils.savepickle(connections_dict, total_conn_file)
 
