@@ -5,8 +5,33 @@
 
 import pickle
 from collections import Counter
+import pymongo
+from pymongo import MongoClient
+
+# Mongo DB funcitons
+def initializeDb(db_name, collection_name):
+	''' Returns dbname and collection '''
+	# connect to the hosted MongoDB instance
+	client = MongoClient('mongodb://localhost:27017/')
+	db = client[db_name]
+	collection = db[collection_name]
+	return db, collection
 
 
+def store_profile(collection, profile):
+	''' Store a collection into a DB
+	INPUT dict'''
+	profile_id = profile['id']
+	profile['date'] = datetime.datetime.utcnow()
+	# I'd rather find a wai to update the date withn
+	# the expression below.. but still.
+	collection.update(
+			{ "id" : profile_id },
+				profile ,
+				True
+			)
+
+# File read and write methods
 def readpickle(filename):
 	''' reads a pickle file and return its content'''
 	infile = open(filename, "rb")
@@ -20,7 +45,8 @@ def savepickle(content, filename):
 	pickle.dump(content, outfile)
 	outfile.close()
 
-
+# Stats methods
+# TO DO: Add get stats form Mongo par as well 
 def get_stats_from_file(total_profile_file, log=False):
 	''' Takes as an input a pickle file containing a list of profiles
 	, outputs summary stats and returns the dict with the stats as well as lists of skills'''
