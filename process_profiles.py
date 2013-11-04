@@ -19,7 +19,7 @@ def compute_education_fields(profile):
 	bach_lookup = ['bachelor', 'bachelors', 'b.a.', 'bsc', 'b.s', 'b.sc',\
 	 'b.sc.', 'B.E.', 'b.a', 'b.tech', 'bs', 'ba', 'b.sself.', 'b.s.']
 	ed_fields = ['computer science', 'computer engineering', 'mathematics', 'physics', \
-	'statistics', 'economics', 'psycology', 'engineering', 'bioinformatics', \
+	'statistics', 'economics', 'psychology', 'engineering', 'bioinformatics', \
 	'neuroscience', 'biology', 'astronomy', 'linguistics', 'electronics']
 
 	# ed_type_lookup = [phd_lookup, master_lookup, bach_lookup]
@@ -192,7 +192,7 @@ def compute_education_fields(profile):
 					if log:
 						print "Parsed education type: ", ed_type
 						print "Parsed education topic: ", ed_topic_list
-						# pdb.set_trace()	
+						pdb.set_trace()	
 					# Here just do the same thing as before
 					# Check if is an MBA
 					if ed_type in mba_lookup:
@@ -340,7 +340,10 @@ def main():
 			print "Educaiton fields:" , profile['educations']
 			computed_ed = compute_education_fields(profile)
 			print computed_ed
-			# pdb.set_trace()	
+			
+			# Here Save the result to the new db
+
+		# Now check the skills 	
 	# At the end when i'm sure of the computation I may want to store it 
 	# IN the processed_ext_profiles collection.
 

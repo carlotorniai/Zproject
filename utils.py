@@ -61,7 +61,7 @@ def get_stats_from_file(total_profile_file, log=False):
 	empty_skills = 0
 	total_skills = 0
 	person_skill_list = []
-
+	person_skills = 0
 	# Summary stats dict
 	dict_metrics = {'num_profiles': 0, 'has_headline':0, 'has_ds_head':0, 'has_summary':0, 
 	'has_location':0, 'has_positions':0, 'has_educations':0, 'has_industry':0, 
