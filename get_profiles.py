@@ -8,7 +8,7 @@ now = datetime.datetime.now()
 day=str(now.day)
 month=str(now.month)
 year=str(now.year)
-log=True
+log=False
 
 
 
@@ -125,11 +125,13 @@ def retrieve_connections(applicaiton, name):
 		found = False
 		# Here I have the single value in the connection
 		# Now I want just to return the connection if it has "data scient"
+
 		if 'headline' in connection:
 			if 'data scientist' in connection['headline'].lower():
 					found = True
 					print connection['firstName'] , connection['lastName']
 					print "Data Scientist in Headline"
+		
 		if 'positions' in connection:
 			# print connection['positions']
 			positions_num = connection['positions']['_total']
@@ -139,6 +141,13 @@ def retrieve_connections(applicaiton, name):
 					found = True
 					print connection['firstName'] , connection['lastName']
 					print "Data Scientist in a position"
+
+		if 'summary' in connection:
+			if 'data scientist' in connection['summary'].lower():
+				found = True
+				print connection['firstName'] , connection['lastName']
+				print "Data Scientist in Summary"
+
 		if found:
 			data_scienctist_connections.append(connection)
 	# Save the data scientist connections
@@ -150,25 +159,31 @@ def main():
 	''' Here I'm looping through the verious credential files and 
 	retrieve results for each credentail '''
 	cred = [ 'amanuel', 'motoki', 'henry', 'rob', 'paul']
+
 	connections_dict = dict()
 	total_profiles_list =[]
 	for name in cred:
 		credential_filename = "credentials_"+name+".json"
 		application= authenticate(credential_filename)
-		profile_results = search(application, name, 'Data Scientist')
+		
+		# Search the Results
+		# profile_results = search(application, name, 'Data Scientist')
+		
 		# Append the results to the total_profiles
-		total_profiles_list.append(profile_results)
+		# total_profiles_list.append(profile_results)
+		
 		# Get the connection
 		ds_connections = retrieve_connections(application, name)
+		
 		# Add to the dictionary
 		connections_dict[name] = ds_connections
 
 	# Save all the profiels retrieved
-	total_out_file = "./data/total_profiles"+month+day+year+".pkl"
-	utils.savepickle(total_profiles_list, total_out_file)
+	# total_out_file = "./data/total_profiles"+month+day+year+".pkl"
+	# utils.savepickle(total_profiles_list, total_out_file)
 
 	# Save all the connections for each user retrieved.
-	total_conn_file = "./data/total_conn"+month+day+year+".pkl"
+	total_conn_file = "./data/connections/total_ds_conn"+month+day+year+".pkl"
 	utils.savepickle(connections_dict, total_conn_file)
 
 if __name__ == "__main__":
