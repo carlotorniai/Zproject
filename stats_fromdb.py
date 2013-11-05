@@ -54,7 +54,7 @@ def build_skills_ds(db, collection):
 	# print df_skills
 
 	cursor_profile = collection.find({})
-		# Here I will set the calue of
+		# Here I will set the value of
 	for profile in cursor_profile:
 		if 'skills' in profile:
 			user_id = profile['id']

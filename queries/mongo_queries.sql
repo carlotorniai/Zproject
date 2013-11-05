@@ -55,7 +55,12 @@ db.ext_profiles_education.distinct('id', {$or: [{"computed_ed.phd_1": "computer 
 db.ext_profiles_education.find({"computed_ed.phd_1": { $ne: -1} }, {}).count()
 
 
+# Get the list of all hte distinct skills
 
+db.ext_profiles_processed.distinct('skills', {})
+
+# Get the current job title for a given usr
+db.ext_profiles_processed.find({"id":"rWNNijmEQe", "positions.values.isCurrent" : true}, {"_id" : 0, "positions.values.title" : 1})
 =========
 Other useful commands
 ==========
