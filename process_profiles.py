@@ -51,7 +51,7 @@ def compute_education_fields(profile):
 						print "Parsed education type: ", ed_type
 						print "Parsed education topic: ", ed_topic_list
 					
-
+					# Refactor code below.
 					# Check if is an MBA
 					if ed_type in mba_lookup:
 						is_mba = True
