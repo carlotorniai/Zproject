@@ -359,13 +359,9 @@ def compute_ds_job_fields(profile):
 
 	return ds_dict
 
-
-def main():
-
-	# Selecting the ext_profiles_education
-	# 
-	db, collection = utils.initializeDb("zproject", "ext_profiles_education_ds")
-
+def process_education(db, collection):
+	''' Computes the fields for education and stores
+	them in collection '''
 	# Get a sample profile form the extended profiles:
 	profiles = db.ext_profiles.find()
 	for profile in profiles:
@@ -382,7 +378,15 @@ def main():
 			
 			# Insert the new fileds
 			utils.addfields_profile(collection, computed_ed_dict, profile['id'])
-			
+
+def process_ds_fields(db, collection):
+	''' Computes the fields for ds jobs and stores
+	them in collection '''
+	# Get a sample profile form the extended profiles:
+	profiles = db.ext_profiles.find()
+	for profile in profiles:
+		print ("========================")
+
 		if 'positions' in profile:
 			computed_ds_fields = compute_ds_job_fields(profile)
 			if log:
@@ -394,6 +398,11 @@ def main():
 			# Now let's write the data on the db.
 			utils.addfields_profile(collection, computed_ds_filed_dict, profile['id'])
 
+def main():
+	# Selecting the ext_profiles_education
+	db, collection = utils.initializeDb("zproject", "test")
+	process_education(db, collection )
+	process_ds_fields(db, collection )
 
 if __name__ == '__main__':
 	main()
