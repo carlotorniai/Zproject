@@ -47,7 +47,12 @@ db.ext_profiles.distinct('id', {$or: [{"educations.description": {$regex : ".*PH
 
 
 
+# After I've added the computed_ed I can ask how many folks have Phd in Computer science?
+db.ext_profiles_education.distinct('id', {$or: [{"computed_ed.phd_1": "computer science"}, 
+								{"computed_ed.phd_2": "computer science"}]}).length
 
+# Now I want to have the number of prople wiht a Phd in my dataset
+db.ext_profiles_education.find({"computed_ed.phd_1": { $ne: -1} }, {}).count()
 
 
 

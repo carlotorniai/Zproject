@@ -238,7 +238,7 @@ def compute_education_fields(profile):
 								is_bac = True
 								break
 					
-					# Parse the educaiton field for MBA 
+					# Parse the education fields for MBA 
 					if is_mba:
 						if found_mba==1:
 							parsed_ed_dict['mba_1'] = 1
@@ -256,7 +256,7 @@ def compute_education_fields(profile):
 										parsed_ed_dict['mba_2'] = field
 										break
 					
-					# Parse the educaiton fiels for Phd
+					# Parse the education fields for Phd
 					# pdb.set_trace()
 					if is_phd:
 						if found_phd==1:
@@ -275,7 +275,7 @@ def compute_education_fields(profile):
 										parsed_ed_dict['phd_1'] = field
 										break
 
-					# Parse the educaiton fiels for Master
+					# Parse the education fields for Master
 					if is_mas:
 						if found_master==1:
 							parsed_ed_dict['mas_1'] = 1
@@ -293,7 +293,7 @@ def compute_education_fields(profile):
 										parsed_ed_dict['mas_2'] = field
 										break
 
-					# Parse the educaiton fiels for Bachelor
+					# Parse the education fields for Bachelor
 					if is_bac:			
 						if found_bachelor==1:
 							parsed_ed_dict['bc_1'] = 1
@@ -317,26 +317,60 @@ def compute_education_fields(profile):
 
 	return parsed_ed_dict
 
-def compute_skills_fileds(profile):
-	''' Returns the normalized vales for skills '''
-	return None
 
-def compute_ds_job_fileds(profile):
-	''' Returns the values for the data scienits
+
+def compute_ds_job_fields(profile):
+	''' Returns the values for the data scientist
 	job related fields'''
-	return None
+	ds_dict = {"ds_job_current": 0, "ds_job_past": 0 , \
+	"ds_in_head": 0,  "ds_in_summary":0 }
+
+	# Checks if the profile has data scientist in head
+	if 'headline' in profile:
+		headline = profile['headline']
+		print headline
+		if ("data scientist" in headline.lower()) or \
+		("data science" in headline.lower()):
+			print "Ds in head"
+			ds_dict['ds_in_head'] = 1
+
+	# Chekcs if profile has data scientist in summary
+	if 'summary' in profile:
+		summary  = profile['summary']
+		print summary
+		if "data scientist" in summary.lower():
+			print "Ds in summary"
+			ds_dict['ds_in_summary'] = 1
+
+	# Check if profile has dat science in title of  positions
+	num_positions = int(profile['positions']['_total'])
+	for i in range(num_positions):
+		position = profile['positions']['values'][i]
+		title = position['title']
+		is_current = position['isCurrent']
+		if ("data scientist" in title.lower()) or\
+		("data science" in title.lower()):
+			if is_current:
+				print "Data scientist in current position"
+				ds_dict['ds_job_current'] = 1
+			else:
+				print "Data scientist in old position"
+				ds_dict['ds_job_past'] = 1
+
+	return ds_dict
 
 
 def main():
-	# Grab an example proifle from Mongo and worh with that
-	
+
 	# Selecting the ext_profiles_education
-	db, collection = utils.initializeDb("zproject", "ext_profiles_education")
+	# 
+	db, collection = utils.initializeDb("zproject", "ext_profiles_education_ds")
 
 	# Get a sample profile form the extended profiles:
 	profiles = db.ext_profiles.find()
-	for profile in profiles[0:1]:
+	for profile in profiles:
 		print ("========================")
+		
 		if 'educations' in profile:
 			computed_ed = compute_education_fields(profile)
 			
@@ -345,18 +379,20 @@ def main():
 				print computed_ed
 
 			computed_ed_dict = {"computed_ed" : computed_ed}
+			
 			# Insert the new fileds
 			utils.addfields_profile(collection, computed_ed_dict, profile['id'])
 			
-
-			# Adding an index to the skills filed:
-			# db.collection.ensureIndex( { skills: 1 } )
+		if 'positions' in profile:
+			computed_ds_fields = compute_ds_job_fields(profile)
+			if log:
+				print "Positions: ",  profile['positions']
+				print computed_ds_fields
 			
+			computed_ds_filed_dict = {"computed_ds_fields": computed_ds_fields}
 
-
-		# Now check the skills 	
-	# At the end when i'm sure of the computation I may want to store it 
-	# IN the processed_ext_profiles collection.
+			# Now let's write the data on the db.
+			utils.addfields_profile(collection, computed_ds_filed_dict, profile['id'])
 
 
 if __name__ == '__main__':
