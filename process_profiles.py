@@ -335,18 +335,24 @@ def main():
 
 	# Get a sample profile form the extended profiles:
 	profiles = db.ext_profiles.find()
-	for profile in profiles:
+	for profile in profiles[0:1]:
 		print ("========================")
 		if 'educations' in profile:
+			computed_ed = compute_education_fields(profile)
+			
 			if log:
 				print "Education fields:" , profile['educations']
-			computed_ed = compute_education_fields(profile)
-			# Here I will need to update all the results with 
-			# The information of educaiton I've got
-			print computed_ed
-			utils.addfields_profile(collection, computed_ed, profile['id'])
+				print computed_ed
+
+			computed_ed_dict = {"computed_ed" : computed_ed}
+			# Insert the new fileds
+			utils.addfields_profile(collection, computed_ed_dict, profile['id'])
 			
-			# Here Save the result to the new db
+
+			# Adding an index to the skills filed:
+			# db.collection.ensureIndex( { skills: 1 } )
+			
+
 
 		# Now check the skills 	
 	# At the end when i'm sure of the computation I may want to store it 

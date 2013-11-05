@@ -20,8 +20,8 @@ def initializeDb(db_name, collection_name):
 
 
 def addfields_profile(collection, data, profile_id):
-	''' Store a collection into a DB
-	INPUT dict'''
+	''' Add the set of fileds and related values contained
+	 in data in the collection'''
 	data['modified_on'] = datetime.datetime.utcnow()
 	# I'd rather find a wai to update the date withn
 	# the expression below.. but still.
