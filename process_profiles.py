@@ -374,10 +374,12 @@ def process_education(db, collection):
 				print "Education fields:" , profile['educations']
 				print computed_ed
 
+			# The line below colelct things in a dict
+			# It is more difficult with Pandas..
 			computed_ed_dict = {"computed_ed" : computed_ed}
 			
-			# Insert the new fileds
-			utils.addfields_profile(collection, computed_ed_dict, profile['id'])
+			# Insert the new fileds (currently not grouped)
+			utils.addfields_profile(collection, computed_ed, profile['id'])
 
 def process_ds_fields(db, collection):
 	''' Computes the fields for ds jobs and stores
@@ -393,14 +395,16 @@ def process_ds_fields(db, collection):
 				print "Positions: ",  profile['positions']
 				print computed_ds_fields
 			
+			# The line below colelct things in a dict
+			# It is more difficult with Pandas..
 			computed_ds_filed_dict = {"computed_ds_fields": computed_ds_fields}
 
-			# Now let's write the data on the db.
-			utils.addfields_profile(collection, computed_ds_filed_dict, profile['id'])
+			# Now let's write the data on the db (currently not grouped)
+			utils.addfields_profile(collection, computed_ds_fields, profile['id'])
 
 def main():
 	# Selecting the ext_profiles_education
-	db, collection = utils.initializeDb("zproject", "test")
+	db, collection = utils.initializeDb("zproject", "ext_profiles_processed")
 	process_education(db, collection )
 	process_ds_fields(db, collection )
 
