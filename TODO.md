@@ -13,7 +13,8 @@ Write down a New iPython with stats and plot.
 - Plot the frequency of the Job title (for current positions)
 
 
-
+Tonight:
+- Just plot the data so far (ggplot inmb)
 
 
 

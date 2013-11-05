@@ -36,6 +36,7 @@ def build_skills_ds(db, collection):
 	# pdb.set_trace()
 	
 	skill_set = set()
+	skill_full_list = []
 	index= []
 	# Build columns and index to create the dataframe
 	cursor  = collection.find({}, {"_id":0, "skills":1, "id":1})
@@ -44,12 +45,13 @@ def build_skills_ds(db, collection):
 		if "skills" in results:
 			for skill in (results['skills']):
 				skill_set.add(skill)
+				skill_full_list.append(skill)
 		index.append(results['id'])
 	print len(skill_set)
 
 
 	df_skills = pd.DataFrame(index=index, columns=skill_set).fillna(0)
-	print df_skills
+	# print df_skills
 
 	cursor_profile = collection.find({})
 		# Here I will set the calue of
@@ -62,9 +64,10 @@ def build_skills_ds(db, collection):
 				df_skills.ix[user_id, skill] = 1
 	# Save the matrix in a pickle
 	date_string = utils.get_date_string()
-	out_file = './results/skills_matrix_'+date_string+'.pkl'
-	utils.savepickle(df_skills, out_file)
-	return df_skills
+	out_file_matrix = './results/skills_matrix_'+date_string+'.pkl'
+	utils.savepickle(df_skills, out_file_matrix)
+	# pdb.set_trace()
+	return df_skills, skill_full_list
 
 def main():
 	print "Main"
