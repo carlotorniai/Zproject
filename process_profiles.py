@@ -192,7 +192,7 @@ def compute_education_fields(profile):
 					if log:
 						print "Parsed education type: ", ed_type
 						print "Parsed education topic: ", ed_topic_list
-						pdb.set_trace()	
+						# pdb.set_trace()	
 					# Here just do the same thing as before
 					# Check if is an MBA
 					if ed_type in mba_lookup:
@@ -330,16 +330,21 @@ def compute_ds_job_fileds(profile):
 def main():
 	# Grab an example proifle from Mongo and worh with that
 	
-	# Get db and colleciton:
-	db, collection = utils.initializeDb("zproject", "ld_profiles")
+	# Selecting the ext_profiles_education
+	db, collection = utils.initializeDb("zproject", "ext_profiles_education")
 
 	# Get a sample profile form the extended profiles:
 	profiles = db.ext_profiles.find()
 	for profile in profiles:
+		print ("========================")
 		if 'educations' in profile:
-			print "Educaiton fields:" , profile['educations']
+			if log:
+				print "Education fields:" , profile['educations']
 			computed_ed = compute_education_fields(profile)
+			# Here I will need to update all the results with 
+			# The information of educaiton I've got
 			print computed_ed
+			utils.addfields_profile(collection, computed_ed, profile['id'])
 			
 			# Here Save the result to the new db
 

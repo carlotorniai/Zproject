@@ -7,6 +7,7 @@ import pickle
 from collections import Counter
 import pymongo
 from pymongo import MongoClient
+import datetime
 
 # Mongo DB funcitons
 def initializeDb(db_name, collection_name):
@@ -17,6 +18,16 @@ def initializeDb(db_name, collection_name):
 	collection = db[collection_name]
 	return db, collection
 
+
+def addfields_profile(collection, data, profile_id):
+	''' Store a collection into a DB
+	INPUT dict'''
+	data['modified_on'] = datetime.datetime.utcnow()
+	# I'd rather find a wai to update the date withn
+	# the expression below.. but still.
+	collection.update(
+			{ "id" : profile_id },
+				{ "$set": data})
 
 def store_profile(collection, profile):
 	''' Store a collection into a DB
@@ -148,6 +159,7 @@ def get_stats_from_file(total_profile_file, log=False):
 							total_unparsed+=1
 						# Here an alternative is to copy the filed
 						# In both 			
+
 		# Let's check skills and specialties here.
 		if 'skills' in profile:
 			person_skills=0
@@ -197,4 +209,4 @@ def get_stats_from_file(total_profile_file, log=False):
 	print ("Unique skills %d") %(len(unique_skills))
 	print ("Average skills per person %d ") \
 	%(reduce(lambda x, y: x + y, person_skill_list) / len(person_skill_list))
-	return person_skill_list, dict_metrics
+	return skill_list, dict_metrics
