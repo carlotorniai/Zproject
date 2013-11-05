@@ -9,6 +9,14 @@ import pymongo
 from pymongo import MongoClient
 import datetime
 
+def get_date_string():
+	now = datetime.datetime.now()
+	day=str(now.day)
+	month=str(now.month)
+	year=str(now.year)
+	date_string = day+month+year
+	return date_string
+
 # Mongo DB funcitons
 def initializeDb(db_name, collection_name):
 	''' Returns dbname and collection '''
