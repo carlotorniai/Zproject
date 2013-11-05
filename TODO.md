@@ -14,7 +14,8 @@ Write down a New iPython with stats and plot.
 
 
 Tonight:
-- Just plot the data so far (ggplot inmb)
+- Just plot the data AND do the bag of works as a
+tag cloud and see hwo similar is to Peter one.
 
 
 

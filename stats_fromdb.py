@@ -21,6 +21,29 @@ def build_education_df(db, collection):
 	df = pd.DataFrame(list(cursor))
 	return df
 
+def get_education_features(db, collection):
+	''' Builds a dataframe with educaiton information'''
+	educations_list=[]
+	index=[]
+	columns = ( 'bc_1', 'bc_2', 'mas_1','mas_2', 'phd_1', 'phd_2')
+	cursor = collection.find({}, {"_id":0, "id":1, "bc_1" : 1 , "bc_2":1, "mas_1": 1, \
+		"mas_2":1 , "phd_1":1, "phd_2":1, })
+	for results in cursor:
+		index.append(results['id'])
+
+	df_education = pd.DataFrame(index=index, columns=columns).fillna(0)
+	# Here put the values in
+	cursor_profile = collection.find({})
+	for profile in cursor_profile:
+		user_id = profile['id']
+		print user_id
+		# I knwo that every record has its columns
+		for field in columns:
+			if field in profile:
+				df_education.ix[user_id, field] = profile[field]
+			else:
+				df_education.ix[user_id, field] = -1
+	return df_education
 
 def build_skills_ds(db, collection):
 	''' Builds a matrix with all the skills per profile'''
@@ -73,10 +96,16 @@ def main():
 	print "Main"
 	db, collection = utils.initializeDb("zproject", "ext_profiles_processed")
 	
+	# Return a set of general stats about education and
+	# Data Scientists title appearence in the profile
+
 	# df_ds_education = build_education_df(db, collection)
 	
-	build_skills_ds(db, collection)
+	# Build the skills feature dataframe
+	
+	# build_skills_ds(db, collection)
 
+	df = get_education_features(db, collection )
 if __name__ == '__main__':
 	main()
 
