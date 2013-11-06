@@ -19,8 +19,7 @@ TO DO:
 
 
 
-- If there is time do the plotting for the data and
-	-> Do some data QA : testing on education comapred to the real data
+
 
 Write down a New iPython with stats and plot.
 - Plot the top 40 Skills listed
@@ -29,9 +28,9 @@ Write down a New iPython with stats and plot.
 
 
 Tonight:
-- Just plot the data AND do the bag of works as a
-tag cloud and see hwo similar is to Peter one.
-
+- Plot the frequency of the Job title (for current positions)
+- read something, grab the screen shot for Peter talk to compare wiht my 
+tagcloud
 
 
 For later:
