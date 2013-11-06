@@ -49,6 +49,46 @@ def get_education_features(db, collection):
 				df_education.ix[user_id, field] = "no_"+field
 	return df_education
 
+def get_cat_ed_features(db, collection):
+	''' Extracts all the ed information, build a dataframes
+	and reurned the transformed dataframes with dummy columns 
+	for categorical variables'''
+	educations_list=[]
+	index=[]
+	columns = ( 'bc_1', 'bc_2', 'mas_1','mas_2', 'phd_1', 'phd_2')
+	cursor = collection.find({}, {"_id":0, "id":1, "bc_1" : 1 , "bc_2":1, "mas_1": 1, \
+		"mas_2":1 , "phd_1":1, "phd_2":1, })
+	for results in cursor:
+		index.append(results['id'])
+
+	df_education = pd.DataFrame(index=index, columns=columns).fillna(0)
+	# Here put the values in
+	cursor_profile = collection.find({})
+	for profile in cursor_profile:
+		user_id = profile['id']
+		# I knwo that every record has its columns
+		for field in columns:
+			if field in profile:
+				if profile[field] == 1:
+					df_education.ix[user_id, field] = "other_"+field
+				elif  profile[field] == -1:
+					df_education.ix[user_id, field] = "no_"+field	
+				else:
+					df_education.ix[user_id, field] = field+"_"+str(profile[field])
+			else:
+				df_education.ix[user_id, field] = "no_"+field
+	
+	# Create the dataframe adding columns for each categroical
+	# Value of Education
+	df_education_cat = df_education
+	for ed_elem in columns:
+	    dummy = pd.get_dummies(df_education[ed_elem])
+	    del df_education_cat[ed_elem]
+	    # Drop the old column
+	    df_education_cat =  pd.merge(df_education_cat, dummy, left_index=True, right_index=True)
+	
+	return df_education_cat
+
 def build_skills_ds(db, collection):
 	''' Builds a matrix with all the skills per profile'''
 	print "Building skills Df"
@@ -109,7 +149,13 @@ def main():
 	
 	# build_skills_ds(db, collection)
 
-	df = get_education_features(db, collection )
+	# Build the row dataframe for educaiton
+
+	# df = get_education_features(db, collection)
+
+	# Build the dummy matrix for education
+	df = get_cat_ed_features(db, collection)
+
 if __name__ == '__main__':
 	main()
 

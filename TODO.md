@@ -1,8 +1,23 @@
 TO DO:
 
-- DO hierarchical clustering
+- Finish the method to return the dummy feature matrixces
+  -> in stats_fromDB.py
+- DO hierarchical clustering (ok not really meaningful..)
+	-> Ways to evaluate?
 
 - Do some initial k-means and analysis
+	-> ok done wiht a small set of features.
+	-> WOrk on clusterign evaluation
+
+	1) FInd the point closer to the center for each clusters.
+	-> try to understand the difference in features.
+
+	2) Try to find some meaninful "measure" of
+	goodness
+	-> Try http://stackoverflow.com/questions/12680038/validating-output-from-a-clustering-algorithm
+
+
+
 
 - If there is time do the plotting for the data and
 	-> Do some data QA : testing on education comapred to the real data
