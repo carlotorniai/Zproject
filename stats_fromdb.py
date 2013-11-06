@@ -5,6 +5,9 @@ import pymongo
 import pdb
 
 
+
+
+
 def build_education_df(db, collection):
 	''' Builds a matrix with the educaiton and the data scientist 
 	position info for a given collection of profiles'''
@@ -135,6 +138,15 @@ def build_skills_ds(db, collection):
 	utils.savepickle(df_skills, out_file_matrix)
 	# pdb.set_trace()
 	return df_skills, skill_full_list
+
+def get_full_feature_matrix(db, collection):
+    ''' Returns the aggretgated feature matrix 
+    for skills and education '''
+    ed_features = get_education_features(db, collection)
+    skills_features, skills_list = build_skills_ds(db, collection)
+    # Merge the featues
+    full_features = skills_features.join(ed_features, how='outer')
+    return full_features
 
 def main():
 	print "Main"
