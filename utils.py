@@ -15,7 +15,7 @@ def get_dummy(DataFrame):
     columns = ( 'bc_1', 'bc_2', 'mas_1','mas_2', 'phd_1', 'phd_2')
     transformed_df = DataFrame
     for ed_elem in columns:
-            dummy = pd.get_dummies(df_education[ed_elem])
+            dummy = pd.get_dummies(transformed_df[ed_elem])
             del transformed_df[ed_elem]
             # Drop the old column
             transformed_df =  pd.merge(transformed_df, dummy, left_index=True, right_index=True)
