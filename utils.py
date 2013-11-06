@@ -9,7 +9,45 @@ import pymongo
 from pymongo import MongoClient
 import datetime
 import pandas as pd
+from sklearn.cluster import KMeans
+from sklearn import metrics
+from time import time
 
+# Cluster Analysis functions
+def get_cluster_members(feature_matrix, db, collection, km):
+    ''' Returns a dict containing for each cluster the 
+        user ID and public URLS for each membember '''
+    
+    # Initialize the dict
+    users_clusters = dict()
+    
+    # Initizlize DB
+    db, collection = utils.initializeDb("zproject", "ext_profiles_processed")
+    
+    # Create dict keys
+    for clust_num in range(km.n_clusters):
+        if str(clust_num) in users_clusters:
+            pass
+        else:
+            users_clusters[str(clust_num)] = []
+
+    # Populate the Dict wtih profiles information
+    for i in range(len(km.labels_)):
+        public_url = ""
+        user_id = features_dummy.index[i]
+        cursor = collection.find({"id":user_id}, {"_id" : 0, \
+        "lastName" :1 , "firstName" :1, "publicProfileUrl" : 1})
+        for result in cursor:
+            if 'publicProfileUrl' in result:
+                public_url = result['publicProfileUrl']
+            # Add firstname and lastname
+            fname = result['firstName']
+            lname = result['lastName']
+        value = (user_id, fname, lname, public_url)
+        #print user_id, public_url, km.labels_[i]
+        users_clusters[str(km.labels_[i])].append(value)
+    return users_clusters
+    
 # Dataframes transform
 def get_dummy(DataFrame):
     columns = ( 'bc_1', 'bc_2', 'mas_1','mas_2', 'phd_1', 'phd_2')
