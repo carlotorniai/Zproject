@@ -47,7 +47,61 @@ def get_cluster_members(feature_matrix, db, collection, km):
         #print user_id, public_url, km.labels_[i]
         users_clusters[str(km.labels_[i])].append(value)
     return users_clusters
+
+def get_cluster_representatitve(feature_matrix, db, collection, km, n):
+    ''' Returns a list of the closest n profiles to each 
+    cluster centroids '''
     
+    # Initialize the dict
+    users_clusters = dict()
+    ordered_user_clusters = dict()
+    # Initizlize DB
+    db, collection = utils.initializeDb("zproject", "ext_profiles_processed")
+    
+    # Create dict keys
+    for clust_num in range(km.n_clusters):
+        if str(clust_num) in users_clusters:
+            pass
+        else:
+            users_clusters[str(clust_num)] = []
+            ordered_user_clusters[str(clust_num)] = []
+            
+    # Populate the Dict wtih profiles information
+    for i in range(len(km.labels_)):
+        public_url = ""
+        user_id = features_dummy.index[i]
+        cursor = collection.find({"id":user_id}, {"_id" : 0, \
+        "lastName" :1 , "firstName" :1, "publicProfileUrl" : 1})
+        for result in cursor:
+            if 'publicProfileUrl' in result:
+                public_url = result['publicProfileUrl']
+            # Add firstname and lastname
+            fname = result['firstName']
+            lname = result['lastName']
+            
+        # Here get the euclidean distance between the 
+        # element and the centroid 
+        current_centroid = km.cluster_centers_[km.labels_[i]]
+        # print current_centroid, km.labels_[i]
+        # pdb.set_trace()
+        current_user_features = features_dummy.loc[user_id]
+        # centroid_distance =  cdist(current_centroid, current_user_features, 'euclidean')
+        # pdb.set_trace()
+        centroid_distance = euclidean(current_centroid, current_user_features)
+        value = (user_id, fname, lname, public_url, centroid_distance)
+        #print user_id, public_url, km.labels_[i]
+        users_clusters[str(km.labels_[i])].append(value)
+        # print users_clusters
+        ordered_users_clust = dict()
+    for key in users_clusters.keys():
+        if n < len(users_clusters[key]):
+            ordered_user_clusters[key] = sorted(users_clusters[key],\
+                                            key = lambda element : element[4], reverse=False)[:n]
+        else:
+            ordered_user_clusters[key] = sorted(users_clusters[key],\
+                                            key = lambda element : element[4], reverse=False)
+        
+    return ordered_user_clusters
 # Dataframes transform
 def get_dummy(DataFrame):
     columns = ( 'bc_1', 'bc_2', 'mas_1','mas_2', 'phd_1', 'phd_2')
