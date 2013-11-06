@@ -36,13 +36,17 @@ def get_education_features(db, collection):
 	cursor_profile = collection.find({})
 	for profile in cursor_profile:
 		user_id = profile['id']
-		print user_id
 		# I knwo that every record has its columns
 		for field in columns:
 			if field in profile:
-				df_education.ix[user_id, field] = profile[field]
+				if profile[field] == 1:
+					df_education.ix[user_id, field] = "other_"+field
+				elif  profile[field] == -1:
+					df_education.ix[user_id, field] = "no_"+field	
+				else:
+					df_education.ix[user_id, field] = field+"_"+str(profile[field])
 			else:
-				df_education.ix[user_id, field] = -1
+				df_education.ix[user_id, field] = "no_"+field
 	return df_education
 
 def build_skills_ds(db, collection):
