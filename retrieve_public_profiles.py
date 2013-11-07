@@ -89,7 +89,7 @@ def enhance_profiles(profile_file):
 		# Add the profile to the new profilesle
 		enhanced_profiles.append(profile)
 	# Save the pickle with new profile
-	out_file_enh_profiles = './data/enhanced_profiles/enchanced_total_unique_profiles_'+day+month+year+'.pkl'
+	out_file_enh_profiles = './data/enhanced_profiles/SE_enchanced_total_unique_profiles_'+day+month+year+'.pkl'
 	utils.savepickle(enhanced_profiles, out_file_enh_profiles)
 
 def download_public_profiles(profile_file):
@@ -109,10 +109,10 @@ def download_public_profiles(profile_file):
 def main():
 	
 	# Download public profiles using a list of profiles
-	# download_public_profiles('data/total_unique_profile_list.pkl')
+	# download_public_profiles('data/total_uniqe_profile_software_engineer_list.pkl')
 	
 	# Enhance the profiles  
-	# enhance_profiles('data/total_unique_profile_list.pkl')
+	enhance_profiles('data/total_uniqe_profile_software_engineer_list.pkl')
 	
 
 if __name__ == "__main__":

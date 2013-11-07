@@ -66,8 +66,13 @@ db.ext_profiles_processed.find({"id":"rWNNijmEQe", "positions.values.isCurrent" 
 db.ext_profiles_processed.find({"id":"Nm1iTjmo"}, {})
 
 
-
-
+############### QUery using date
+# It was somehow weird in the mongo shell the cration of date but it works pretty well in Mongodb
+# check http://cookbook.mongodb.org/patterns/date_range/
+# On console
+var start = new Date(2013, 10, 5);
+# $gt ot $lt can be used
+db.colelction.find({"date" : { $gt: start} })
 
 
 =========
