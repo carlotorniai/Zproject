@@ -67,9 +67,13 @@ db.ext_profiles_processed.find({"id":"Nm1iTjmo"}, {})
 
 
 
+
+
+
 =========
 Other useful commands
 ==========
+####################
 Clone a collection:
 original colelciton: "demo1.categories"
 db.demo1.categories.find().forEach( function(x){db.demo2.categories.insert(x)} );
@@ -77,6 +81,7 @@ db.demo1.categories.find().forEach( function(x){db.demo2.categories.insert(x)} )
 
 db.ext_profiles.find().forEach( function(x){db.ext_profiles_education.insert(x)} );
 
+#######################
 Drop a collection
 db.collection.drop()
 
@@ -90,6 +95,11 @@ collection.update({ "id" : "knkl5gZxj-" }, { "$set": new_content})
 
 
 #######################
+Added the new labels fields:
+new_content = {"search_label" : "data scientist", "label" : "1", "zipfian":""}
+collection.update({}, {"$set": new_content})
+
+#########################
 Add the index 
 http://docs.mongodb.org/manual/tutorial/model-data-for-keyword-search/
 
@@ -100,6 +110,8 @@ After that I can do queries such:
 db.ext_profiles_education.find( { skills : {$regex : "Machine Learning", "$options" : "-i" } }, {lastName:1} ).count()
 To get all the people with Machien Leanring Education.
 
+
+######################
 =====================
 Old Queries
 =====================

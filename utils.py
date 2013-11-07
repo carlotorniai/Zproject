@@ -69,6 +69,7 @@ def get_cluster_members(feature_matrix, db, collection, km):
         users_clusters[str(km.labels_[i])].append(value)
     return users_clusters
 
+
 def get_cluster_representatitve(feature_matrix, db, collection, km, n):
     ''' Returns a list of the closest n profiles to each 
     cluster centroids '''

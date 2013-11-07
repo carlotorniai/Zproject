@@ -5,13 +5,13 @@ import utils
 # Lists just keeping the uniqe user_id
 
 
-cred = ['carlo', 'amanuel', 'motoki', 'henry', 'rob', 'paul']
+cred = ['mine', 'amanuel', 'motoki', 'henry']
 total_unique_profiles = [] 
 unique_users = set()
 total_profiles = 0;
 
 for name in cred:
-	profile_filename = "./data/11_01/full/"+name+"_full_profile_list.pkl"
+	profile_filename = "./data/se_profiles/"+name+"_full_profile_list1172013.pkl"
 	profile_list = utils.readpickle(profile_filename)
 	for profile in profile_list:
 		total_profiles+=1
@@ -29,6 +29,6 @@ for name in cred:
 			print user
 			
 # Save the pickle
-out_tot_profiles = 'data/total_unqie_profile_list.pkl'
+out_tot_profiles = 'data/total_uniqe_profile_software_engineer_list.pkl'
 utils.savepickle(total_unique_profiles, out_tot_profiles)
 print "Total Profiles: %d, Unique profiles %d, %d" %(total_profiles, len(unique_users) , len(total_unique_profiles))

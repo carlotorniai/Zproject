@@ -1,11 +1,22 @@
 TO DO:
 
+Think if I want a different DB for nwo I wil put it in the same.
+
 1) Identify the clusters of people to search that are kind of 
 further apart from the dat scientists (peter talk /)
 
-2) Add a label for the initial set as Data Scientists
+2) Gather all the data I need 
+   -> format the dat nicely
 
-3) Flag folks in Zipfian
+lunch
+
+3) Run a kmeans with k = 2 with
+   education and skills to see if I can tell people
+   apart 
+
+   -> training set / tests sets testing 
+
+
 
 
 

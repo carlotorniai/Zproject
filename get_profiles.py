@@ -82,7 +82,7 @@ def search(application, name, keywords):
 			sleep(0.5)
 			profile_list=[]
 			count = pagination
-			results = application.search_profile(selectors=[{'people': ['first-name', 'last-name', 'id']}], params={'keywords': '"Data Scientist"', 'start':start, 'count':count})
+			results = application.search_profile(selectors=[{'people': ['first-name', 'last-name', 'id']}], params={'keywords': keywords , 'start':start, 'count':count})
 			profile_list = parse_search_results(results)
 			profile_details_list=[]
 			for profile in profile_list:
@@ -158,7 +158,7 @@ def retrieve_connections(applicaiton, name):
 def main():
 	''' Here I'm looping through the verious credential files and 
 	retrieve results for each credentail '''
-	cred = [ 'amanuel', 'motoki', 'henry', 'rob', 'paul']
+	cred = [ 'mine', 'amanuel', 'motoki', 'henry', 'rob', 'paul']
 
 	connections_dict = dict()
 	total_profiles_list =[]
@@ -167,24 +167,24 @@ def main():
 		application= authenticate(credential_filename)
 		
 		# Search the Results
-		# profile_results = search(application, name, 'Data Scientist')
+		profile_results = search(application, name, 'Software Engineer')
 		
 		# Append the results to the total_profiles
-		# total_profiles_list.append(profile_results)
+		total_profiles_list.append(profile_results)
 		
 		# Get the connection
-		ds_connections = retrieve_connections(application, name)
+		# ds_connections = retrieve_connections(application, name)
 		
 		# Add to the dictionary
-		connections_dict[name] = ds_connections
+		# connections_dict[name] = ds_connections
 
 	# Save all the profiels retrieved
-	# total_out_file = "./data/total_profiles"+month+day+year+".pkl"
-	# utils.savepickle(total_profiles_list, total_out_file)
+	total_out_file = "./data/total_profiles_se"+month+day+year+".pkl"
+	utils.savepickle(total_profiles_list, total_out_file)
 
 	# Save all the connections for each user retrieved.
-	total_conn_file = "./data/connections/total_ds_conn"+month+day+year+".pkl"
-	utils.savepickle(connections_dict, total_conn_file)
+	# total_conn_file = "./data/connections/total_ds_conn"+month+day+year+".pkl"
+	# utils.savepickle(connections_dict, total_conn_file)
 
 if __name__ == "__main__":
 	main()
