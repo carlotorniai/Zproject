@@ -393,7 +393,7 @@ def process_ds_fields(db, collection):
 	''' Computes the fields for ds jobs and stores
 	them in collection '''
 	# Get a sample profile form the extended profiles:
-	profiles = db.ext_profiles.find()
+	profiles = collection.find()
 	for profile in profiles:
 		print ("========================")
 
@@ -414,8 +414,8 @@ def main():
 	# Selecting the ext_profiles_education
 	db, collection = utils.initializeDb("zproject", "copy_test_just_ds")
 	print collection
-	process_education(db, collection)
-	# process_ds_fields(db, collection )
+	# process_education(db, collection)
+	process_ds_fields(db, collection )
 
 if __name__ == '__main__':
 	main()
