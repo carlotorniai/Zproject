@@ -22,7 +22,6 @@ def get_top_features(feature_matrix, km, n):
     
     for clust_num in range(km.n_clusters):
         top_num_skills = 0
-        print clust_num
         if str(clust_num) in top_features:
             pass
         else:

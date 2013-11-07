@@ -148,6 +148,52 @@ def get_full_feature_matrix(db, collection):
     full_features = skills_features.join(ed_features, how='outer')
     return full_features
 
+def get_full_feature_matrix_cat(db, collection):
+    ''' Returns the aggretgated categorized feature matrix 
+    for skills and education with no menaingful infor for eduncation
+    dropped'''
+    full_features = get_full_feature_matrix(db, collection)
+    full_features_cat = utils.get_dummy(full_features)
+    # Here Drop the no_educaiton fields
+    del full_features_cat['no_phd_1']
+    del full_features_cat['no_phd_2']
+    del full_features_cat['no_mas_1']
+    del full_features_cat['no_mas_2']
+    del full_features_cat['no_bc_1']
+    del full_features_cat['no_bc_2']
+    return full_features_cat
+
+def get_clusters_stats(users_clusters, db, collection):
+	''' Given user clusters it returns two dicts containing
+	the occurences of skills and educaiton per cluster '''
+	education_stats = dict()
+	skills_stats = dict()
+	for k, v in users_clusters.items():
+		# Build the dict
+		if str(k) in education_stats:
+			pass
+		else:
+			education_stats[k] = []
+			skills_stats[k] =  []
+	ed_field_list = [ 'bc_1', 'bc_2', 'mas_1','mas_2', 'phd_1', 'phd_2']
+	# Now let's fill the values 
+	for k, v in users_clusters.items():
+		for profile in v:
+			# Get the skills and educaiton information
+			user_id = profile[0]
+			cursor = collection.find({"id": user_id})
+			for result in cursor:
+				if 'skills' in result:
+					for elem in result['skills']:
+						skills_stats[k].append(elem)
+				for ed_field in ed_field_list:
+					if ed_field in result:
+						if ed_field != -1:
+							education_stats[k].append(result[ed_field])
+	return education_stats, skills_stats
+    
+        
+
 def main():
 	print "Main"
 	db, collection = utils.initializeDb("zproject", "ext_profiles_processed")
