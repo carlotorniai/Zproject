@@ -16,7 +16,7 @@ from scipy.spatial.distance import pdist, cdist , squareform, euclidean
 from scipy.cluster.hierarchy import linkage, dendrogram
 # Cluster Analysis functions
 from datetime import date
-
+import pdb 
 def get_top_features(feature_matrix, km, n):
     ''' Returns top n features for clusters'''
     top_features = dict()
@@ -161,6 +161,7 @@ def addfields_profile(collection, data, profile_id):
 	data['modified_on'] = datetime.datetime.utcnow()
 	# I'd rather find a wai to update the date withn
 	# the expression below.. but still.
+	# pdb.set_trace()
 	collection.update(
 			{ "id" : profile_id },
 				{ "$set": data})

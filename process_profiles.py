@@ -5,6 +5,7 @@ import utils
 import json
 log = True
 import pdb
+from datetime import datetime
 
 def compute_education_fields(profile):
 	''' Returns the normalized values for educaiton '''
@@ -363,7 +364,9 @@ def process_education(db, collection):
 	''' Computes the fields for education and stores
 	them in collection '''
 	# Get a sample profile form the extended profiles:
-	profiles = db.ext_profiles.find()
+	print collection
+	cut_date = datetime(2013, 11, 5)
+	profiles = collection.find()
 	for profile in profiles:
 		print ("========================")
 		
@@ -377,8 +380,13 @@ def process_education(db, collection):
 			# The line below colelct things in a dict
 			# It is more difficult with Pandas..
 			computed_ed_dict = {"computed_ed" : computed_ed}
-			
+			date =  profile['date']
+			print date
+			if date > cut_date:
+				# pdb.set_trace()
+				print "Gotcha"
 			# Insert the new fileds (currently not grouped)
+
 			utils.addfields_profile(collection, computed_ed, profile['id'])
 
 def process_ds_fields(db, collection):
@@ -404,9 +412,10 @@ def process_ds_fields(db, collection):
 
 def main():
 	# Selecting the ext_profiles_education
-	db, collection = utils.initializeDb("zproject", "ext_profiles_processed")
-	process_education(db, collection )
-	process_ds_fields(db, collection )
+	db, collection = utils.initializeDb("zproject", "copy_test_just_ds")
+	print collection
+	process_education(db, collection)
+	# process_ds_fields(db, collection )
 
 if __name__ == '__main__':
 	main()
