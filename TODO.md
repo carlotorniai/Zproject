@@ -4,8 +4,8 @@ TO DO:
 0) Build my facility for getting the X closest
 point to the centroids
 
--> Get the highest features for the centroids
-( probably split by educaitons and skills)
+DANG IT TOOK A LOT BUT I Built it.
+The ontly thing is that i use eucliean distance.
 
 
 1) THEN:
@@ -15,7 +15,9 @@ point to the centroids
 	2) Try NMF ->
 
 	3) Try SVD
-	
+
+	Then stop and move on on colleting additional data
+	-> look at peter clusters
 
 
 - Finish the method to return the dummy feature matrixces

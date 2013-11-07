@@ -48,6 +48,7 @@ db.ext_profiles.distinct('id', {$or: [{"educations.description": {$regex : ".*PH
 
 
 # After I've added the computed_ed I can ask how many folks have Phd in Computer science?
+# Computed ed was removed
 db.ext_profiles_education.distinct('id', {$or: [{"computed_ed.phd_1": "computer science"}, 
 								{"computed_ed.phd_2": "computer science"}]}).length
 
@@ -61,6 +62,11 @@ db.ext_profiles_processed.distinct('skills', {})
 
 # Get the current job title for a given usr
 db.ext_profiles_processed.find({"id":"rWNNijmEQe", "positions.values.isCurrent" : true}, {"_id" : 0, "positions.values.title" : 1})
+
+db.ext_profiles_processed.find({"id":"Nm1iTjmo"}, {})
+
+
+
 =========
 Other useful commands
 ==========

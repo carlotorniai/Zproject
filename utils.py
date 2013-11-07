@@ -12,8 +12,29 @@ import pandas as pd
 from sklearn.cluster import KMeans
 from sklearn import metrics
 from time import time
-
+from scipy.spatial.distance import pdist, cdist , squareform, euclidean
+from scipy.cluster.hierarchy import linkage, dendrogram
 # Cluster Analysis functions
+
+def get_top_features(feature_matrix, km, n):
+    ''' Returns top n features for clusters'''
+    top_features = dict()
+    
+    for clust_num in range(km.n_clusters):
+        top_num_skills = 0
+        print clust_num
+        if str(clust_num) in top_features:
+            pass
+        else:
+            top_features[str(clust_num)] = []
+        centroid = km.cluster_centers_[clust_num]
+        ordered_centroid = [i[0] for i in sorted(enumerate(centroid), key=lambda x:x[1], reverse = True)]
+        for i in range(len(ordered_centroid)):
+             if top_num_skills<=n:
+                 top_features[str(clust_num)].append(feature_matrix.columns.tolist()[ordered_centroid[i]])
+                 top_num_skills +=1   
+    return top_features
+
 def get_cluster_members(feature_matrix, db, collection, km):
     ''' Returns a dict containing for each cluster the 
         user ID and public URLS for each membember '''
@@ -22,7 +43,7 @@ def get_cluster_members(feature_matrix, db, collection, km):
     users_clusters = dict()
     
     # Initizlize DB
-    db, collection = utils.initializeDb("zproject", "ext_profiles_processed")
+    db, collection = initializeDb("zproject", "ext_profiles_processed")
     
     # Create dict keys
     for clust_num in range(km.n_clusters):
@@ -56,7 +77,7 @@ def get_cluster_representatitve(feature_matrix, db, collection, km, n):
     users_clusters = dict()
     ordered_user_clusters = dict()
     # Initizlize DB
-    db, collection = utils.initializeDb("zproject", "ext_profiles_processed")
+    db, collection = initializeDb("zproject", "ext_profiles_processed")
     
     # Create dict keys
     for clust_num in range(km.n_clusters):
@@ -69,7 +90,7 @@ def get_cluster_representatitve(feature_matrix, db, collection, km, n):
     # Populate the Dict wtih profiles information
     for i in range(len(km.labels_)):
         public_url = ""
-        user_id = features_dummy.index[i]
+        user_id = feature_matrix.index[i]
         cursor = collection.find({"id":user_id}, {"_id" : 0, \
         "lastName" :1 , "firstName" :1, "publicProfileUrl" : 1})
         for result in cursor:
@@ -84,7 +105,7 @@ def get_cluster_representatitve(feature_matrix, db, collection, km, n):
         current_centroid = km.cluster_centers_[km.labels_[i]]
         # print current_centroid, km.labels_[i]
         # pdb.set_trace()
-        current_user_features = features_dummy.loc[user_id]
+        current_user_features = feature_matrix.loc[user_id]
         # centroid_distance =  cdist(current_centroid, current_user_features, 'euclidean')
         # pdb.set_trace()
         centroid_distance = euclidean(current_centroid, current_user_features)
@@ -101,7 +122,9 @@ def get_cluster_representatitve(feature_matrix, db, collection, km, n):
             ordered_user_clusters[key] = sorted(users_clusters[key],\
                                             key = lambda element : element[4], reverse=False)
         
-    return ordered_user_clusters
+    return users_clusters, ordered_user_clusters
+
+
 # Dataframes transform
 def get_dummy(DataFrame):
     columns = ( 'bc_1', 'bc_2', 'mas_1','mas_2', 'phd_1', 'phd_2')
