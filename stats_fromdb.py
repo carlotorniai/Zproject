@@ -3,7 +3,7 @@ import pandas as pd
 import utils
 import pymongo
 import pdb
-
+import datetime
 
 
 
@@ -23,6 +23,10 @@ def build_education_df(db, collection):
 		"ds_job_current":1, "ds_job_past":1, "ds_in_head":1, "ds_in_summary":1 })
 	df = pd.DataFrame(list(cursor))
 	return df
+
+def get_experience(db, collection):
+	# TO add
+	return 0
 
 def get_education_features(db, collection):
 	''' Builds a dataframe with educaiton information'''

@@ -15,6 +15,7 @@ from time import time
 from scipy.spatial.distance import pdist, cdist , squareform, euclidean
 from scipy.cluster.hierarchy import linkage, dendrogram
 # Cluster Analysis functions
+from datetime import date
 
 def get_top_features(feature_matrix, km, n):
     ''' Returns top n features for clusters'''
