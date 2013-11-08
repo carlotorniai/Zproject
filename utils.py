@@ -15,8 +15,18 @@ from time import time
 from scipy.spatial.distance import pdist, cdist , squareform, euclidean
 from scipy.cluster.hierarchy import linkage, dendrogram
 # Cluster Analysis functions
+import numpy as np
 from datetime import date
 import pdb 
+
+def drop_zero_rows(df):
+	''' Drops rows that are all zeros '''
+	df_nz = df
+	for row in df_nz.index:
+		if np.count_nonzero(df_nz.ix[row]) ==  0:
+			df_nz = df_nz.drop(row)
+	return df_nz
+
 def get_top_features(feature_matrix, km, n):
     ''' Returns top n features for clusters'''
     top_features = dict()
@@ -77,8 +87,6 @@ def get_cluster_representatitve(feature_matrix, db, collection, km, n):
     # Initialize the dict
     users_clusters = dict()
     ordered_user_clusters = dict()
-    # Initizlize DB
-    db, collection = initializeDb("zproject", "ext_profiles_processed")
     
     # Create dict keys
     for clust_num in range(km.n_clusters):

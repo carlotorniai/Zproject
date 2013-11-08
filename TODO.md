@@ -1,6 +1,75 @@
 TO DO:
 
-Think if I want a different DB for nwo I wil put it in the same.
+0.0) Analyze some clusters
+-> Pickle the matrix use for models with info at each time
+
+0) Try NMF with 2 and see what it gives me
+
+1) Get more divers profiles and run NMF equals to the number 
+
+2) Get more data and bins for 
+Business Analyst
+Statistician
+
+
+3) Use the random forest and forget the labels and see what
+
+4) Look at the features that chooses and run a decisoin tree
+with just the features that uses
+
+4) Clustering repo using PCA on gene sequences to find out if 
+
+
+================
+SOme ideas of approach.
+
+
+2) Approach is the exploratory cluster analysis 
+and have the user experiment with it
+
+3) The ohter approach can be mor a classification 
+You are a 75% of a statistician.
+
+Use random forest for a new user.
+You have a strong math background
+
+Some 
+
+Statisticians
+Business Analyst
+Mathematician
+
+And then run random forest.
+
+For random forest don't drop anything.
+The cool thing would I come to an app
+and I would say : based on your skills you are most a "Engineer"
+And you have these skills in commons ->
+The finish app is something like...
+What is a value and what they can't get:
+
+4) A recommender approach:
+DO you know these top things?
+-> like a list of the top skills
+I'm going to recommend resources to a person on how to 
+
+Based on the diagnostics you can have an app to collect
+you own metrics. WHich links they clicked on 
+based on their classificaiton?
+
+
+
+Quetions for jon:
+
+-> epliminating all the zeros values in my case folks I didn't
+have skills or education or persons for which after features reduciotn
+i het all zeros (just top skills)
+
+
+-> K-means = 2 for now and tell whcih cluster I belong
+
+-> Build a random forest
+
 
 2) Gather all the data I need 
    -> format the dat nicely
