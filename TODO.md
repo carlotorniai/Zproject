@@ -1,10 +1,17 @@
 TO DO:
 
-1) Facilities:
-Add the utils create lables_df
-Add a fucntion which is get all the featured df with labels.
+1) Add the new fields search_label and search in enchance profiles.
+It's error prone to do it later on.
 
-2) Check with jonathan the results of NMF
+2) Get the data and build databases for complete with all.
+
+3) Focus on the ds_sf db and run the random forest + the decision 
+tree and check resutls.
+(lunch)
+
+
+
+0) Check with jonathan the results of NMF
 
 
 1) Get more divers profiles and run NMF equals to the number 

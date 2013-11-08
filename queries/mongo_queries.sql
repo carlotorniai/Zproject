@@ -72,8 +72,15 @@ db.ext_profiles_processed.find({"id":"Nm1iTjmo"}, {})
 # On console
 var start = new Date(2013, 10, 5);
 # $gt ot $lt can be used
-db.colelction.find({"date" : { $gt: start} })
+db.collection.find({"date" : { $gt: start} })
 
+####In Python
+from datetime import datetime
+# The day before
+cut_date = datetime(2013, 11, 8)
+print cut_date
+db, collection = utils.initializeDb("zproject", "se_ds_full_labels") 
+collection.find({"date" : {"$gt": cut_date} }).count()
 
 =========
 Other useful commands

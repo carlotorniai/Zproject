@@ -45,9 +45,9 @@ def main():
 	# 	store_profile(collection, profile)
 	# print collection.find_one()
 
-	db, collection = initializeDb("zproject", "copy_test_just_ds")
+	db, collection = initializeDb("zproject", "se_ds_full_labels")
 	# Store one profile
-	profile_lists  = utils.readpickle('./data/enhanced_profiles/SE_enchanced_total_unique_profiles_7112013.pkl')
+	profile_lists  = utils.readpickle('./data/enhanced_profiles/STAT_enchanced_total_unique_profiles_7112013.pkl')
 	for profile  in profile_lists:
 		 # print profile['id']
 		# Here let's try to store the profile 

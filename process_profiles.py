@@ -412,9 +412,9 @@ def process_ds_fields(db, collection):
 
 def main():
 	# Selecting the ext_profiles_education
-	db, collection = utils.initializeDb("zproject", "copy_test_just_ds")
+	db, collection = utils.initializeDb("zproject", "se_ds_full_labels")
 	print collection
-	# process_education(db, collection)
+	process_education(db, collection)
 	process_ds_fields(db, collection )
 
 if __name__ == '__main__':

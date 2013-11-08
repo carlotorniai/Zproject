@@ -1,12 +1,8 @@
-# Reads my full proifle and create a mongo DB
-# Retrieeve the missign fields of 
-# poisitions, educations, specialties and skills if missing
-# Flag , for which profiles i retrieve what form teh public profile
-# Flag Zipfian Students
-
-# TO DO: downlaod_public_profile should take just profile file
-# And user Id and return the content of the 
-# Public profile
+# TO DO: add parameters:
+# input_file
+# output_dir
+# db, colelction
+# search_label, data_scientist_label
 
 import pymongo
 import utils
@@ -33,7 +29,7 @@ def save_public_profile_info(user_id, public_profile_url):
 	print "Saved public profile for %s" %(user_id)
 	# print saved_file
 
-def enhance_profiles(profile_file):
+def enhance_profiles(profile_file, search_label, data_scientist_label):
 	''' Add the infromation missing in the profile retrieved form the API
 	and stores the new profiles in a new list'''
 
@@ -81,15 +77,19 @@ def enhance_profiles(profile_file):
 					else:
 						print "Specialties not found in public profile"
 				
+				# Add the additional labels information
+				profile['search_label'] = search_label
+				profile['label'] = data_scientist_label
+
 				print profile
 		except:
-			print("Publice proifle file not found")
+			print("Public proifle file not found")
 
 
 		# Add the profile to the new profilesle
 		enhanced_profiles.append(profile)
 	# Save the pickle with new profile
-	out_file_enh_profiles = './data/enhanced_profiles/SE_enchanced_total_unique_profiles_'+day+month+year+'.pkl'
+	out_file_enh_profiles = './data/enhanced_profiles/STAT_enchanced_total_unique_profiles_'+day+month+year+'.pkl'
 	utils.savepickle(enhanced_profiles, out_file_enh_profiles)
 
 def download_public_profiles(profile_file):
@@ -109,10 +109,10 @@ def download_public_profiles(profile_file):
 def main():
 	
 	# Download public profiles using a list of profiles
-	# download_public_profiles('data/total_uniqe_profile_software_engineer_list.pkl')
+	# download_public_profiles('data/total_uniqe_profile_statistician_list.pkl')
 	
 	# Enhance the profiles  
-	enhance_profiles('data/total_uniqe_profile_software_engineer_list.pkl')
+	enhance_profiles('data/total_uniqe_profile_statistician_list.pkl', 'statistician', '0')
 	
 
 if __name__ == "__main__":

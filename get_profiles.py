@@ -158,7 +158,7 @@ def retrieve_connections(applicaiton, name):
 def main():
 	''' Here I'm looping through the verious credential files and 
 	retrieve results for each credentail '''
-	cred = [ 'mine', 'amanuel', 'motoki', 'henry']
+	cred = [ 'rob', 'motoki', 'henry', 'paul']
 
 	connections_dict = dict()
 	total_profiles_list =[]
@@ -167,7 +167,7 @@ def main():
 		application= authenticate(credential_filename)
 		
 		# Search the Results
-		profile_results = search(application, name, 'Software Engineer')
+		profile_results = search(application, name, 'Statistician')
 		
 		# Append the results to the total_profiles
 		total_profiles_list.append(profile_results)
