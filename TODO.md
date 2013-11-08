@@ -1,9 +1,11 @@
 TO DO:
 
-0.0) Analyze some clusters
--> Pickle the matrix use for models with info at each time
+1) Facilities:
+Add the utils create lables_df
+Add a fucntion which is get all the featured df with labels.
 
-0) Try NMF with 2 and see what it gives me
+2) Check with jonathan the results of NMF
+
 
 1) Get more divers profiles and run NMF equals to the number 
 
@@ -11,13 +13,17 @@ TO DO:
 Business Analyst
 Statistician
 
-
-3) Use the random forest and forget the labels and see what
+3) Use the random forest and forget the labels and see what we get
+(with all the kitchen sink)
 
 4) Look at the features that chooses and run a decisoin tree
 with just the features that uses
 
-4) Clustering repo using PCA on gene sequences to find out if 
+
+TOnight:
+
+Download some business analyst data
+
 
 
 ================

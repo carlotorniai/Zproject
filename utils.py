@@ -19,6 +19,26 @@ import numpy as np
 from datetime import date
 import pdb 
 
+
+def generate_labels_df(feature_matrix, collection):
+	''' given a dataframe returns a column with the labels 
+	retrieved using the index in the dataframe'''
+	label_list = []
+	index = []
+	columns= ('labels', 'fake')
+	for row in feature_matrix.index:
+		index.append(row)
+    # Get the label from the db
+	df_labels = pd.DataFrame(index=index, columns=columns).fillna("-1")
+	# Silly 
+	del df_labels['fake'] 
+	for row in df_labels.index:
+		cursor = collection.find({"id" : row}, {"_id" : 0, "id" : 1,  "label" : 1})
+		for result in cursor:
+			df_labels.ix[result['id']] = result['label']
+	return df_labels
+
+
 def drop_zero_rows(df):
 	''' Drops rows that are all zeros '''
 	df_nz = df
