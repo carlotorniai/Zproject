@@ -25,7 +25,6 @@ def build_education_df(db, collection):
 	return df
 
 def get_experience(db, collection):
-	# TO add
 	return 0
 
 def get_education_features(db, collection):
