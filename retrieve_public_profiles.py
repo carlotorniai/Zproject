@@ -83,13 +83,13 @@ def enhance_profiles(profile_file, search_label, data_scientist_label):
 
 				print profile
 		except:
-			print("Public proifle file not found")
+			print("Public profile file not found")
 
 
 		# Add the profile to the new profilesle
 		enhanced_profiles.append(profile)
 	# Save the pickle with new profile
-	out_file_enh_profiles = './data/enhanced_profiles/STAT_enchanced_total_unique_profiles_'+day+month+year+'.pkl'
+	out_file_enh_profiles = './data/enhanced_profiles/BA_enchanced_total_unique_profiles_'+day+month+year+'.pkl'
 	utils.savepickle(enhanced_profiles, out_file_enh_profiles)
 
 def download_public_profiles(profile_file):
@@ -109,10 +109,10 @@ def download_public_profiles(profile_file):
 def main():
 	
 	# Download public profiles using a list of profiles
-	# download_public_profiles('data/total_uniqe_profile_statistician_list.pkl')
+	download_public_profiles('data/total_uniqe_profile_Business_an_list.pkl')
 	
 	# Enhance the profiles  
-	enhance_profiles('data/total_uniqe_profile_statistician_list.pkl', 'statistician', '0')
+	enhance_profiles('data/total_uniqe_profile_Business_an_list.pkl', 'business analyst', '0')
 	
 
 if __name__ == "__main__":

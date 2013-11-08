@@ -37,13 +37,14 @@ def parse_search_results(results):
 	of dict with firstName, LastName and person_id information
 	'''
 	person_details_list=[]
-	for person in results['people']['values']:
-		print person 
-		person_details_dict=dict()
-		person_details_dict['lastName'] = person['lastName']  
-		person_details_dict['firstName'] = person['firstName']
-		person_details_dict['id'] = person['id']
-		person_details_list.append(person_details_dict)
+	if 'values' in results['people']:
+		for person in results['people']['values']:
+			print person 
+			person_details_dict=dict()
+			person_details_dict['lastName'] = person['lastName']  
+			person_details_dict['firstName'] = person['firstName']
+			person_details_dict['id'] = person['id']
+			person_details_list.append(person_details_dict)
 	return person_details_list
 
 def get_person_details(last_name, first_name, person_id=None):
@@ -158,7 +159,7 @@ def retrieve_connections(applicaiton, name):
 def main():
 	''' Here I'm looping through the verious credential files and 
 	retrieve results for each credentail '''
-	cred = [ 'rob', 'motoki', 'henry', 'paul']
+	cred = [ 'mine', 'rob', 'motoki', 'henry', 'paul']
 
 	connections_dict = dict()
 	total_profiles_list =[]
@@ -167,7 +168,7 @@ def main():
 		application= authenticate(credential_filename)
 		
 		# Search the Results
-		profile_results = search(application, name, 'Statistician')
+		profile_results = search(application, name, "'Business Analyst'")
 		
 		# Append the results to the total_profiles
 		total_profiles_list.append(profile_results)
@@ -179,7 +180,7 @@ def main():
 		# connections_dict[name] = ds_connections
 
 	# Save all the profiels retrieved
-	total_out_file = "./data/total_profiles_se"+month+day+year+".pkl"
+	total_out_file = "./data/total_profiles_ba"+month+day+year+".pkl"
 	utils.savepickle(total_profiles_list, total_out_file)
 
 	# Save all the connections for each user retrieved.

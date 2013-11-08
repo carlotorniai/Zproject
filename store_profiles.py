@@ -36,14 +36,14 @@ def get_profile_data(profile_id):
 
 def main():
 	# Initializes the db
-	# db, collection = initializeDb("zproject", "se_orig_profiles")
-	# # Store one profile
-	# profile_lists  = utils.readpickle('./data/total_uniqe_profile_software_engineer_list.pkl')
-	# for profile  in profile_lists:
-	# 	# print profile['id']
-	# 	# Here let's try to store the profile 
-	# 	store_profile(collection, profile)
-	# print collection.find_one()
+	db, collection = initializeDb("zproject", "stat_orig_profiles")
+	# Store one profile
+	profile_lists  = utils.readpickle('./data/total_uniqe_profile_software_engineer_list.pkl')
+	for profile  in profile_lists:
+		# print profile['id']
+		# Here let's try to store the profile 
+		store_profile(collection, profile)
+	print collection.find_one()
 
 	db, collection = initializeDb("zproject", "se_ds_full_labels")
 	# Store one profile

@@ -29,6 +29,7 @@ def get_experience(db, collection):
 
 def get_education_features(db, collection):
 	''' Builds a dataframe with educaiton information'''
+
 	educations_list=[]
 	index=[]
 	columns = ( 'bc_1', 'bc_2', 'mas_1','mas_2', 'phd_1', 'phd_2')
@@ -36,7 +37,6 @@ def get_education_features(db, collection):
 		"mas_2":1 , "phd_1":1, "phd_2":1, })
 	for results in cursor:
 		index.append(results['id'])
-
 	df_education = pd.DataFrame(index=index, columns=columns).fillna(0)
 	# Here put the values in
 	cursor_profile = collection.find({})
@@ -70,6 +70,7 @@ def get_cat_ed_features(db, collection):
 	df_education = pd.DataFrame(index=index, columns=columns).fillna(0)
 	# Here put the values in
 	cursor_profile = collection.find({})
+
 	for profile in cursor_profile:
 		user_id = profile['id']
 		# I knwo that every record has its columns
@@ -197,27 +198,27 @@ def get_clusters_stats(users_clusters, db, collection):
     
         
 
-def main():
-	print "Main"
-	db, collection = utils.initializeDb("zproject", "ext_profiles_processed")
+# def main():
+# 	print "Main"
+# 	# db, collection = utils.initializeDb("zproject", "ext_profiles_processed")
 	
-	# Return a set of general stats about education and
-	# Data Scientists title appearence in the profile
+# 	# Return a set of general stats about education and
+# 	# Data Scientists title appearence in the profile
 
-	# df_ds_education = build_education_df(db, collection)
+# 	# df_ds_education = build_education_df(db, collection)
 	
-	# Build the skills feature dataframe
+# 	# Build the skills feature dataframe
 	
-	# build_skills_ds(db, collection)
+# 	# build_skills_ds(db, collection)
 
-	# Build the row dataframe for educaiton
+# 	# Build the row dataframe for educaiton
 
-	# df = get_education_features(db, collection)
+# 	# df = get_education_features(db, collection)
 
-	# Build the dummy matrix for education
-	df = get_cat_ed_features(db, collection)
+# 	# Build the dummy matrix for education
+# 	# df = get_cat_ed_features(db, collection)
 
-if __name__ == '__main__':
-	main()
+# if __name__ == '__main__':
+# 	main()
 
 
