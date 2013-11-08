@@ -5,9 +5,6 @@ import pymongo
 import pdb
 import datetime
 
-
-
-
 def build_education_df(db, collection):
 	''' Builds a matrix with the educaiton and the data scientist 
 	position info for a given collection of profiles'''
@@ -150,6 +147,19 @@ def get_full_feature_matrix(db, collection):
     skills_features, skills_list = build_skills_ds(db, collection)
     # Merge the featues
     full_features = skills_features.join(ed_features, how='outer')
+    # Now 
+    return full_features
+
+def get_full_feature_matrix_with_labels(db, collection):
+    ''' Returns the aggretgated feature matrix 
+    for skills and education plus lables with no zero rows and 
+    all values as float '''
+    
+    full_features_zeros = get_full_feature_matrix_cat(db, collection)
+    full_features_nz = utils.drop_zero_rows(full_features_zeros)
+    labels = utils.generate_labels_df(full_features_nz, collection)
+    full_features_lab = full_features_nz.join(labels, how='outer') 
+    full_features = full_features_lab.applymap(float)
     return full_features
 
 def get_full_feature_matrix_cat(db, collection):
