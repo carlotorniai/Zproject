@@ -1,55 +1,84 @@
 TO DO:
 
-1) Add the new fields search_label and search in enchance profiles.
-It's error prone to do it later on.
+1) Change the label value for the Statisticians 
+and Business Analyists.
 
-2) Get the data and build databases for complete with all.
+2) Get the data in for mathematicians
 
-3) Focus on the ds_sf db and run the random forest + the decision 
-tree and check resutls.
-(lunch)
+3) Get the data and build databases for complete with all.
 
-
-
-0) Check with jonathan the results of NMF
+4) Try to run Naive Bayse and gett the "percenage of scores for
+each label"
 
 
-1) Get more divers profiles and run NMF equals to the number 
+5) Then try to run Random forests (see how I can not
+just visualize information but access it dinamically.)
 
-2) Get more data and bins for 
-Business Analyst
-Statistician
 
-3) Use the random forest and forget the labels and see what we get
-(with all the kitchen sink)
 
-4) Look at the features that chooses and run a decisoin tree
-with just the features that uses
+
 
 
 TOnight:
 
-Download some business analyst data
+- Start a new ipnb for presentaiton
+- Do visualization of tag clouds for the:
+various groups
+- Plot some other statistics (education for groups)
+- If I want start playing with clustering visualization in D3
+-  Play with dinamic barplot
 
 
 
 ================
+FINAL IDEA:
+1) Klout for data scientists.
+How do you score in:
+
+Computer Science  (Software Engineering)
+Business Analyst
+Statistician
+Mathematician
+
+Data Scientist
+-> Have as an example: the bars
+http://columbiadatascience.com/2012/09/08/data-scientist-profiles/
+
+Or the star:
+http://columbiadatascience.com/2012/12/08/the-stars-of-data-science/
+
+
+2) With a decision three also whos 
+
+3) Closests Linkedin profiles:
+
+Things to show:
+- Top skills as lists / D3
+- Top education
+- COmparing top skills form K-menans, NMF , Decision tree
+- Show that labels returned from Linkedin or self asserted
+arent' really meaningful: (as out assumption)
+
+
+
+OLD Notes on approach
+==========
+
 SOme ideas of approach.
+
+
+
 
 
 2) Approach is the exploratory cluster analysis 
 and have the user experiment with it
 
-3) The ohter approach can be mor a classification 
+3) The ohter approach can be more of a classification 
 You are a 75% of a statistician.
 
 Use random forest for a new user.
 You have a strong math background
-
-Some 
-
-Statisticians
-Business Analyst
+st
 Mathematician
 
 And then run random forest.

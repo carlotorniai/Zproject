@@ -79,8 +79,10 @@ from datetime import datetime
 # The day before
 cut_date = datetime(2013, 11, 8)
 print cut_date
-db, collection = utils.initializeDb("zproject", "se_ds_full_labels") 
+db, collection = utils.initializeDb("zproject", "se_ds_full_labels_good") 
 collection.find({"date" : {"$gt": cut_date} }).count()
+
+###### TO get the tottal for labels
 
 =========
 Other useful commands
