@@ -124,6 +124,11 @@ After that I can do queries such:
 db.ext_profiles_education.find( { skills : {$regex : "Machine Learning", "$options" : "-i" } }, {lastName:1} ).count()
 To get all the people with Machien Leanring Education.
 
+############## Change the type of afield
+db.test_labels.find( { 'label' : { $type : 2 } } ).forEach( function (x) {   
+  x.label = new NumberInt(x.label); // convert field to Integer fromString 
+  db.test_labels.save(x);
+});
 
 ######################
 =====================

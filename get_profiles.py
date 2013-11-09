@@ -159,7 +159,7 @@ def retrieve_connections(applicaiton, name):
 def main():
 	''' Here I'm looping through the verious credential files and 
 	retrieve results for each credentail '''
-	cred = [  'mine']
+	cred = [ 'amanuel']
 
 	connections_dict = dict()
 	total_profiles_list =[]

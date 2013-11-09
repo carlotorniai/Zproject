@@ -38,9 +38,9 @@ def main():
 	# CUrrently capping the 
 	counter = 0
 	# Initializes the db
-	db, collection = initializeDb("zproject", "ba_orig_profiles")
+	db, collection = initializeDb("zproject", "math_orig_profiles")
 	# Store one profile
-	profile_lists  = utils.readpickle('./data/total_uniqe_profile_Business_an_list.pkl')
+	profile_lists  = utils.readpickle('./data/total_unique_profile_math_list.pkl')
 	for profile  in profile_lists:
 		# print profile['id']
 		# Here let's try to store the profile 
@@ -53,9 +53,9 @@ def main():
 	# print collection.find_one()
 
 	counter = 0
-	db, collection = initializeDb("zproject", "new_ba_stat_se_ds_full_labels_good")
+	db, collection = initializeDb("zproject", "new_math_ba_stat_se_ds_full_labels_good")
 	# Store one profile
-	profile_lists  = utils.readpickle('./data/enhanced_profiles/BA_enchanced_total_unique_profiles_8112013.pkl')
+	profile_lists  = utils.readpickle('./data/enhanced_profiles/math_enchanced_total_unique_profiles_9112013.pkl')
 	for profile  in profile_lists:
 		 # print profile['id']
 		# Here let's try to store the profile 
