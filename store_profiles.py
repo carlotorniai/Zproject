@@ -35,27 +35,40 @@ def get_profile_data(profile_id):
 
 
 def main():
+	# CUrrently capping the 
+	counter = 0
 	# Initializes the db
-	db, collection = initializeDb("zproject", "stat_orig_profiles")
+	db, collection = initializeDb("zproject", "ba_orig_profiles")
 	# Store one profile
-	profile_lists  = utils.readpickle('./data/total_uniqe_profile_software_engineer_list.pkl')
+	profile_lists  = utils.readpickle('./data/total_uniqe_profile_Business_an_list.pkl')
 	for profile  in profile_lists:
 		# print profile['id']
 		# Here let's try to store the profile 
-		store_profile(collection, profile)
-	print collection.find_one()
+		if counter <=330:
+			store_profile(collection, profile)
+			counter +=1
+		else:
+			print ("limit reached")
+			break
+	# print collection.find_one()
 
-	db, collection = initializeDb("zproject", "se_ds_full_labels")
+	counter = 0
+	db, collection = initializeDb("zproject", "new_ba_stat_se_ds_full_labels_good")
 	# Store one profile
-	profile_lists  = utils.readpickle('./data/enhanced_profiles/STAT_enchanced_total_unique_profiles_7112013.pkl')
+	profile_lists  = utils.readpickle('./data/enhanced_profiles/BA_enchanced_total_unique_profiles_8112013.pkl')
 	for profile  in profile_lists:
 		 # print profile['id']
 		# Here let's try to store the profile 
-		store_profile(collection, profile)
+		if counter <=330:
+			store_profile(collection, profile)
+			counter +=1
+		else:
+			print ("limit reached")
+			break
+		
 	# print collection.find_one()
 
 	# print db.collection_names()
-	# Here let's try to query
 	
 	
 

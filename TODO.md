@@ -1,7 +1,5 @@
 TO DO:
 
-1) Change the label value for the Statisticians 
-and Business Analyists.
 
 2) Get the data in for mathematicians
 

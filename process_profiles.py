@@ -365,7 +365,7 @@ def process_education(db, collection):
 	them in collection '''
 	# Get a sample profile form the extended profiles:
 	print collection
-	cut_date = datetime(2013, 11, 5)
+	# cut_date = datetime(2013, 11, 5)
 	profiles = collection.find()
 	for profile in profiles:
 		print ("========================")
@@ -381,10 +381,10 @@ def process_education(db, collection):
 			# It is more difficult with Pandas..
 			computed_ed_dict = {"computed_ed" : computed_ed}
 			date =  profile['date']
-			print date
-			if date > cut_date:
-				# pdb.set_trace()
-				print "Gotcha"
+			# print date
+			# if date > cut_date:
+			# 	# pdb.set_trace()
+			# 	print "Gotcha"
 			# Insert the new fileds (currently not grouped)
 
 			utils.addfields_profile(collection, computed_ed, profile['id'])
@@ -412,8 +412,8 @@ def process_ds_fields(db, collection):
 
 def main():
 	# Selecting the ext_profiles_education
-	db, collection = utils.initializeDb("zproject", "se_ds_full_labels")
-	print collection
+	db, collection = utils.initializeDb("zproject", "new_ba_stat_se_ds_full_labels_good")
+	# print collection
 	process_education(db, collection)
 	process_ds_fields(db, collection )
 

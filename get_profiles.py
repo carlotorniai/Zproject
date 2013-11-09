@@ -159,7 +159,7 @@ def retrieve_connections(applicaiton, name):
 def main():
 	''' Here I'm looping through the verious credential files and 
 	retrieve results for each credentail '''
-	cred = [ 'mine', 'rob', 'motoki', 'henry', 'paul']
+	cred = [  'mine']
 
 	connections_dict = dict()
 	total_profiles_list =[]
@@ -168,7 +168,7 @@ def main():
 		application= authenticate(credential_filename)
 		
 		# Search the Results
-		profile_results = search(application, name, "'Business Analyst'")
+		profile_results = search(application, name, "Mathematician")
 		
 		# Append the results to the total_profiles
 		total_profiles_list.append(profile_results)
@@ -180,7 +180,7 @@ def main():
 		# connections_dict[name] = ds_connections
 
 	# Save all the profiels retrieved
-	total_out_file = "./data/total_profiles_ba"+month+day+year+".pkl"
+	total_out_file = "./data/total_profiles_math"+month+day+year+".pkl"
 	utils.savepickle(total_profiles_list, total_out_file)
 
 	# Save all the connections for each user retrieved.

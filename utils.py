@@ -18,7 +18,36 @@ from scipy.cluster.hierarchy import linkage, dendrogram
 import numpy as np
 from datetime import date
 import pdb 
+import math 
 
+def generate_test_training(feat_matrix):
+	''' Generates test and training set for a full matrix 
+	assuming labels in the lase column '''
+	columns = feat_matrix.columns
+	train_x = feat_matrix[columns[:-1]]
+	train_y = feat_matrix[columns[len(feat_matrix.columns)-1]]
+	num_rows_train = int(math.modf(.9 * len(train_x))[1])
+	X_train = train_x[:int(num_rows_train)]
+	y_train = train_y[:int(num_rows_train)]
+	X_test =  train_x[int(num_rows_train):]
+	y_test =  train_y[int(num_rows_train):]
+	return X_train, y_train, X_test, y_test
+
+def generate_test_training_from_subset(feat_matrix, column_list, labels):
+	''' Generates train and test for a subset of a feature matrix '''
+	subset_feature_matrix = feat_matrix.filter(column_list)
+	subset_feature_matrix.shape
+	subset_features_with_labels = subset_feature_matrix.join(labels, how='outer')
+	subset_features_with_labels.shape
+	columns = subset_features_with_labels.columns
+	train_x = subset_features_with_labels[columns[:-1]]
+	train_y = subset_features_with_labels[columns[len(subset_features_with_labels.columns)-1]]
+	num_rows_train = int(math.modf(.9 * len(train_x))[1])
+	X_train = train_x[:int(num_rows_train)]
+	y_train = train_y[:int(num_rows_train)]
+	X_test =  train_x[int(num_rows_train):]
+	y_test =  train_y[int(num_rows_train):]
+	return X_train, y_train, X_test, y_test
 
 def generate_labels_df(feature_matrix, collection):
 	''' given a dataframe returns a column with the labels 

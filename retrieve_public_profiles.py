@@ -40,6 +40,10 @@ def enhance_profiles(profile_file, search_label, data_scientist_label):
 		user_id = profile['id']
 		pub_profile_file = './data/full_profiles/'+user_id+"_profile.json"
 		# Check if file exists
+		# Add the additional labels information
+		profile['search_label'] = search_label
+		profile['label'] = data_scientist_label
+
 		try:
 			with open(pub_profile_file):
 				pub_profile = json.load(open(pub_profile_file))
@@ -77,10 +81,6 @@ def enhance_profiles(profile_file, search_label, data_scientist_label):
 					else:
 						print "Specialties not found in public profile"
 				
-				# Add the additional labels information
-				profile['search_label'] = search_label
-				profile['label'] = data_scientist_label
-
 				print profile
 		except:
 			print("Public profile file not found")
@@ -109,10 +109,10 @@ def download_public_profiles(profile_file):
 def main():
 	
 	# Download public profiles using a list of profiles
-	download_public_profiles('data/total_uniqe_profile_Business_an_list.pkl')
+	# download_public_profiles('data/total_uniqe_profile_Business_an_list.pkl')
 	
 	# Enhance the profiles  
-	enhance_profiles('data/total_uniqe_profile_Business_an_list.pkl', 'business analyst', '0')
+	enhance_profiles('data/total_uniqe_profile_Business_an_list.pkl', 'business analyst', 3)
 	
 
 if __name__ == "__main__":
