@@ -1,16 +1,21 @@
 TO DO:
 
+0) Get the ball rollin gwith the workflow for the app:
+1) write code form the linkeidn public URL to 
+-> closest profiles
+-> missing skills -> resources
 
-2) Get the data in for mathematicians
-
-3) Get the data and build databases for complete with all.
-
-4) Try to run Naive Bayse and gett the "percenage of scores for
-each label"
+-> Histogram of the
+-> How to access for one value i predict the tree 
 
 
-5) Then try to run Random forests (see how I can not
-just visualize information but access it dinamically.)
+I want to return
+1) Closetst profiles on Linkedin
+1) The idea is the aone classify itself.
+If is in the database -> i update the label
+I extract the features and I adde it t my feature matrix.
+
+Problems: LIt takes a long time to prune out values and run the model how do you do?
 
 
 
@@ -18,13 +23,9 @@ just visualize information but access it dinamically.)
 
 
 TOnight:
-
-- Start a new ipnb for presentaiton
-- Do visualization of tag clouds for the:
-various groups
 - Plot some other statistics (education for groups)
 - If I want start playing with clustering visualization in D3
--  Play with dinamic barplot
+- Play with dinamic barplot
 
 
 
