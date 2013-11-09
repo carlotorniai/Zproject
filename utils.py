@@ -23,9 +23,10 @@ import math
 def generate_test_training(feat_matrix):
 	''' Generates test and training set for a full matrix 
 	assuming labels in the lase column '''
-	columns = feat_matrix.columns
-	train_x = feat_matrix[columns[:-1]]
-	train_y = feat_matrix[columns[len(feat_matrix.columns)-1]]
+	feat_matrix_reindex = feat_matrix.reindex(np.random.permutation(feat_matrix.index))
+	columns = feat_matrix_reindex.columns
+	train_x = feat_matrix_reindex[columns[:-1]]
+	train_y = feat_matrix_reindex[columns[len(feat_matrix_reindex.columns)-1]]
 	num_rows_train = int(math.modf(.9 * len(train_x))[1])
 	X_train = train_x[:int(num_rows_train)]
 	y_train = train_y[:int(num_rows_train)]
@@ -35,7 +36,8 @@ def generate_test_training(feat_matrix):
 
 def generate_test_training_from_subset(feat_matrix, column_list, labels):
 	''' Generates train and test for a subset of a feature matrix '''
-	subset_feature_matrix = feat_matrix.filter(column_list)
+	feat_matrix_reindex = feat_matrix.reindex(np.random.permutation(feat_matrix.index))
+	subset_feature_matrix = feat_matrix_reindex.filter(column_list)
 	subset_feature_matrix.shape
 	subset_features_with_labels = subset_feature_matrix.join(labels, how='outer')
 	subset_features_with_labels.shape
