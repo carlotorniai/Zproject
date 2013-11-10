@@ -10,6 +10,7 @@ def readpickle(filename):
 	infile = open(filename, "rb")
 	content = pickle.load(infile)
 	infile.close()
+	return content
 
 def compute_education_fields(profile):
 	''' Returns the normalized values for educaiton '''
