@@ -231,4 +231,3 @@ def get_clusters_stats(users_clusters, db, collection):
 # if __name__ == '__main__':
 # 	main()
 
-
