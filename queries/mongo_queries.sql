@@ -130,6 +130,11 @@ db.test_labels.find( { 'label' : { $type : 2 } } ).forEach( function (x) {
   db.test_labels.save(x);
 });
 
+db.final_full_profiles.find( { 'label' : { $type : 2 } } ).forEach( function (x) {   
+  x.label = new NumberInt(x.label); // convert field to Integer fromString 
+  db.final_full_profiles.save(x);
+});
+
 ######################
 =====================
 Old Queries

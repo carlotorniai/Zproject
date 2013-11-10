@@ -4,10 +4,15 @@ jsut increasing number? Make sense of the BN values.
 
 0) Get the ball rollin gwith the workflow for the app:
 1) write code form the linkeidn public URL to 
+-> I've got the features...
+
+Need to cehck the serialized models.
+
+CalculatedL 
 -> closest profiles
 -> missing skills -> resources
 
--> Histogram of the
+-> Histogram of the 5 components
 -> How to access for one value i predict the tree 
 
 
@@ -19,8 +24,11 @@ I extract the features and I adde it t my feature matrix.
 
 Problems: LIt takes a long time to prune out values and run the model how do you do?
 
+git filter-branch --index-filter '!git rm --cached --ignore-unmatch models/full_features_with_labels_for_RF.pkl' merge-point..HEAD
 
-
+git filter-branch --force --index-filter \
+  'git rm --cached --ignore-unmatch models/full_features_with_labels_for_RF.pkl' \
+  --prune-empty --tag-name-filter cat -- --all
 
 
 
