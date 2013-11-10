@@ -1,4 +1,6 @@
 TO DO:
+1) Questions fro Jonathan: so the classes ordered arithmetically .. what does it mean?
+jsut increasing number? Make sense of the BN values.
 
 0) Get the ball rollin gwith the workflow for the app:
 1) write code form the linkeidn public URL to 
