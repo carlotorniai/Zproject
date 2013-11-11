@@ -235,11 +235,11 @@ def extractfeatures(public_profile_url, feature_matrix, log = False):
     # Otherwise Classification can't really be extracted
     
     if 'skills' in profile:
-        if len(profile['skills']) > 0:
+        if len(profile['skills']) > 1:
             found_skills = True
     
     if 'education' in profile:
-        if len(profile['education']) > 0:
+        if len(profile['education']) > 1:
             found_education = True
     
     if not found_skills and not found_education:
@@ -263,16 +263,18 @@ def extractfeatures(public_profile_url, feature_matrix, log = False):
             if v ==1:
                 print k
     
+    # Check if education is availabel feo
     # Get educations
-    ed_features = get_education_features(educations)
-    
-    if log:
-        print ed_features
-    
-    # Add educations to the feature dict
-    for k, v in features_dict.items():
-        if k in ed_features:
-            features_dict[k] = 1
+    if found_education:
+	    ed_features = get_education_features(educations)
+	    
+	    if log:
+	        print ed_features
+	    
+	    # Add educations to the feature dict
+	    for k, v in features_dict.items():
+	        if k in ed_features:
+	            features_dict[k] = 1
     
     #Sanity check
     if log:
@@ -409,6 +411,7 @@ def get_closest_datascientists(user_feature_vector, feature_matrix, cluster_memb
     closest_ds_found = 0
     users_in_cluster = []
     closest_ds = []
+    closest_no_ds = []
     for member in cluster_members:
         member_id = member[0]
         # Retrieve the feature vector 
@@ -425,7 +428,9 @@ def get_closest_datascientists(user_feature_vector, feature_matrix, cluster_memb
     	# The same user isn't ret
         if user[0][5]==1:
             closest_ds.append(user)
-    return closest_ds
+        else:
+        	closest_no_ds.append(user)
+    return closest_ds, closest_no_ds
 
 def initializeDb(db_name, collection_name):
 	''' Returns dbname and collection '''
