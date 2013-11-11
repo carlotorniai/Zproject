@@ -1,44 +1,72 @@
 TO DO:
-1) Questions fro Jonathan: so the classes ordered arithmetically .. what does it mean?
-jsut increasing number? Make sense of the BN values.
+1) Questions for Jonathan: 
 
-2) I should actually implement a Bernoulli NB since I have binary code?
+-> About the NB components:
+1) Shall I use the Bernoulli NB?
+  -> Also does it makes sense to classify the major class
+  with NB based on all the 5 labels and then get the components 
+  of a NB just rained on a dataset with no DS?
 
+
+2) SO far I've run K-means with all the features.
+Shall I use a rediced model based on the top 100 features given by RF? 
+
+-> Best way to doing feat_reduction in my case (is it even wrth it?)
+Use just the top 100 returned by a RF? 
+The one that appear in there most of the time (runnong multiple times)?
+
+-> I cant' run NMF with 5 features (it takes forever)
+
+4) How can I use decision trees? I would like to leave it out for now.
+
+
+
+Focus for the week:
+Today: do whatever additional exploration of results with
+diffrent reduced models
+
+By wed: get even a simple web-up locally to work (with the bars as interactive 
+some dynamic usggesitons of content)
+
+Optional : Visualization of networks of skills focusing on the top 50 for each group
+(Or the top 100 overall from my RF).
+Maybe over the week end.
+
+
+
+Presentation:
+1 SLide: why , what?
+2 Slide how (number of datapoints, pipeline, )
+3 Some results -> tag cloud, skills network (educaiton network)
+4) Screeshot webapp
+5) Final remarks (links , ack , Next steps: )
+===============
 
 0) Get the ball rollin gwith the workflow for the app:
 1) write code form the linkeidn public URL to 
 -> I've got the features...
 
-Need to cehck the serialized models.
 
 CalculatedL 
 -> closest profiles
 -> missing skills -> resources
 
--> Histogram of the 5 components
+-> Histogram of the 5 components (they aybe be 4 ...)
 -> How to access for one value i predict the tree 
 
 
 I want to return
-1) Closetst profiles on Linkedin
-1) The idea is the aone classify itself.
-If is in the database -> i update the label
-I extract the features and I adde it t my feature matrix.
-
-Problems: LIt takes a long time to prune out values and run the model how do you do?
-
-git filter-branch --index-filter '!git rm --cached --ignore-unmatch models/full_features_with_labels_for_RF.pkl' merge-point..HEAD
-
-git filter-branch --force --index-filter \
-  'git rm --cached --ignore-unmatch models/full_features_with_labels_for_RF.pkl' \
-  --prune-empty --tag-name-filter cat -- --all
 
 
-
-TOnight:
-- Plot some other statistics (education for groups)
+Tonight:
+- plot the notworks of skills (where the link came from , 0,1,2,3,4)
 - If I want start playing with clustering visualization in D3
 - Play with dinamic barplot
+
+EC2 :
+Mongodump -> to have the same DB to EC2.
+Also install the gem
+
 
 
 
