@@ -363,14 +363,19 @@ def get_cluster_representatitve(feature_matrix, db, collection, km, n):
         public_url = ""
         user_id = feature_matrix.index[i]
         cursor = collection.find({"id":user_id}, {"_id" : 0, \
-        "lastName" :1 , "firstName" :1, "publicProfileUrl" : 1})
+        "lastName" :1 , "firstName" :1, "publicProfileUrl" : 1, "ds_in_head": 1,
+        "ds_in_summary": 1, "ds_job_current":1, "ds_job_past" :1 })
         for result in cursor:
             if 'publicProfileUrl' in result:
                 public_url = result['publicProfileUrl']
             # Add firstname and lastname
             fname = result['firstName']
             lname = result['lastName']
-            
+            ds_in_summary = result['ds_in_summary']
+            ds_in_head = result["ds_in_head"]
+            ds_job_current = result["ds_job_current"]
+            ds_job_past = result["ds_job_past"]
+
         # Here get the euclidean distance between the 
         # element and the centroid 
         current_centroid = km.cluster_centers_[km.labels_[i]]
@@ -379,8 +384,12 @@ def get_cluster_representatitve(feature_matrix, db, collection, km, n):
         current_user_features = feature_matrix.loc[user_id]
         # centroid_distance =  cdist(current_centroid, current_user_features, 'euclidean')
         # pdb.set_trace()
+        if ds_in_summary or ds_in_head or ds_job_current or ds_job_past:
+        	is_ds = 1
+        else:
+        	is_ds = 0
         centroid_distance = euclidean(current_centroid, current_user_features)
-        value = (user_id, fname, lname, public_url, centroid_distance)
+        value = (user_id, fname, lname, public_url, centroid_distance, is_ds)
         #print user_id, public_url, km.labels_[i]
         users_clusters[str(km.labels_[i])].append(value)
         # print users_clusters
@@ -395,10 +404,29 @@ def get_cluster_representatitve(feature_matrix, db, collection, km, n):
         
     return users_clusters, ordered_user_clusters
 
-def get_closest_datascientists(user_feature_vector, cluster_members):
-	''' Returns , if any the closest data scientist to the user profiles '''
-	pass
-	
+def get_closest_datascientists(user_feature_vector, feature_matrix, cluster_members):
+    ''' Returns , if any the closest data scientist to the user profiles '''
+    closest_ds_found = 0
+    users_in_cluster = []
+    closest_ds = []
+    for member in cluster_members:
+        member_id = member[0]
+        # Retrieve the feature vector 
+        member_feature_vector = feature_matrix.loc[member_id]
+        distance = euclidean(user_feature_vector, member_feature_vector)
+        # Add the member and the distance to the list
+        value = (member, distance)
+        users_in_cluster.append(value)
+    # Computes the ordered list
+    closest_users_in_cluster = sorted(users_in_cluster,key=itemgetter(1))
+    #print closest_users_in_cluster
+    for user in closest_users_in_cluster:
+    	# Here add the control of distance = 0 so 
+    	# The same user isn't ret
+        if user[0][5]==1:
+            closest_ds.append(user)
+    return closest_ds
+
 def initializeDb(db_name, collection_name):
 	''' Returns dbname and collection '''
 	# connect to the hosted MongoDB instance
