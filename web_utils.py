@@ -1,8 +1,16 @@
 import json
 import pdb
-log = False
 from datetime import datetime
 import pickle 
+import subprocess
+import pymongo
+from pymongo import MongoClient
+from sklearn.cluster import KMeans
+from sklearn import metrics
+from scipy.spatial.distance import pdist, cdist , squareform, euclidean
+from operator import itemgetter
+
+log = False
 
 # File read and write methods
 def readpickle(filename):
@@ -191,3 +199,210 @@ def get_education_features(education_dict):
 			#processed_education[k] = k+"_"+v
 			processed_education[k+"_"+v] = 1
 	return processed_education
+
+def extractfeatures(public_profile_url, feature_matrix, log = False):
+    ''' it takes as input an URL of a Linkedin public Profile
+    extract features. It returns the json file of the profiles and the feature vector '''
+
+    feature_vector = []
+    found_skills = False
+    found_education = False
+    
+    # './models/full-features_no_zeros_for_classification.pkl'
+    # Load the feature_matrix
+   
+    
+    # Initialize the dict for the features
+    features_dict = dict()
+    for elem in feature_matrix.columns:
+        features_dict[elem] = 0
+        
+    # Here need to hanle better all the possible errors
+    # For now just a dummy one
+    if 'http://' not in public_profile_url and public_profile_url[0] == 'w':
+        public_profile_url = 'http://' + public_profile_url
+    
+    # Retrieve the public profile
+    p = subprocess.Popen(["./linkedin-scraper",  public_profile_url], stdout=subprocess.PIPE)
+    out, err = p.communicate()
+    # Here handle the errors if I put a non existing profile
+    if log:
+        print "Error" , err
+    
+    profile = json.loads(out)
+    
+    # Check if skills and education are in the profile
+    # Otherwise Classification can't really be extracted
+    
+    if 'skills' in profile:
+        if len(profile['skills']) > 0:
+            found_skills = True
+    
+    if 'education' in profile:
+        if len(profile['education']) > 0:
+            found_education = True
+    
+    if not found_skills and not found_education:
+        print "I can't find education and skills information in your profile"
+        return 
+    
+    if found_skills:
+    	skills = profile['skills']
+
+    if found_education:
+    	educations = compute_education_fields(profile)
+
+    # Now let's process the skills
+    for skill in skills:
+        if skill in features_dict:
+            features_dict[skill] = 1
+    
+    # Sanity check
+    if log:
+        for k, v in features_dict.items():
+            if v ==1:
+                print k
+    
+    # Get educations
+    ed_features = get_education_features(educations)
+    
+    if log:
+        print ed_features
+    
+    # Add educations to the feature dict
+    for k, v in features_dict.items():
+        if k in ed_features:
+            features_dict[k] = 1
+    
+    #Sanity check
+    if log:
+        for k, v in features_dict.items():
+            if v ==1:
+                print k
+    # Build just a vector of zeroe and ones
+    for elem in feature_matrix.columns:
+        if features_dict[elem] == 1:
+            # print elem 
+            feature_vector.append(1)
+        else:
+            feature_vector.append(0)
+    
+    return profile, feature_vector
+
+def get_top_features(feature_matrix, km, n):
+    ''' Returns top n features for clusters'''
+    top_features = dict()
+    
+    for clust_num in range(km.n_clusters):
+        top_num_skills = 0
+        if str(clust_num) in top_features:
+            pass
+        else:
+            top_features[str(clust_num)] = []
+        centroid = km.cluster_centers_[clust_num]
+        ordered_centroid = [i[0] for i in sorted(enumerate(centroid), key=lambda x:x[1], reverse = True)]
+        for i in range(len(ordered_centroid)):
+             if top_num_skills<=n:
+                 top_features[str(clust_num)].append(feature_matrix.columns.tolist()[ordered_centroid[i]])
+                 top_num_skills +=1   
+    return top_features
+
+def get_cluster_members(feature_matrix, db, collection, km):
+    ''' Returns a dict containing for each cluster the 
+        user ID and public URLS for each membember '''
+    
+    # Initialize the dict
+    users_clusters = dict()
+    
+    # Initizlize DB
+    db, collection = initializeDb("zproject", "ext_profiles_processed")
+    
+    # Create dict keys
+    for clust_num in range(km.n_clusters):
+        if str(clust_num) in users_clusters:
+            pass
+        else:
+            users_clusters[str(clust_num)] = []
+
+    # Populate the Dict wtih profiles information
+    for i in range(len(km.labels_)):
+        public_url = ""
+        user_id = features_dummy.index[i]
+        cursor = collection.find({"id":user_id}, {"_id" : 0, \
+        "lastName" :1 , "firstName" :1, "publicProfileUrl" : 1})
+        for result in cursor:
+            if 'publicProfileUrl' in result:
+                public_url = result['publicProfileUrl']
+            # Add firstname and lastname
+            fname = result['firstName']
+            lname = result['lastName']
+        value = (user_id, fname, lname, public_url)
+        #print user_id, public_url, km.labels_[i]
+        users_clusters[str(km.labels_[i])].append(value)
+    return users_clusters
+
+
+def get_cluster_representatitve(feature_matrix, db, collection, km, n):
+    ''' Returns a list of the closest n profiles to each 
+    cluster centroids '''
+    
+    # Initialize the dict
+    users_clusters = dict()
+    ordered_user_clusters = dict()
+    
+    # Create dict keys
+    for clust_num in range(km.n_clusters):
+        if str(clust_num) in users_clusters:
+            pass
+        else:
+            users_clusters[str(clust_num)] = []
+            ordered_user_clusters[str(clust_num)] = []
+            
+    # Populate the Dict wtih profiles information
+    for i in range(len(km.labels_)):
+        public_url = ""
+        user_id = feature_matrix.index[i]
+        cursor = collection.find({"id":user_id}, {"_id" : 0, \
+        "lastName" :1 , "firstName" :1, "publicProfileUrl" : 1})
+        for result in cursor:
+            if 'publicProfileUrl' in result:
+                public_url = result['publicProfileUrl']
+            # Add firstname and lastname
+            fname = result['firstName']
+            lname = result['lastName']
+            
+        # Here get the euclidean distance between the 
+        # element and the centroid 
+        current_centroid = km.cluster_centers_[km.labels_[i]]
+        # print current_centroid, km.labels_[i]
+        # pdb.set_trace()
+        current_user_features = feature_matrix.loc[user_id]
+        # centroid_distance =  cdist(current_centroid, current_user_features, 'euclidean')
+        # pdb.set_trace()
+        centroid_distance = euclidean(current_centroid, current_user_features)
+        value = (user_id, fname, lname, public_url, centroid_distance)
+        #print user_id, public_url, km.labels_[i]
+        users_clusters[str(km.labels_[i])].append(value)
+        # print users_clusters
+        ordered_users_clust = dict()
+    for key in users_clusters.keys():
+        if n < len(users_clusters[key]):
+            ordered_user_clusters[key] = sorted(users_clusters[key],\
+                                            key = lambda element : element[4], reverse=False)[:n]
+        else:
+            ordered_user_clusters[key] = sorted(users_clusters[key],\
+                                            key = lambda element : element[4], reverse=False)
+        
+    return users_clusters, ordered_user_clusters
+
+def get_closest_datascientists(user_feature_vector, cluster_members):
+	''' Returns , if any the closest data scientist to the user profiles '''
+	pass
+	
+def initializeDb(db_name, collection_name):
+	''' Returns dbname and collection '''
+	# connect to the hosted MongoDB instance
+	client = MongoClient('mongodb://localhost:27017/')
+	db = client[db_name]
+	collection = db[collection_name]
+	return db, collection
