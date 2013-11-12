@@ -2,30 +2,23 @@ TO DO:
 
 Web App:
 
+0) Get the graph to work
+2) Apply CSS
 1) Deal with errors : response and URL errors
 
 
+TO DO fine tuning
+
+3) Have a better list of skills with associated resources
+(Built offline frm a DB > that I can update)
+
+4) CHeck the lenght of fields returned and 
+if they are zero whow a different message
 
 
 
-1) Questions for Jonathan: 
-
-2) SO far I've run K-means with all the features.
-Shall I use a rediced model based on the top 100 features given by RF? 
-
--> Best way to doing feat_reduction in my case (is it even wrth it?)
-Use just the top 100 returned by a RF? 
-The one that appear in there most of the time (runnong multiple times)?
-
--> I cant' run NMF with 5 features (it takes forever)
-
-4) How can I use decision trees? I would like to leave it out for now.
 
 
-
-Focus for the week:
-Today: do whatever additional exploration of results with
-diffrent reduced models
 
 By wed: get even a simple web-up locally to work (with the bars as interactive 
 some dynamic usggesitons of content)
@@ -34,14 +27,28 @@ Optional : Visualization of networks of skills focusing on the top 50 for each g
 (Or the top 100 overall from my RF).
 Maybe over the week end.
 
+Key points for the presentation:
+show that the data I have skills and educaiton can tell apart
+and at the same time find similarities:
+not interested in acccuracy here.
+
+Question: shall I use a RF to classify rather than the NB?
 
 
 Presentation:
 1 SLide: why , what?
 2 Slide how (number of datapoints, pipeline, )
 3 Some results -> tag cloud, skills network (educaiton network)
-4) Screeshot webapp
-5) Final remarks (links , ack , Next steps: )
+  -> here say that the data pints were enough
+  SHow that the proportions and the content are similar to larger data
+  (infographics venture beat about Phds and other data, Peter Schok, Analyzing the Analizers)
+4) The analysis -> I can cluster and classify using skills and education
+    -> BUild a prototype web app:
+    Screeshot webapp (few explanation)
+5) Future works / improbement
+   - > enlrage the dataset do it interactiveley with users coming to vivit
+(links , ack , What should be improved : more data, finer parsers,
+Next steps: )
 ===============
 
 0) Get the ball rollin gwith the workflow for the app:
@@ -108,9 +115,6 @@ For later :
 
 1) Try the bernoully NB
 2) Try to improve with some additional data
-
-
-
 
 
 2) Approach is the exploratory cluster analysis 
