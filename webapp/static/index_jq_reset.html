@@ -133,6 +133,12 @@ function showResponse(response, statusText, xhr, $form)  {
     $('<li><a href=' + val[2] +'>' +val[0]+ ' ' + val[1] +'</a></li>').appendTo('#ds_users');
     });
 
+    // Display the list of closest DS
+    $('.non_ds_users').html('<br>Other similar profiles you may found interesting are:</br> <ul id="no_ds_user_list"></ul>')
+    $.each(response_json['close_non_ds_profiles'], function(idx, val) {
+    $('<li><a href=' + val[2] +'>' +val[0]+ ' ' + val[1] +'</a></li>').appendTo('#no_ds_user_list');
+    });
+
     
 
 
@@ -197,6 +203,6 @@ function showResponse(response, statusText, xhr, $form)  {
 <div class="components"></div>
 <div class="skills"><ul id="skilllist"></ul></div>
 <div class="ds_users"></div>
-
+<div class="non_ds_users"></div>
 </body>
 </html>

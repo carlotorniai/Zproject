@@ -125,6 +125,26 @@ def execute_text():
                                 # print elem[0][1], elem [0][2], elem [0][3]
                                 fields_response['close_ds_profiles'].append(ds_tuple)
                 
+                # Compute close non_ds
+                if len(closest_all)>0:
+                    if len(closest_all)>=3:
+                        num_similar = 3
+                    else:
+                        num_similar = len(closest_all)
+                    for elem in closest_all[:num_similar]:
+                    # Make sure not to present the user itself
+                        if profile['last_name']!= elem [0][2]:
+                            # Add the element to the tuple 
+                            ds_tuple = (elem[0][1], elem [0][2], elem [0][3])
+                            # print elem[0][1], elem [0][2], elem [0][3]
+                            # Add the element to the response field
+                            fields_response['close_non_ds_profiles'].append(ds_tuple)
+                        else:
+                            if profile['first_name']!= elem [0][1]:
+                                ds_tuple = (elem[0][1], elem [0][2], elem [0][3])
+                                # print elem[0][1], elem [0][2], elem [0][3]
+                                fields_response['close_non_ds_profiles'].append(ds_tuple)
+
                 # Print the response on the console
                 print fields_response
                 js = json.dumps(fields_response)
@@ -136,7 +156,7 @@ def execute_text():
 # Order of routes matters
 @app.route("/<name>")
 def hello(name):
-    return "Hello " + name + "!\nWelcome to my NYT article section Predictor! )"
+    return "Hello " + name + "!\nWelcome to Quantified Data Scientists! )"
 
 @app.route("/")
 def index():
