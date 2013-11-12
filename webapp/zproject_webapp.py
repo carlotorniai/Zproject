@@ -101,6 +101,31 @@ def execute_text():
                     print skill
                     # Here have a set of links to that in the future
                     fields_response['recomm_skills'].append(skill)
+
+                # Here assign the user to a cluster
+                closest_cluster = km.predict(feature_vector)
+                #Compute the closest DS
+                closest_ds, closest_all = wu.get_closest_datascientists(feature_vector, feature_matrix, users_clusters[str(closest_cluster[0])])
+                if len(closest_ds)>0:
+                    if len(closest_ds)>=3:
+                        num_item = 3
+                    else:
+                        num_item = len(closest_ds)
+                    for elem in closest_ds[:num_item]:
+                    # Make sure not to present the user itself
+                        if profile['last_name']!= elem [0][2]:
+                            # Add the element to the tuple 
+                            ds_tuple = (elem[0][1], elem [0][2], elem [0][3])
+                            print elem[0][1], elem [0][2], elem [0][3]
+                            # Add the element to the response field
+                            fields_response['close_ds_profiles'].append(ds_tuple)
+                        else:
+                            if profile['first_name']!= elem [0][1]:
+                                ds_tuple = (elem[0][1], elem [0][2], elem [0][3])
+                                print elem[0][1], elem [0][2], elem [0][3]
+                                fields_response['close_ds_profiles'].append(ds_tuple)
+                
+                # Print the response on the console
                 print fields_response
                 js = json.dumps(fields_response)
             # I want to send back a json with all I need.
