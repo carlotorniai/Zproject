@@ -101,16 +101,61 @@ function showResponse(response, statusText, xhr, $form)  {
     var currentUrl = window.location.href;
     var response_json = jQuery.parseJSON(response.responseText)
 
-    $('.output1').html(response.responseText + '<p><a href="test"> Classify another document </a></p>');
-    $('.output1').html(response_json['header']);
-    $(".output1 a").click(function(e) {
+    // Here need to check for errors and print errors
 
+    //$('.output1').html(response.responseText + '<p><a href="test"> Classify another document </a></p>');
+    $('.output1').html(response_json['header']);
+
+
+    // display the classificaiton in the proper div
+    $('.classification').html(response_json['text_classification']);
+
+
+    // Display for now in a table the values of the probabilities
+    $.each(response_json['profile_components'], function(key, val) {
+    $('<tr><td>ID: '+key+'</td><td id="'+key+'">'+val+'</td><tr>').appendTo('#display');
+    });
+
+
+    // Append the list element to the skills div
+    //var ul = $('<ul id="list_skills">').appendTo('.skills');
+    
+    // Display the skills
+    var $ul = $('#skilllist')
+    $(response_json['recomm_skills'].items).each(function(index, item) {
+    $('<li>' +text(item)+'</li>').appendTo('#skilllist');
+     });
+    // );
+
+
+    //$.each(response_json['recomm_skills'], function(key, val) {
+    //$('<tr><td>ID: '+key+'</td><td id="'+key+'">'+val+'</td><tr>').appendTo('#list_skills');
+    //});
+
+
+    // Below is the clear button basically
+    $(".output1 a").click(function(e) {
     e.preventDefault();   
     //$(this).parent().hide();            
     //$('#myform1').reset();
     $(".output1").html('');
     $('#mytextarea').val("");
     });
+
+    // Below trying to clear everything when clicking on Submit
+    // $(".my_submit").click(function(e) {
+    // //e.preventDefault();   
+    // //$(this).parent().hide();            
+    // //$('#myform1').reset();
+    // $(".output1").html('');
+    // $('#mytextarea').val("");
+    // $('.error').val("");
+    // $('.output1').val("");
+    // $('.classification').val("");
+    //  $('.components').val("<table border='1' id="display"></table>");
+
+    // });
+
 } 
 </script>
 
@@ -124,9 +169,14 @@ function showResponse(response, statusText, xhr, $form)  {
 <p>Past your Linkedin Public URL below:</p>
 <form id="myform1" action="http://0.0.0.0:5000/getldinfo" method="POST">
 <input id="mytextarea" type="text" size="45" name="text"></input>
-<input type="submit" value="Submit"/>
+<input class="my_submit" type="submit" value="Submit"/>
 </form>
 </div>
-<div class="output1"><a href="test"> </a></div>
+<div class="error"></a></div>
+<div class="output1"></div>
+<div class="classification"></div>
+<div class="components"><table border='1' id="display"></table></div>
+<div class="skills"><ul id="skilllist"></ul></div>
+
 </body>
 </html>

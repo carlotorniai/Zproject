@@ -18,10 +18,13 @@ print ("Loading required resources....")
 print ("Loading feature matrix for NB and KM ....")
 feature_matrix = wu.readpickle('./models/full-features_no_zeros_for_classification.pkl')
 
-#Naive Bayes Model
-print ("Loading NB model....")
+#Naive Bayes Model for classification
+print ("Loading NB model for classification....")
 mnb = wu.readpickle('./models/NB_with_full_features_with_labels.pkl')
 
+# Naive Bayse Model for components
+print ("Loading NB model for components....")
+mnb_no_ds = wu.readpickle("./models/all_but_ds_NB_with_full_features_with_labels.pkl")
 # # Load feature Matrix for K-Means
 # print ("Loading feature matrix for KM....")
 # feature_matrix_km = wu.readpickle('./models/full-features_no_zeros_for_classification.pkl')
@@ -42,6 +45,7 @@ top_features = wu.get_top_features(feature_matrix, km, 20)
 print ("Getting clusters representatives...")
 users_clusters, ordered_user_clusters = wu.get_cluster_representatitve(feature_matrix, db , collection, km , 5)
 
+print ("Ready...")
 # Global Vars
 lables_dict = {0 : "Computer Scientist", 1 : "Data Scientist", 2 : "Statistician",\
                    3 : "Business Analyst", 4 : "Mathematician"}
@@ -50,7 +54,7 @@ top_ds_skills = ['Data Mining', 'Machine Learning', 'R', 'Data Analysis', 'Pytho
                  'Statistical Modeling', 'Hadoop', 'Big Data', 'Statistics', \
                  'SQL', 'Predictive Analytics', 'Pig', 'Hive', 'MapReduce']
 
-fields_response = {"error" : '', "header" : '', "text_classification" : '', "profile_components" : [],
+fields_response = {"error" : '', "header" : '', "text_classification" : '', "profile_components" : {},
 "close_ds_profiles" : [], "close_non_ds_profiles" : [], "recomm_skills" :[]} 
 
 
@@ -73,7 +77,31 @@ def execute_text():
                 string_header = "<br>This is the profile of %s %s </br>" %(profile['first_name'], profile['last_name'])
                 string_header  = string_header + "<br>Currently %s</br>" %(profile['title'])
                 fields_response['header'] = string_header
-                print string_header
+                
+                
+                # Here compute the classification
+                class_label_key = mnb.predict(feature_vector)
+                print ("User classified as %s") %lables_dict[int(class_label_key)]
+                fields_response['text_classification'] = "<br>Based on skills and education you match the %s profile</br>" %(lables_dict[int(class_label_key)])
+                
+                # Retrieve the components
+                other_labels_prob = mnb_no_ds.predict_proba(feature_vector)
+                print "Probability vectors other cells" , other_labels_prob[0]
+                tot_sum = other_labels_prob[0].sum()
+                percentage = [x/tot_sum for x in other_labels_prob[0]]
+                fields_response['profile_components']['CS'] = percentage[0]
+                fields_response['profile_components']['ST'] = percentage[1]
+                fields_response['profile_components']['BA'] = percentage[2]
+                fields_response['profile_components']['MT'] = percentage[3]
+             
+
+                # Now List the skills
+                suggested_skills = set(top_ds_skills) - set(profile['skills'])
+                for skill in suggested_skills:
+                    print skill
+                    # Here have a set of links to that in the future
+                    fields_response['recomm_skills'].append(skill)
+                print fields_response
                 js = json.dumps(fields_response)
             # I want to send back a json with all I need.
         return Response(js, status=200,  mimetype='text/json')
