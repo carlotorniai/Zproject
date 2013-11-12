@@ -106,12 +106,7 @@ function showResponse(response, statusText, xhr, $form)  {
     var currentUrl = window.location.href;
     var response_json = jQuery.parseJSON(response.responseText)
 
-    // parse a spec and create a visualization view
-    function parse(spec) {
-    vg.parse.spec(spec, function(chart) { chart({el:".components"}).update(); });
-    }
-    parse("./test_plot.json");
-
+    
     // Here need to check for errors and print errors
 
     //$('.output1').html(response.responseText + '<p><a href="test"> Classify another document </a></p>');
@@ -122,13 +117,18 @@ function showResponse(response, statusText, xhr, $form)  {
     $('.classification').html(response_json['text_classification']);
 
 
-    // Dislay components
+    // Display components
 
-    $('.components').html('<table id="display"></table>')
+    $('.components').html('<p>Components of your profiles across<p><p>Computer Science (CS), Mathematics (MT), Business Analytics (BA) and Statistics(ST) </p><table id="display"></table>')
     $.each(response_json['profile_components'], function(key, val) {
     $('<tr><td>ID: '+key+'</td><td id="'+key+'">'+val+'</td><tr>').appendTo('#display');
     });
-    
+    // Create the visualization for the components
+    function parse(spec) {
+    vg.parse.spec(spec, function(chart) { chart({el:".components"}).update(); });
+    }
+    parse("./test_plot.json");
+
 
     // Display for now in a table the values of the probabilities
     // Add the text

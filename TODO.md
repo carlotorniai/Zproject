@@ -6,17 +6,25 @@ Web App:
 2) Apply CSS
 1) Deal with errors : response and URL errors
 
+-> Use Melissa as an example of no educaitons and skills to test the erors
+
 
 TO DO fine tuning
 
 3) Have a better list of skills with associated resources
-(Built offline frm a DB > that I can update)
+(Built offline frm a DB -> that I can update)
+Ordere the importance of skills and return the first missing 3 or 5
+Machine Learning
+Python
+
+-> See other skills dropdown
 
 4) CHeck the lenght of fields returned and 
 if they are zero whow a different message
 
 
-
+VERIFY:
+order of the classes returned..
 
 
 

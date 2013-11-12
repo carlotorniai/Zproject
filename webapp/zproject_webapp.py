@@ -89,10 +89,12 @@ def execute_text():
                 print "Probability vectors other cells" , other_labels_prob[0]
                 tot_sum = other_labels_prob[0].sum()
                 percentage = [x/tot_sum for x in other_labels_prob[0]]
-                fields_response['profile_components']['CS'] = percentage[0]
-                fields_response['profile_components']['ST'] = percentage[1]
-                fields_response['profile_components']['BA'] = percentage[2]
-                fields_response['profile_components']['MT'] = percentage[3]
+                # Below actually return the one float point
+
+                fields_response['profile_components']['CS'] = "%.1f" %(percentage[0]*100)
+                fields_response['profile_components']['ST'] = "%.1f" %(percentage[1]*100)
+                fields_response['profile_components']['BA'] = "%.1f" %(percentage[2]*100)
+                fields_response['profile_components']['MT'] = "%.1f" %(percentage[3]*100)
              
 
                 # Now List the skills
