@@ -114,7 +114,7 @@ function showResponse(response, statusText, xhr, $form)  {
 
 
     // display the classificaiton in the proper div
-    $('.classification').html(response_json['text_classification']);
+    $('.classification').html('<br> Based on the info in your public profile the closest match among our categories is ' + response_json['text_classification'] +'</br>');
 
 
     // Display components

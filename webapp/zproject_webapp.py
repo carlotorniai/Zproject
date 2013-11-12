@@ -64,11 +64,13 @@ def execute_text():
     # Neet to initialize the json file
     # At this point better to write it down to minimize the access time
     # But for now i read it from file
-    plot_json = json.load(open('./plot.json'))
+    # plot_json = json.load(open('./plot.json'))
     fields_response = {"error" : '', "header" : '', "text_classification" : '', "profile_components" : {},
 "close_ds_profiles" : [], "close_non_ds_profiles" : [], "recomm_skills" :[], "component_plot" : plot_json} 
+    
+    # Clear the data of plot_json
+    fields_response['component_plot']['data'][0]['values']=[]
     public_profile_url = request.form['text']
-
     
     if request.method == 'POST':
         if public_profile_url=='':
@@ -91,7 +93,9 @@ def execute_text():
                 # Here compute the classification
                 class_label_key = mnb.predict(feature_vector)
                 print ("User classified as %s") %lables_dict[int(class_label_key)]
-                fields_response['text_classification'] = "<br>Based on skills and education you match the %s profile</br>" %(lables_dict[int(class_label_key)])
+                
+                # Set the classification fiels
+                fields_response['text_classification'] = lables_dict[int(class_label_key)]
                 
                 # Retrieve the components
                 other_labels_prob = mnb_no_ds.predict_proba(feature_vector)
