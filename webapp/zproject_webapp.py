@@ -116,13 +116,13 @@ def execute_text():
                         if profile['last_name']!= elem [0][2]:
                             # Add the element to the tuple 
                             ds_tuple = (elem[0][1], elem [0][2], elem [0][3])
-                            print elem[0][1], elem [0][2], elem [0][3]
+                            # print elem[0][1], elem [0][2], elem [0][3]
                             # Add the element to the response field
                             fields_response['close_ds_profiles'].append(ds_tuple)
                         else:
                             if profile['first_name']!= elem [0][1]:
                                 ds_tuple = (elem[0][1], elem [0][2], elem [0][3])
-                                print elem[0][1], elem [0][2], elem [0][3]
+                                # print elem[0][1], elem [0][2], elem [0][3]
                                 fields_response['close_ds_profiles'].append(ds_tuple)
                 
                 # Print the response on the console

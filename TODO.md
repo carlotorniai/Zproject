@@ -1,12 +1,14 @@
 TO DO:
+
+Web App:
+
+1) Deal with errors : response and URL errors
+
+
+
+
+
 1) Questions for Jonathan: 
-
--> About the NB components:
-1) Shall I use the Bernoulli NB?
-  -> Also does it makes sense to classify the major class
-  with NB based on all the 5 labels and then get the components 
-  of a NB just rained on a dataset with no DS?
-
 
 2) SO far I've run K-means with all the features.
 Shall I use a rediced model based on the top 100 features given by RF? 
@@ -101,10 +103,11 @@ arent' really meaningful: (as out assumption)
 
 
 
-OLD Notes on approach
+For later :
 ==========
 
-SOme ideas of approach.
+1) Try the bernoully NB
+2) Try to improve with some additional data
 
 
 
