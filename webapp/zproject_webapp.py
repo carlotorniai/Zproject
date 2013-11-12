@@ -45,7 +45,7 @@ top_features = wu.get_top_features(feature_matrix, km, 20)
 print ("Getting clusters representatives...")
 users_clusters, ordered_user_clusters = wu.get_cluster_representatitve(feature_matrix, db , collection, km , 5)
 
-print ("Ready...")
+
 # Global Vars
 lables_dict = {0 : "Computer Scientist", 1 : "Data Scientist", 2 : "Statistician",\
                    3 : "Business Analyst", 4 : "Mathematician"}
@@ -54,12 +54,15 @@ top_ds_skills = ['Data Mining', 'Machine Learning', 'R', 'Data Analysis', 'Pytho
                  'Statistical Modeling', 'Hadoop', 'Big Data', 'Statistics', \
                  'SQL', 'Predictive Analytics', 'Pig', 'Hive', 'MapReduce']
 
-
+# Here define the json file for vega response
+plot_json = json.load(open('./plot.json'))
+print plot_json
+print ("Ready...")
 
 @app.route("/getldinfo", methods=['POST'])
 def execute_text():
     fields_response = {"error" : '', "header" : '', "text_classification" : '', "profile_components" : {},
-"close_ds_profiles" : [], "close_non_ds_profiles" : [], "recomm_skills" :[]} 
+"close_ds_profiles" : [], "close_non_ds_profiles" : [], "recomm_skills" :[], "component_plot" : plot_json} 
     public_profile_url = request.form['text']
     if request.method == 'POST':
         if public_profile_url=='':
@@ -96,8 +99,13 @@ def execute_text():
                 fields_response['profile_components']['BA'] = "%.1f" %(percentage[2]*100)
                 fields_response['profile_components']['MT'] = "%.1f" %(percentage[3]*100)
              
-
-                # Now List the skills
+                # Here I'm going to add the proper values
+                # to the plot_json and then send it
+                fields_response['component_plot']['data'][0]['values'].append({"x": "CS", "y": float("%.1f" %(percentage[0]*100))})
+                fields_response['component_plot']['data'][0]['values'].append({"x": "ST", "y": float("%.1f" %(percentage[1]*100))})
+                fields_response['component_plot']['data'][0]['values'].append({"x": "BA", "y": float("%.1f" %(percentage[2]*100))})
+                fields_response['component_plot']['data'][0]['values'].append({"x": "MT", "y": float("%.1f" %(percentage[3]*100))})
+                            
                 suggested_skills = set(top_ds_skills) - set(profile['skills'])
                 for skill in suggested_skills:
                     print skill
