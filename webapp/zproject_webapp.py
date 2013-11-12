@@ -54,12 +54,12 @@ top_ds_skills = ['Data Mining', 'Machine Learning', 'R', 'Data Analysis', 'Pytho
                  'Statistical Modeling', 'Hadoop', 'Big Data', 'Statistics', \
                  'SQL', 'Predictive Analytics', 'Pig', 'Hive', 'MapReduce']
 
-fields_response = {"error" : '', "header" : '', "text_classification" : '', "profile_components" : {},
-"close_ds_profiles" : [], "close_non_ds_profiles" : [], "recomm_skills" :[]} 
 
 
 @app.route("/getldinfo", methods=['POST'])
 def execute_text():
+    fields_response = {"error" : '', "header" : '', "text_classification" : '', "profile_components" : {},
+"close_ds_profiles" : [], "close_non_ds_profiles" : [], "recomm_skills" :[]} 
     public_profile_url = request.form['text']
     if request.method == 'POST':
         if public_profile_url=='':

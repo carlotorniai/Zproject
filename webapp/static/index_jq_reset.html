@@ -112,24 +112,31 @@ function showResponse(response, statusText, xhr, $form)  {
 
 
     // Display for now in a table the values of the probabilities
+    // Add the text
+    $('.skills').html('<br>If you are not already familiar with the following topics/tools to explore the suggested topics below</br> <ul id="skilllist"></ul>')
     $.each(response_json['profile_components'], function(key, val) {
     $('<tr><td>ID: '+key+'</td><td id="'+key+'">'+val+'</td><tr>').appendTo('#display');
     });
 
+    // Display the list of skills
+
+    $.each(response_json['recomm_skills'], function(idx, val) {
+    $('<li>'+val+'</li>').appendTo('#skilllist');
+    });
 
     // Append the list element to the skills div
     //var ul = $('<ul id="list_skills">').appendTo('.skills');
     
     // Display the skills
-    var $ul = $('#skilllist')
-    $(response_json['recomm_skills'].items).each(function(index, item) {
-    $('<li>' +text(item)+'</li>').appendTo('#skilllist');
-     });
+    // var $ul = $('#skilllist')
+    // $(response_json['recomm_skills'].items).each(function(index, item) {
+    // $ul.append($('<li>' +text(item)+'</li>'));
+    //  });
     // );
 
 
     //$.each(response_json['recomm_skills'], function(key, val) {
-    //$('<tr><td>ID: '+key+'</td><td id="'+key+'">'+val+'</td><tr>').appendTo('#list_skills');
+    //$('<tr><td>ID: '+key+'</td><td id="'+key+'">'+val+'</td><tr>').appendTo('#skilltable');
     //});
 
 
@@ -175,7 +182,7 @@ function showResponse(response, statusText, xhr, $form)  {
 <div class="error"></a></div>
 <div class="output1"></div>
 <div class="classification"></div>
-<div class="components"><table border='1' id="display"></table></div>
+<div class="components"><table id="display"></table></div>
 <div class="skills"><ul id="skilllist"></ul></div>
 
 </body>
