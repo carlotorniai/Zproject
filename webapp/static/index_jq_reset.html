@@ -1,5 +1,9 @@
 <html>
 <head>
+<style type="text/css">
+a {color:#333333;}      /* unvisited link */
+a:visited {color:#333333;} 
+</style>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
 <script type="text/javascript" src="http://malsup.github.io/jquery.form.js"></script>
 <script type="text/javascript">
@@ -19,11 +23,46 @@ $(document).ready(function() {
  
         // $.ajax options can be used here too, for example: 
         //timeout:   3000 
-    }; 
+        }; 
  
     // bind form using 'ajaxForm' 
     $('#myform1').ajaxForm(options); 
-}); 
+
+    $(".output2 a").click(function(e) {
+
+    e.preventDefault();
+    alert("CLicked");     
+    //$(this).parent().hide();            
+    
+    });
+
+     $(".output1 a").click(function(e) {
+
+    e.preventDefault();
+    alert("CLicked");     
+    //$(this).parent().hide();            
+    
+    });
+    // Make sure the html loads the href 
+    // var href = $('.del').attr('href');
+    // window.location.href = href; //causes the browser to refresh and load the requested url
+    
+    // $(function(){
+    // $('div.output1 a').click(function(){
+    // alert($(this).attr('href'));
+    // or alert($(this).hash();
+    // });
+    //});
+})
+
+    // $('.del').attr('href').click(function()
+    // {
+    //     event.preventDefault(); 
+    //     alert('clicked')
+    //         //$('#output1').html('');  
+    //         //$('#myform1').reset();   
+    // })
+
  
 // pre-submit callback 
 function showRequest(formData, jqForm, options) { 
@@ -58,18 +97,36 @@ function showResponse(response, statusText, xhr, $form)  {
     // alert('status: ' + statusText + '\n\nresponseText: \n' + response.responseText + 
     //    '\n\nThe output div should have already been updated with the responseText.'); 
     // Get the current URL
+
     var currentUrl = window.location.href;
-    $('#output1').html(response.responseText + '<p><a href="' + currentUrl +'"> Reset </a></p>')
+    var response_json = jQuery.parseJSON(response.responseText)
+
+    $('.output1').html(response.responseText + '<p><a href="test"> Classify another document </a></p>');
+    $('.output1').html(response_json['header']);
+    $(".output1 a").click(function(e) {
+
+    e.preventDefault();   
+    //$(this).parent().hide();            
+    //$('#myform1').reset();
+    $(".output1").html('');
+    $('#mytextarea').val("");
+    });
 } 
 </script>
+
+
+
+</script>
 </head>
-<body bgcolor="#CCFFCC">
-<h3>Classify articles accorindg to NYT Sections</h3>
-<p>Past a chunk of text in the form below to get it classified in a NYT section</p>
-<form id="myform1" action="http://ec2-54-212-159-29.us-west-2.compute.amazonaws.com:5000/parsetext" method="POST">
-<textarea type="text" cols="45" rows="5" name="text"></textarea>
-<input type="submit" value="Classify"/>
+<body>
+<h3>QDS: Are you a Data Scientist?</h3>
+<div id="formcontainer">
+<p>Past your Linkedin Public URL below:</p>
+<form id="myform1" action="http://0.0.0.0:5000/getldinfo" method="POST">
+<input id="mytextarea" type="text" size="45" name="text"></input>
+<input type="submit" value="Submit"/>
 </form>
-<div id="output1"> </div>
+</div>
+<div class="output1"><a href="test"> </a></div>
 </body>
 </html>
