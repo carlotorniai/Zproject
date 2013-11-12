@@ -11,6 +11,7 @@ Web App:
 
 TO DO fine tuning
 
+1) Dont' recale the y scale but have it fixed to 100
 3) Have a better list of skills with associated resources
 (Built offline frm a DB -> that I can update)
 Ordere the importance of skills and return the first missing 3 or 5

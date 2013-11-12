@@ -61,9 +61,15 @@ print ("Ready...")
 
 @app.route("/getldinfo", methods=['POST'])
 def execute_text():
+    # Neet to initialize the json file
+    # At this point better to write it down to minimize the access time
+    # But for now i read it from file
+    plot_json = json.load(open('./plot.json'))
     fields_response = {"error" : '', "header" : '', "text_classification" : '', "profile_components" : {},
 "close_ds_profiles" : [], "close_non_ds_profiles" : [], "recomm_skills" :[], "component_plot" : plot_json} 
     public_profile_url = request.form['text']
+
+    
     if request.method == 'POST':
         if public_profile_url=='':
             fields_response['error'] = "Please paste your Linkedin Public Profile URL in the input area"

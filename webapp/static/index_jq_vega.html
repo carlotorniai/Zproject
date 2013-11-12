@@ -127,7 +127,7 @@ function showResponse(response, statusText, xhr, $form)  {
     function parse(spec) {
     vg.parse.spec(spec, function(chart) { chart({el:".components"}).update(); });
     }
-    parse("./test_plot.json");
+    parse(response_json['component_plot']);
 
 
     // Display for now in a table the values of the probabilities
