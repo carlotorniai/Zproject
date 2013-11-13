@@ -2,14 +2,36 @@ TO DO:
 
 Web App:
 
-0) Get the graph to work
-2) Apply CSS
+0) Fix some layouts and simple things
+   -> some links 
+1) Deal with errors;
+  -> prepend http:// if isn't there 
+  -> no education and skills http://www.linkedin.com/in/alexsydell
+
 1) Deal with errors : response and URL errors
+    Deal with empty fields:
+  -> Use Melissa as an example of no educaitons and skills to test the erors
 
--> Use Melissa as an example of no educaitons and skills to test the erors
+2) Order Machine learnign skills as importance.
+3) Css and headers of the various DIV
+ 
+ 4) SPinning weel while waiting for results..
+    Or 
+
+TO DO fine tuning web app
+===========
 
 
-TO DO fine tuning
+TO DO again about model testing
+==========
+
+1) Test and build the model with the top 100 variables
+for the 
+
+-> see what happens if I calssify with random forest
+with all the variables.
+See if I have the smae reuslts.
+Compare the results -> See if they make sense wrt the components.
 
 1) Dont' recale the y scale but have it fixed to 100
 3) Have a better list of skills with associated resources
@@ -45,16 +67,33 @@ Question: shall I use a RF to classify rather than the NB?
 
 
 Presentation:
-1 SLide: why , what?
+
+Problems / questions to answer:
+  -> small dataset
+  
+  -> lot's of features comapred ot the data
+    -> Also overfitting
+    -> have the users declare their labels and then rebalance the model
+  
+  -> Naive Baseyes but skills aren't independent most of the time
+      -> stillif you look at there is clarly spltit across BA vs Machine Learning vs 
+ 
+  -> Fails on categories I haven't seen at all (realtor)
+      -> The scope is to 
+
+1 SLide: why , what? (focus on can I be a DS... expand to the potentiial in the last slide)
 2 Slide how (number of datapoints, pipeline, )
+
 3 Some results -> tag cloud, skills network (educaiton network)
   -> here say that the data pints were enough
   SHow that the proportions and the content are similar to larger data
   (infographics venture beat about Phds and other data, Peter Schok, Analyzing the Analizers)
+  -> this will serve to answer the objection about a small dataset
+
 4) The analysis -> I can cluster and classify using skills and education
     -> BUild a prototype web app:
     Screeshot webapp (few explanation)
-5) Future works / improbement
+5) Future works / improvement
    - > enlrage the dataset do it interactiveley with users coming to vivit
 (links , ack , What should be improved : more data, finer parsers,
 Next steps: )

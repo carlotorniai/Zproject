@@ -50,6 +50,7 @@ users_clusters, ordered_user_clusters = wu.get_cluster_representatitve(feature_m
 lables_dict = {0 : "Computer Scientist", 1 : "Data Scientist", 2 : "Statistician",\
                    3 : "Business Analyst", 4 : "Mathematician"}
 
+# Here have a list of the top from ML
 top_ds_skills = ['Data Mining', 'Machine Learning', 'R', 'Data Analysis', 'Python',\
                  'Statistical Modeling', 'Hadoop', 'Big Data', 'Statistics', \
                  'SQL', 'Predictive Analytics', 'Pig', 'Hive', 'MapReduce']
@@ -71,26 +72,51 @@ def execute_text():
     # Clear the data of plot_json
     fields_response['component_plot']['data'][0]['values']=[]
     public_profile_url = request.form['text']
-    
     if request.method == 'POST':
+        # If I post an empty URL return the erro rmessage
         if public_profile_url=='':
-            fields_response['error'] = "Please paste your Linkedin Public Profile URL in the input area"
+            fields_response['error'] = "Please paste a valid Linkedin Public Profile URL"\
+            " in the input area above"
+            js = json.dumps(fields_response)
+            return Response(js, status=200,  mimetype='text/json')
         else:
+            # Add the http:// if is not there"
+            if 'http://' not in public_profile_url:
+                public_profile_url = 'http://' + public_profile_url
+                print public_profile_url
             code = urlopen(public_profile_url).code
             if (code / 100 >= 4):
-                fields_response['error'] =  "The URL cannot be opened. Please double check you've pasted a correct URL"
+                fields_response['error'] =  "The URL cannot be opened. Please double "\
+                "check you've pasted a valid Linkedin Public Profile URL in the input area above."\
+                "Error code: " +str(code)
+                js = json.dumps(fields_response)
+                return Response(js, status=200,  mimetype='text/json')
             else:
+                # We have a valid URL and hopefully we have extractet 
                 print "Extracting features and profile"
                 print feature_matrix.shape
                 # pdb.set_trace()
-                profile, feature_vector = wu.extractfeatures(public_profile_url, feature_matrix, log = False)
+                
+                # Do try catch
+                try: 
+                    profile, feature_vector = wu.extractfeatures(public_profile_url, feature_matrix, log = False)
+                # Here check if I was able to retrieve the 
+                # Education and Skills 
+                except:
+                    fields_response['error'] = "<p>Education and skills are nort available for this Linkedin Profile.</p>"\
+                    "<p>Please make available this information if this is your profile. Or try a different one.</p>"
+                    js = json.dumps(fields_response)
+                    return Response(js, status=200,  mimetype='text/json')
+
                 print feature_matrix.shape
-                string_header = "<br>This is the profile of %s %s </br>" %(profile['first_name'], profile['last_name'])
-                string_header  = string_header + "<br>Currently %s</br>" %(profile['title'])
-                fields_response['header'] = string_header
+                # string_header = "<br>This is the profile of %s %s </br>" %(profile['first_name'], profile['last_name'])
+                # string_header  = string_header + "<br>Currently %s</br>" %(profile['title'])
                 
+                # fields_response['header'] = string_header
+                fields_response['header'] =  {"first_name" : profile['first_name'], "last_name" : profile['last_name'], \
+                "title" : profile['title']}
                 
-                # Here compute the classification
+                # Here computes the classification
                 class_label_key = mnb.predict(feature_vector)
                 print ("User classified as %s") %lables_dict[int(class_label_key)]
                 
@@ -104,10 +130,10 @@ def execute_text():
                 percentage = [x/tot_sum for x in other_labels_prob[0]]
                 # Below actually return the one float point
 
-                fields_response['profile_components']['CS'] = "%.1f" %(percentage[0]*100)
-                fields_response['profile_components']['ST'] = "%.1f" %(percentage[1]*100)
-                fields_response['profile_components']['BA'] = "%.1f" %(percentage[2]*100)
-                fields_response['profile_components']['MT'] = "%.1f" %(percentage[3]*100)
+                # fields_response['profile_components']['CS'] = "%.1f" %(percentage[0]*100)
+                # fields_response['profile_components']['ST'] = "%.1f" %(percentage[1]*100)
+                # fields_response['profile_components']['BA'] = "%.1f" %(percentage[2]*100)
+                # fields_response['profile_components']['MT'] = "%.1f" %(percentage[3]*100)
              
                 # Here I'm going to add the proper values
                 # to the plot_json and then send it
@@ -169,7 +195,7 @@ def execute_text():
                 print fields_response
                 js = json.dumps(fields_response)
             # I want to send back a json with all I need.
-        return Response(js, status=200,  mimetype='text/json')
+            return Response(js, status=200,  mimetype='text/json')
     else:
         return "Need POST request!!"
 

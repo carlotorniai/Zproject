@@ -244,7 +244,7 @@ def extractfeatures(public_profile_url, feature_matrix, log = False):
     
     if not found_skills and not found_education:
         print "I can't find education and skills information in your profile"
-        return 
+        return None, None
     
     if found_skills:
     	skills = profile['skills']
