@@ -78,7 +78,7 @@ function showResponse(response, statusText, xhr, $form)  {
         $('.classification').html('<h3>Profile Analysis</h3>' + response_json['header']['first_name'] + ' matches the ' + response_json['text_classification'] +' profile.');
 
         // Display components
-        $('.components').html('The components of ' + response_json['header']['first_name'] +' profile are represented in the chart below:')
+        $('.components').html('The components of ' + response_json['header']['first_name'] +' profile are represented in the chart below:<br></br>')
         function parse(spec) {
         vg.parse.spec(spec, function(chart) { chart({el:".components"}).update(); });
         }

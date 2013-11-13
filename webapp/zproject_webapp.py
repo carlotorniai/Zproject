@@ -137,10 +137,10 @@ def execute_text():
                     percentage = [x/tot_sum for x in other_labels_prob[0]]
                     
                     # Add the values for the components
-                    fields_response['component_plot']['data'][0]['values'].append({"x": "CS", "y": float("%.1f" %(percentage[0]*100))})
-                    fields_response['component_plot']['data'][0]['values'].append({"x": "ST", "y": float("%.1f" %(percentage[1]*100))})
-                    fields_response['component_plot']['data'][0]['values'].append({"x": "BA", "y": float("%.1f" %(percentage[2]*100))})
-                    fields_response['component_plot']['data'][0]['values'].append({"x": "MT", "y": float("%.1f" %(percentage[3]*100))})
+                    fields_response['component_plot']['data'][0]['values'].append({"x": "Computer Science", "y": float("%.1f" %(percentage[0]*100))})
+                    fields_response['component_plot']['data'][0]['values'].append({"x": "Statistics", "y": float("%.1f" %(percentage[1]*100))})
+                    fields_response['component_plot']['data'][0]['values'].append({"x": "Business Analytics", "y": float("%.1f" %(percentage[2]*100))})
+                    fields_response['component_plot']['data'][0]['values'].append({"x": "Mathematics", "y": float("%.1f" %(percentage[3]*100))})
                     
                     # Here I just want to suggest the top 5 missing skills
                     suggested_skills = []

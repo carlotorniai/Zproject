@@ -1,5 +1,7 @@
 TO DO:
 
+Check chuck borromeo profile..
+Ben looks good 
 Web App:
 0) Not to rsize the y axis
 0) SPinning weel while waiting for results..
