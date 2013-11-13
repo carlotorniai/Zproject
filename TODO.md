@@ -1,31 +1,23 @@
 TO DO:
 
 Web App:
+0) SPinning weel while waiting for results..
+1) Not rescaling of Y scale
+2) Legend or names full instead of CS, ST, MT
 
-0) Fix some layouts and simple things
-   -> some links 
 
-  
-1) Deal with errors : response and URL errors
-    Deal with empty fields:
-  -> Use Melissa as an example of no educaitons and skills to test the erors
+Toorrow:
 
-2) Order Machine learnign skills as importance.
-3) Css and headers of the various DIV
- 
- 4) SPinning weel while waiting for results..
-    Or 
+0) Work to build a networks of skills
+1) Go through a story of the presentaion 
+
 
 TO DO fine tuning web app
 ===========
 1) Dont' recsale the y scale but have it fixed to 100
 3) Have a better list of skills with associated resources
 (Built offline frm a DB -> that I can update)
-Ordere the importance of skills and return the first missing 3 or 5
-Machine Learning
-Python
-
--> See other skills dropdown
+4) See other skills dropdown
 
 4) CHeck the lenght of fields returned and 
 if they are zero whow a different message

@@ -79,7 +79,7 @@ def execute_text():
     
     # Clear the data of plot_json
     fields_response['component_plot']['data'][0]['values']=[]
-    public_profile_url = request.form['text']
+    public_profile_url = request.form['text'].strip()
     if request.method == 'POST':
         # If I post an empty URL return the erro rmessage
         if public_profile_url=='':
@@ -212,7 +212,7 @@ def execute_text():
 # Order of routes matters
 @app.route("/<name>")
 def hello(name):
-    return "Hello " + name + "!\nWelcome to Quantified Data Scientists! )"
+    return "Hello " + name + "!\nWelcome to CYBDS (Could you be a Data Scientist?)"
 
 @app.route("/")
 def index():
