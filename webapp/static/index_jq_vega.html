@@ -135,7 +135,6 @@ function showResponse(response, statusText, xhr, $form)  {
 
 
         // Display components
-
         $('.components').html('<p>Components of ' + response_json['header']['first_name'] +' profile: </p>')
         // $.each(response_json['profile_components'], function(key, val) {
         // $('<tr><td>ID: '+key+'</td><td id="'+key+'">'+val+'</td><tr>').appendTo('#display');
@@ -153,7 +152,8 @@ function showResponse(response, statusText, xhr, $form)  {
        
 
         // Display the list of skills
-        $.each(response_json['recomm_skills'], function(idx, val) {
+        // Here check if the lengt is >0 or if is not null
+        $.each(response_json['recomm_skills'][0], function(idx, val) {
         $('<li>'+val+'</li>').appendTo('#skilllist');
         });
 

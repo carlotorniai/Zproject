@@ -51,10 +51,11 @@ users_clusters, ordered_user_clusters = wu.get_cluster_representatitve(feature_m
 lables_dict = {0 : "Computer Scientist", 1 : "Data Scientist", 2 : "Statistician",\
                    3 : "Business Analyst", 4 : "Mathematician"}
 
-# Here have a list of the top from ML
-top_ds_skills = ['Data Mining', 'Machine Learning', 'R', 'Data Analysis', 'Python',\
-                 'Statistical Modeling', 'Hadoop', 'Big Data', 'Statistics', \
-                 'SQL', 'Predictive Analytics', 'Pig', 'Hive', 'MapReduce']
+# Top 10 DS skills
+# I will retrieve this form DB eventually
+top_ds_skills = [ 'Machine Learning', 'Data Mining', 'R', 'Python',\
+                 'Data Analysis', 'Statistics', 'Big Data', 'Hadoop', \
+                 'Algorithms', 'SQL']
 
 # Here define the json file for vega response
 plot_json = json.load(open('./plot.json'))
@@ -72,10 +73,7 @@ regex = re.compile(
 
 @app.route("/getldinfo", methods=['POST'])
 def execute_text():
-    # Neet to initialize the json file
-    # At this point better to write it down to minimize the access time
-    # But for now i read it from file
-    # plot_json = json.load(open('./plot.json'))
+    # Initialize the json for the reponse
     fields_response = {"error" : '', "header" : '', "text_classification" : '', "profile_components" : {},
 "close_ds_profiles" : [], "close_non_ds_profiles" : [], "recomm_skills" :[], "component_plot" : plot_json} 
     
@@ -94,8 +92,8 @@ def execute_text():
             if 'http://' not in public_profile_url:
                 public_profile_url = 'http://' + public_profile_url
                 print public_profile_url
-            # At this point I want to check if it's a valid URL
-            # using the 
+            
+            # Checking if is a valid URL
             if re.match(regex, public_profile_url) != None:
                 code = urlopen(public_profile_url).code
                 if (code / 100 >= 4):
@@ -105,35 +103,31 @@ def execute_text():
                     js = json.dumps(fields_response)
                     return Response(js, status=200,  mimetype='text/json')
                 else:
-                    # We have a valid URL and hopefully we have extractet 
+                    # We have a valid URL so we can extrat features
                     print "Extracting features and profile"
                     print feature_matrix.shape
                     # pdb.set_trace()
-                    
-                    # Do try catch
+                    # Try to get educations and skills and tobuild a feature vector
                     try: 
                         profile, feature_vector = wu.extractfeatures(public_profile_url, feature_matrix, log = False)
-                    # Here check if I was able to retrieve the 
-                    # Education and Skills 
+                    
+                    # Returns an error if the feature vector couldn't be built 
                     except:
-                        fields_response['error'] = "<p>Education and skills are nort available for this Linkedin Profile.</p>"\
+                        fields_response['error'] = "<p>Education and skills are not available for this Linkedin Profile.</p>"\
                         "<p>Please make available this information if this is your profile. Or try a different one.</p>"
                         js = json.dumps(fields_response)
                         return Response(js, status=200,  mimetype='text/json')
 
                     print feature_matrix.shape
-                    # string_header = "<br>This is the profile of %s %s </br>" %(profile['first_name'], profile['last_name'])
-                    # string_header  = string_header + "<br>Currently %s</br>" %(profile['title'])
                     
-                    # fields_response['header'] = string_header
                     fields_response['header'] =  {"first_name" : profile['first_name'], "last_name" : profile['last_name'], \
                     "title" : profile['title']}
                     
-                    # Here computes the classification
+                    # Compute the classification
                     class_label_key = mnb.predict(feature_vector)
                     print ("User classified as %s") %lables_dict[int(class_label_key)]
                     
-                    # Set the classification fiels
+                    # Set the classification field in response
                     fields_response['text_classification'] = lables_dict[int(class_label_key)]
                     
                     # Retrieve the components
@@ -141,25 +135,20 @@ def execute_text():
                     print "Probability vectors other cells" , other_labels_prob[0]
                     tot_sum = other_labels_prob[0].sum()
                     percentage = [x/tot_sum for x in other_labels_prob[0]]
-                    # Below actually return the one float point
-
-                    # fields_response['profile_components']['CS'] = "%.1f" %(percentage[0]*100)
-                    # fields_response['profile_components']['ST'] = "%.1f" %(percentage[1]*100)
-                    # fields_response['profile_components']['BA'] = "%.1f" %(percentage[2]*100)
-                    # fields_response['profile_components']['MT'] = "%.1f" %(percentage[3]*100)
-                 
-                    # Here I'm going to add the proper values
-                    # to the plot_json and then send it
+                    
+                    # Add the values for the components
                     fields_response['component_plot']['data'][0]['values'].append({"x": "CS", "y": float("%.1f" %(percentage[0]*100))})
                     fields_response['component_plot']['data'][0]['values'].append({"x": "ST", "y": float("%.1f" %(percentage[1]*100))})
                     fields_response['component_plot']['data'][0]['values'].append({"x": "BA", "y": float("%.1f" %(percentage[2]*100))})
                     fields_response['component_plot']['data'][0]['values'].append({"x": "MT", "y": float("%.1f" %(percentage[3]*100))})
-                                
-                    suggested_skills = set(top_ds_skills) - set(profile['skills'])
-                    for skill in suggested_skills:
-                        print skill
+                    
+                    # Here I just want to suggest the top 5 missing skills
+                    suggested_skills = []
+                    for skill in top_ds_skills:
+                        if skill not in profile['skills']:
+                            suggested_skills.append(skill)
                         # Here have a set of links to that in the future
-                        fields_response['recomm_skills'].append(skill)
+                    fields_response['recomm_skills'].append(suggested_skills[:5])
 
                     # Here assign the user to a cluster
                     closest_cluster = km.predict(feature_vector)
