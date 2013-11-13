@@ -4,10 +4,8 @@ Web App:
 
 0) Fix some layouts and simple things
    -> some links 
-1) Deal with errors;
-  -> prepend http:// if isn't there 
-  -> no education and skills http://www.linkedin.com/in/alexsydell
 
+  
 1) Deal with errors : response and URL errors
     Deal with empty fields:
   -> Use Melissa as an example of no educaitons and skills to test the erors
@@ -20,6 +18,17 @@ Web App:
 
 TO DO fine tuning web app
 ===========
+1) Dont' recsale the y scale but have it fixed to 100
+3) Have a better list of skills with associated resources
+(Built offline frm a DB -> that I can update)
+Ordere the importance of skills and return the first missing 3 or 5
+Machine Learning
+Python
+
+-> See other skills dropdown
+
+4) CHeck the lenght of fields returned and 
+if they are zero whow a different message
 
 
 TO DO again about model testing
@@ -33,17 +42,9 @@ with all the variables.
 See if I have the smae reuslts.
 Compare the results -> See if they make sense wrt the components.
 
-1) Dont' recale the y scale but have it fixed to 100
-3) Have a better list of skills with associated resources
-(Built offline frm a DB -> that I can update)
-Ordere the importance of skills and return the first missing 3 or 5
-Machine Learning
-Python
 
--> See other skills dropdown
 
-4) CHeck the lenght of fields returned and 
-if they are zero whow a different message
+
 
 
 VERIFY:
