@@ -1,7 +1,9 @@
 TO DO:
 
 Web App:
+0) Not to rsize the y axis
 0) SPinning weel while waiting for results..
+
 1) Not rescaling of Y scale
 2) Legend or names full instead of CS, ST, MT
 
