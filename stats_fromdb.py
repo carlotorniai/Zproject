@@ -4,6 +4,24 @@ import utils
 import pymongo
 import pdb
 import datetime
+from collections import Counter
+import operator
+
+def get_profile_skills(db, collection, category):
+	''' Returns the list of skills and an ordered arrays of count for a catagory
+	'''
+	skills_list = []
+	cursor = collection.find({"search_label" : category}, {"_id" : 0 , "skills" :1})
+	for result in cursor:
+		if 'skills' in result:
+			for skill in result['skills']:
+				skills_list.append(skill)
+	# Count the skills 
+	count_skills = Counter(skills_list)
+
+	# Order skills
+	sorted_skills =  sorted(count_skills.iteritems(), key=operator.itemgetter(1),  reverse=True)
+	return skills_list, sorted_skills
 
 def build_education_df(db, collection):
 	''' Builds a matrix with the educaiton and the data scientist 
