@@ -1,28 +1,27 @@
 TO DO:
 
-Sanity check with TOM:
 
-Numbers of profiles
 
--> Using mostly skills and education
-(prsent some statistics)
+Something to be done:
 
--> Skills bag of word or
+1) Try to get better legend and tuff out of the plots
+-> Maybe saving the json and tweak it by hand,
 
+2) Think about how to visualize skills relations other than bag of words.
+Tomorrow.
+
+3) Build or figure out
 
 
 Nice to have
 0) Spinning weel while waiting for results..
 
 Toorrow:
-
-1) Have a stats of the distribution of overall background for the "labeled"
-Data scientists (e.g. the one returned by linkedin e.g. search label = "data Scientist")
-
 -> Build a Naive Bayse (which i did) just with the other sample.
 -> Classify then the DS and see form all of them the average distribution of "components"
 
 0) Work to build a networks of skills
+
 1) Go through a story of the presentaion 
 
 
@@ -100,6 +99,7 @@ Problems / questions to answer:
 4) The analysis -> I can cluster and classify using skills and education
     -> BUild a prototype web app:
     Screeshot webapp (few explanation)
+
 5) Future works / improvement
    - > enlrage the dataset do it interactiveley with users coming to vivit
 (links , ack , What should be improved : more data, finer parsers,
