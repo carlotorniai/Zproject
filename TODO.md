@@ -1,16 +1,26 @@
 TO DO:
 
-Check chuck borromeo profile..
-Ben looks good 
-Web App:
-0) Not to rsize the y axis
-0) SPinning weel while waiting for results..
+Sanity check with TOM:
 
-1) Not rescaling of Y scale
-2) Legend or names full instead of CS, ST, MT
+Numbers of profiles
 
+-> Using mostly skills and education
+(prsent some statistics)
+
+-> Skills bag of word or
+
+
+
+Nice to have
+0) Spinning weel while waiting for results..
 
 Toorrow:
+
+1) Have a stats of the distribution of overall background for the "labeled"
+Data scientists (e.g. the one returned by linkedin e.g. search label = "data Scientist")
+
+-> Build a Naive Bayse (which i did) just with the other sample.
+-> Classify then the DS and see form all of them the average distribution of "components"
 
 0) Work to build a networks of skills
 1) Go through a story of the presentaion 
