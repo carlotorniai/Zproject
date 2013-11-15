@@ -1,6 +1,8 @@
 TO DO:
 
-
+Presentation:
+have  better pic for the Phd (maybe add the masters and have the perentage.
+Have some animation about the tag cloud.
 
 Something to be done:
 
