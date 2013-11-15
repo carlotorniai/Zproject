@@ -1,468 +1,60 @@
 {
-  "axes": [
-    {
-      "scale": "x",
-      "title": "Phd Topics",
-      "type": "x"
-    },
-    {
-      "scale": "y",
-      "title": "Number of Phd",
-      "type": "y"
-    }
-  ],
+  "width": 300,
+  "height": 200,
+  "padding": {"top": 10, "left": 60, "bottom": 40, "right": 50},
   "data": [
     {
       "name": "table",
-      "values": [
-        {
-          "col": "data scientist",
-          "idx": "astronomy",
-          "val": 2.0
-        },
-        {
-          "col": "software engineer",
-          "idx": "astronomy",
-          "val": 0.0
-        },
-        {
-          "col": "statistician",
-          "idx": "astronomy",
-          "val": 0.0
-        },
-        {
-          "col": "business analyst",
-          "idx": "astronomy",
-          "val": 0.0
-        },
-        {
-          "col": "mathematician",
-          "idx": "astronomy",
-          "val": 0.0
-        },
-        {
-          "col": "data scientist",
-          "idx": "bioinformatics",
-          "val": 1.0
-        },
-        {
-          "col": "software engineer",
-          "idx": "bioinformatics",
-          "val": 0.0
-        },
-        {
-          "col": "statistician",
-          "idx": "bioinformatics",
-          "val": 0.0
-        },
-        {
-          "col": "business analyst",
-          "idx": "bioinformatics",
-          "val": 0.0
-        },
-        {
-          "col": "mathematician",
-          "idx": "bioinformatics",
-          "val": 0.0
-        },
-        {
-          "col": "data scientist",
-          "idx": "biology",
-          "val": 1.0
-        },
-        {
-          "col": "software engineer",
-          "idx": "biology",
-          "val": 0.0
-        },
-        {
-          "col": "statistician",
-          "idx": "biology",
-          "val": 2.0
-        },
-        {
-          "col": "business analyst",
-          "idx": "biology",
-          "val": 0.0
-        },
-        {
-          "col": "mathematician",
-          "idx": "biology",
-          "val": 0.0
-        },
-        {
-          "col": "data scientist",
-          "idx": "computer science",
-          "val": 13.0
-        },
-        {
-          "col": "software engineer",
-          "idx": "computer science",
-          "val": 11.0
-        },
-        {
-          "col": "statistician",
-          "idx": "computer science",
-          "val": 1.0
-        },
-        {
-          "col": "business analyst",
-          "idx": "computer science",
-          "val": 0.0
-        },
-        {
-          "col": "mathematician",
-          "idx": "computer science",
-          "val": 5.0
-        },
-        {
-          "col": "data scientist",
-          "idx": "economics",
-          "val": 2.0
-        },
-        {
-          "col": "software engineer",
-          "idx": "economics",
-          "val": 0.0
-        },
-        {
-          "col": "statistician",
-          "idx": "economics",
-          "val": 6.0
-        },
-        {
-          "col": "business analyst",
-          "idx": "economics",
-          "val": 0.0
-        },
-        {
-          "col": "mathematician",
-          "idx": "economics",
-          "val": 0.0
-        },
-        {
-          "col": "data scientist",
-          "idx": "electronics",
-          "val": 1.0
-        },
-        {
-          "col": "software engineer",
-          "idx": "electronics",
-          "val": 0.0
-        },
-        {
-          "col": "statistician",
-          "idx": "electronics",
-          "val": 0.0
-        },
-        {
-          "col": "business analyst",
-          "idx": "electronics",
-          "val": 0.0
-        },
-        {
-          "col": "mathematician",
-          "idx": "electronics",
-          "val": 0.0
-        },
-        {
-          "col": "data scientist",
-          "idx": "engineering",
-          "val": 17.0
-        },
-        {
-          "col": "software engineer",
-          "idx": "engineering",
-          "val": 5.0
-        },
-        {
-          "col": "statistician",
-          "idx": "engineering",
-          "val": 1.0
-        },
-        {
-          "col": "business analyst",
-          "idx": "engineering",
-          "val": 1.0
-        },
-        {
-          "col": "mathematician",
-          "idx": "engineering",
-          "val": 0.0
-        },
-        {
-          "col": "data scientist",
-          "idx": "mathematics",
-          "val": 9.0
-        },
-        {
-          "col": "software engineer",
-          "idx": "mathematics",
-          "val": 0.0
-        },
-        {
-          "col": "statistician",
-          "idx": "mathematics",
-          "val": 2.0
-        },
-        {
-          "col": "business analyst",
-          "idx": "mathematics",
-          "val": 0.0
-        },
-        {
-          "col": "mathematician",
-          "idx": "mathematics",
-          "val": 26.0
-        },
-        {
-          "col": "data scientist",
-          "idx": "neuroscience",
-          "val": 4.0
-        },
-        {
-          "col": "software engineer",
-          "idx": "neuroscience",
-          "val": 0.0
-        },
-        {
-          "col": "statistician",
-          "idx": "neuroscience",
-          "val": 1.0
-        },
-        {
-          "col": "business analyst",
-          "idx": "neuroscience",
-          "val": 0.0
-        },
-        {
-          "col": "mathematician",
-          "idx": "neuroscience",
-          "val": 0.0
-        },
-        {
-          "col": "data scientist",
-          "idx": "other",
-          "val": 19.0
-        },
-        {
-          "col": "software engineer",
-          "idx": "other",
-          "val": 1.0
-        },
-        {
-          "col": "statistician",
-          "idx": "other",
-          "val": 21.0
-        },
-        {
-          "col": "business analyst",
-          "idx": "other",
-          "val": 0.0
-        },
-        {
-          "col": "mathematician",
-          "idx": "other",
-          "val": 6.0
-        },
-        {
-          "col": "data scientist",
-          "idx": "physics",
-          "val": 21.0
-        },
-        {
-          "col": "software engineer",
-          "idx": "physics",
-          "val": 1.0
-        },
-        {
-          "col": "statistician",
-          "idx": "physics",
-          "val": 2.0
-        },
-        {
-          "col": "business analyst",
-          "idx": "physics",
-          "val": 1.0
-        },
-        {
-          "col": "mathematician",
-          "idx": "physics",
-          "val": 3.0
-        },
-        {
-          "col": "data scientist",
-          "idx": "psychology",
-          "val": 3.0
-        },
-        {
-          "col": "software engineer",
-          "idx": "psychology",
-          "val": 0.0
-        },
-        {
-          "col": "statistician",
-          "idx": "psychology",
-          "val": 0.0
-        },
-        {
-          "col": "business analyst",
-          "idx": "psychology",
-          "val": 0.0
-        },
-        {
-          "col": "mathematician",
-          "idx": "psychology",
-          "val": 0.0
-        },
-        {
-          "col": "data scientist",
-          "idx": "statistics",
-          "val": 4.0
-        },
-        {
-          "col": "software engineer",
-          "idx": "statistics",
-          "val": 0.0
-        },
-        {
-          "col": "statistician",
-          "idx": "statistics",
-          "val": 34.0
-        },
-        {
-          "col": "business analyst",
-          "idx": "statistics",
-          "val": 0.0
-        },
-        {
-          "col": "mathematician",
-          "idx": "statistics",
-          "val": 4.0
-        }
-      ]
-    },
-    {
-      "name": "stats",
-      "source": "table",
-      "transform": [
-        {
-          "keys": [
-            "data.idx"
-          ],
-          "type": "facet"
-        },
-        {
-          "type": "stats",
-          "value": "data.val"
-        }
-      ]
+      "values": []
     }
   ],
-  "height": 500,
-  "legends": [
-    {
-      "fill": "color",
-      "offset": 0,
-      "title": "Categories"
-    }
+  "scales": [
+    {"name":"x", "type":"ordinal", "range":"width", "domain":{"data":"table", "field":"data.x"}},
+    {"name":"y", "range":"height", "nice":true, "domain":[0.0,100.0]}
+  ],
+  "axes": [
+    {"type":"x", "scale":"x", "title": "Profile's background components", "properties": {
+       "ticks": {
+         "stroke": {"value": "steelblue"}
+       },
+       "majorTicks": {
+         "strokeWidth": {"value": 2}
+       },
+       "labels": {
+         "fill": {"value": "black"},
+         "angle": {"value": 0},
+         "fontSize": {"value": 10},
+         "align": {"value": "center"},
+         "baseline": {"value": "top"},
+         "dx": {"value": 0},
+         "dy": {"value": 0}
+       },
+       "title": {
+         "fontSize": {"value": 11}
+       },
+       "axis": {
+         "stroke": {"value": "#333"},
+         "strokeWidth": {"value": 1.5}
+       }
+     }},
+    {"type":"y", "scale":"y",  "title": "Percentage", "properties": { "title": {
+         "fontSize": {"value": 11}
+       }} }
   ],
   "marks": [
     {
-      "from": {
-        "data": "table",
-        "transform": [
-          {
-            "keys": [
-              "data.col"
-            ],
-            "type": "facet"
-          },
-          {
-            "height": "data.val",
-            "point": "data.idx",
-            "type": "stack"
-          }
-        ]
-      },
-      "marks": [
-        {
-          "properties": {
-            "enter": {
-              "fill": {
-                "field": "data.col",
-                "scale": "color"
-              },
-              "width": {
-                "band": true,
-                "offset": -1,
-                "scale": "x"
-              },
-              "x": {
-                "field": "data.idx",
-                "scale": "x"
-              },
-              "y": {
-                "field": "y",
-                "scale": "y"
-              },
-              "y2": {
-                "field": "y2",
-                "scale": "y"
-              }
-            }
-          },
-          "type": "rect"
-        }
-      ],
-      "type": "group"
+      "type": "rect",
+      "from": {"data":"table"},
+      "properties": {
+        "enter": {
+          "x": {"scale":"x", "field":"data.x"},
+          "width": {"scale":"x", "band":true, "offset":-1},
+          "y": {"scale":"y", "field":"data.y"},
+          "y2": {"scale":"y", "value":0}
+        },
+        "update": { "fill": {"value":"steelblue"} },
+        "hover": { "fill": {"value":"darkred"} }
+      }
     }
-  ],
-  "padding": {
-    "bottom": 50,
-    "left": 50,
-    "right": 100,
-    "top": 10
-  },
-  "scales": [
-    {
-      "domain": {
-        "data": "table",
-        "field": "data.idx"
-      },
-      "name": "x",
-      "range": "width",
-      "type": "ordinal"
-    },
-    {
-      "domain": {
-        "data": "stats",
-        "field": "sum"
-      },
-      "name": "y",
-      "nice": true,
-      "range": "height",
-      "type": "linear"
-    },
-    {
-      "domain": {
-        "data": "table",
-        "field": "data.col"
-      },
-      "name": "color",
-      "range": [
-        "#fbb4ae",
-        "#b3cde3",
-        "#ccebc5",
-        "#decbe4",
-        "#fed9a6",
-        "#ffffcc",
-        "#e5d8bd",
-        "#fddaec",
-        "#f2f2f2"
-      ],
-      "type": "ordinal"
-    }
-  ],
-  "width": 960
+  ]
 }

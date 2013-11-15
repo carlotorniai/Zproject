@@ -1,8 +1,39 @@
 TO DO:
+Add why i was nterested in this in the first place
 
+
+
+1) Notes on the presentation:
+-> why did you make choices for a certain models
+-> 
+
+2) End on the next steps (put some job ads and candidate matching)
+    -> Generalization (much more of an)
+    -> 
+
+3) Zero Context:
+   1) very intentional first sentence: what is that your product did
+
+4) Try to have a name for your project
+    - design make it better
+     _ What I was predicting and there were the most impotant features 
+     used -> features engineering I did
+
+5) These where the important features and what came out
+   was an output target variables:
+  -> classification of 
+
+  Model using this input predicting this output
+  
+====================
+
+Add twitter handle
+Add the links and the 
 Presentation:
-have  better pic for the Phd (maybe add the masters and have the perentage.
+1) have  better pic for the Phd (maybe add the masters and have the perentage.
 Have some animation about the tag cloud.
+
+2) Have a pic and numbers for clusters and how many data Scientists
 
 Something to be done:
 
