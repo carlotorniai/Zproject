@@ -1,0 +1,66 @@
+{
+    "directed": false,
+    "graph": [
+        [
+            "node_default",
+            {}
+        ],
+        [
+            "edge_default",
+            {}
+        ]
+    ],
+    "nodes": [
+        {
+            "b": 153,
+            "g": 153,
+            "label": "Data Analysis",
+            "r": 153,
+            "y": -43.535187,
+            "x": -293.80554,
+            "id": "Data Analysis",
+            "size": 10
+        },
+        {
+            "b": 153,
+            "g": 153,
+            "label": "Embedded Software",
+            "r": 153,
+            "y": 569.2401,
+            "x": 890.79443,
+            "id": "Embedded Software",
+            "size": 10
+        },
+        {
+            "b": 153,
+            "g": 153,
+            "label": "Machine Learning",
+            "r": 153,
+            "y": 569.2401,
+            "x": 890.79443,
+            "id": "Embedded Software",
+            "size": 30
+        }
+    ],
+    "links": [
+        {
+            "source": 0,
+            "target": 1,
+            "value": 62,
+            "edge_label": "data scientist"
+        },
+        {
+            "source": 1,
+            "target": 2,
+            "value": 15,
+            "edge_label": "software engineer"
+        }, 
+         {
+            "source": 0,
+            "target": 2,
+            "value": 84,
+            "edge_label": "Data Analayst"
+        }
+    ],
+    "multigraph": false
+}

@@ -1,0 +1,18 @@
+<html>
+  <head>
+    <title>Test Vega</title>
+    <script src="./lib/d3/d3.v3.min.js"></script>
+    <script src="./lib/d3/d3.geo.projection.min.js"></script>
+    <script src="./lib/vega/vega.js"></script>
+  </head>
+  <body>
+    <div id="vis"></div>
+  </body>
+<script type="text/javascript">
+// parse a spec and create a visualization view
+function parse(spec) {
+  vg.parse.spec(spec, function(chart) { chart({el:"#vis"}).update(); });
+}
+parse("./master_staked.json");
+</script>
+</html>
