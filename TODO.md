@@ -1,4 +1,58 @@
 TO DO:
+1) Make clear how i used the models:
+
+- run random foresr for classificaiotn of data scientists
+- run NB trained with just CLsssif profile to asses background
+- use k-means to suggest closest data scientists
+
+
+tie together the feature part
+
+2) Say some actionalble items for recruiters:
+  - > they may want to see your background becsue they have lost a person 
+  and they want one with the similar strength or background.
+  -> they knwo they need mor of an engineer / CS profile that need
+
+
+Also what are the top X features for a data scientist.
+
+Say something about the curve of distribution of PhD.
+
+
+0) Run again some cross validation testing in my k-means and NMF
+
+
+1) Have the applicaiton running on Ec2
+   -> Have a new folder which is webapp_cloud with the tar from racksapce
+   -> Try to optimize..
+
+2) 
+
+Tomorrow:
+read again the text of the website and check spellings error
+
+
+Graph:
+0) Normalize between 0 and 100 the thinkness
+
+
+Presentation:
+
+
+1) Dont' be defensive
+
+2) Explain why naive bayse and so on
+
+3) Graph colors
+
+4) More the 30 seconds pitch
+
+5) Add a Linkedin Page and check all the information I colelcted.
+-> Scraped form the web educaitons and skills.
+
+6) Anchor slide
+
+
 Add why i was nterested in this in the first place
 
 

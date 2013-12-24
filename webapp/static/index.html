@@ -33,7 +33,7 @@ $(document).ready(function() {
 
     e.preventDefault();
     alert("CLicked");     
-    //$(this).parent().hide();            
+    //$(this).parent().hide();          
     
     });
 })
@@ -44,6 +44,7 @@ function showRequest(formData, jqForm, options) {
     var queryString = $.param(formData); 
  
     // Clears the DIVS 
+    $('.loading').html('<img id="loading" src="./img/ajax_load.gif" alt="loading"/>')
     $('.error').html('');
     $('.output1').html('');
     $('.classification').html('');
@@ -59,7 +60,7 @@ function showResponse(response, statusText, xhr, $form)  {
     var currentUrl = window.location.href;
     var response_json = jQuery.parseJSON(response.responseText)
 
-    
+     $('.loading').html('')
     // Checks for errors
     if (response_json['error'].length>0){
         $('.output1').html(response_json['error'])
@@ -149,6 +150,7 @@ function showResponse(response, statusText, xhr, $form)  {
 <input class="my_submit" type="submit" value="Submit"/>
 </form>
 </div>
+<div class="loading"></div>
 <div class="error"></div>
 <div class="output1"></div>
 <div class="classification"></div>
